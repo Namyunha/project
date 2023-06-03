@@ -1,0 +1,126 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("https://images.unsplash.com/photo-1636071658101-d312613c1777?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80");
+    background-size: cover;
+    background-position: center center;
+}
+
+#wrapper {
+
+    /*  회원가입폼 위치 가운데 배열  */
+    display: flex;
+    justify-content: center;
+}
+
+#saveForm {
+    /*  회원가입폼 너비설정  */
+    padding: 5%;
+    width: 38%;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3%;
+    background-color: rgba(250, 250, 250, 0.6);
+}
+
+input, select, button {
+    padding: 10px 5px;
+    border-radius: 5px;
+}
+
+/* 아이디, 비밀번호, 성별, 인증번호입력 input 설정 */
+.saveInput {
+    width: 100%;
+    margin: 5px;
+}
+
+.saveInput .input {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.marginInput {
+    margin-top: 5px;
+}
+
+/*  인증 받기 입력 & 버튼 설정  */
+.saveInput .checkBlock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.saveInput .checkBlock .checkInput {
+    width: 70%;
+}
+
+.saveInput .checkBlock .confirmBtn {
+    width: 28%;
+}
+
+
+.saveInput .selectInput {
+    display: flex;
+    justify-content: space-between;
+}
+
+.privateNum {
+    width: 33%;
+}
+
+.domainSelect {
+    width: 28%
+}

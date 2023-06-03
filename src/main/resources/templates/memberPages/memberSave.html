@@ -1,77 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/memberSave.css">
 </head>
 <body>
-<h2>save.html</h2>
 <div id="section" class="container">
     <div id="wrapper">
-        <form action="">
+        <form id="saveForm">
             <div id="saveId" class="saveInput">
-                <label for="memberId">아이디</label>
-                <input name="" id="memberId" type="text" value="">
+                <label for="memberId">아이디</label><br>
+                <input class="input" name="memberId" id="memberId" type="text">
             </div>
             <div id="savePass" class="saveInput">
-                <label for="memberPass">비밀번호</label>
-                <input name="" id="memberPass" type="text" value="">
+                <label for="memberPass">비밀번호</label><br>
+                <input class="input" name="memberPass" id="memberPass" type="text">
             </div>
             <div id="savePassCheck" class="saveInput">
-                <label for="passDuCheck">비밀번호재확인</label>
-                <input name="" id="passDuCheck" type="text" value="">
+                <label for="passDuCheck">비밀번호재확인</label><br>
+                <input class="input" name="passduCheck" id="passDuCheck" type="text">
             </div>
             <div id="saveName" class="saveInput">
-                <label for="memberName">이름</label>
-                <input name="" id="memberName" type="text" value="">
+                <label for="memberName">이름</label><br>
+                <input class="input" name="memberName" id="memberName" type="text">
             </div>
             <div id="savePrivateNum" class="saveInput">
-                <label for="memberPrivate">생년월일</label>
+                <label for="memberPrivate">생년월일</label><br>
                 <input type="hidden" id="memberPrivate" name="memberPrivate">
-                <div>
-                    <input class="privateNum" id="pNum1" name="pNum1" type="text" placeholder="년(4자)">
-                    <select class="privateNum" name="pNum2" id="" pNum2>
+                <div class="selectInput marginInput">
+                    <input class="privateNum threeInput" id="pNum1" name="pNum1" type="text" placeholder="년(4자)">
+                    <select class="privateNum threeInput" name="pNum2" id="pNum2">
                         <option value="">월</option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option value="3"></option>
-                        <option value="4"></option>
-                        <option value="5"></option>
-                        <option value="6"></option>
-                        <option value="7"></option>
-                        <option value="8"></option>
-                        <option value="9"></option>
-                        <option value="10"></option>
-                        <option value="11"></option>
-                        <option value="12"></option>
+                        <option name="01">1</option>
+                        <option name="02">2</option>
+                        <option name="03">3</option>
+                        <option name="04">4</option>
+                        <option name="05">5</option>
+                        <option name="06">6</option>
+                        <option name="07">7</option>
+                        <option name="08">8</option>
+                        <option name="09">9</option>
+                        <option name="10">10</option>
+                        <option name="11">11</option>
+                        <option name="12">12</option>
                     </select>
-                    <input class="privateNum" id="pNum3" name="pNum3" type="text" placeholder="일">
+                    <input class="privateNum threeInput" id="pNum3" name="pNum3" type="text" placeholder="일">
                 </div>
             </div>
             <div id="saveGender" class="saveInput">
-                <label for="memberGender">성별</label>
-                <select name="memberGender" id="memberGender">
-                    <option value="">성별</option>
-                    <option value="male">남</option>
-                    <option value="female">여</option>
+                <label for="memberGender">성별</label><br>
+                <select class="input" name="memberGender" id="memberGender">
+                    <option>성별</option>
+                    <option name="male">남</option>
+                    <option name="female">여</option>
                 </select>
             </div>
+
             <div id="saveEmail" class="saveInput">
-                <div class="">
-                    <label for="">본인 확인 이메일</label>
-                    <input type="text">
-                    <button>이메일인증하기</button>
-                </div>
-                <div>
-                    <input type="text" placeholder="인증번호를 입력하세요" disabled>
+                <!--                <label for="saveEmailCheck">이메일입력</label>-->
+                <!--                <input type="text" class="input" id="saveEmailCheck" name="saveEmailCheck">-->
+                <label for="saveEmailCheck">이메일입력</label>
+                <div class="checkBlock marginInput">
+                    <input type="text" class="checkInput" id="saveEmailCheck" name="saveEmailCheck">
+                    <select name="domain" id="domain" class="domainSelect">
+                        <option>이메일선택</option>
+                        <option name="naver.com">naver.com</option>
+                        <option name="daum.com">daum.com</option>
+                        <option name="nate.com">nate.com</option>
+                        <option name="google.com">google.com</option>
+                    </select>
                 </div>
             </div>
+
+            <div id="savePhone" class="saveInput">
+                <label for="savePhoneCheck">휴대전화</label>
+                <div class="checkBlock marginInput">
+                    <input type="text" class="checkInput" id="savePhoneCheck" name="savePhoneCheck"
+                           placeholder="전화번호입력">
+                    <button class="confirmBtn">인증번호받기</button>
+                </div>
+                <div class="checkBlock">
+                    <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요" disabled>
+                </div>
+            </div>
+
             <div id="saveBtn" class="saveInput">
-                <button>가입하기</button>
+                <button class="input"> 가입하기</button>
             </div>
         </form>
     </div>
 </div>
 </body>
 </html>
-<!--아이디 비밀번호 비밀번호 재화인 이름 생년월일 성별 본인 확인 이메일 휴대전화-->
