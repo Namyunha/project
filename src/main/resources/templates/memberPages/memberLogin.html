@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="wrapper">
+    <form id="saveForm" action="/member/login">
+        <input id="memberId" name="memberId" type="text" placeholder="아이디"><br>
+        <input id="memberPass" name="memberPass" type="text" placeholder="비밀번호"><br>
+    </form>
+    <div>
+        <input type="submit" value="로그인">
+        <button type="button" onclick="goSave()">회원가입하기</button>
+    </div>
+</div>
+<script>
+    const goSave = () => {
+        location.href = "/member/save";
+    }
+</script>
+</body>
+</html>
