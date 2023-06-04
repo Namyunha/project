@@ -8,8 +8,6 @@
     <script src="/js/memberSave.js"></script>
 </head>
 <body>
-
-
 <div id="section" class="container">
     <div id="wrapper">
         <div id="saveForm" name="saveForm">
@@ -19,11 +17,12 @@
             </div>
             <div id="savePass" class="saveInput">
                 <label for="memberPass">비밀번호</label><br>
-                <input class="input" name="memberPass" id="memberPass" type="text">
+                <input class="input" name="memberPass" id="memberPass" onblur="writePass()" type="text">
             </div>
             <div id="savePassCheck" class="saveInput">
-                <label for="passDuCheck">비밀번호재확인</label><br>
-                <input class="input" name="passduCheck" id="passDuCheck" type="text">
+                <label for="passCheck">비밀번호재확인</label><br>
+                <input class="input" name="passCheck" id="passCheck" type="text" disabled>
+                <p id="passResult"></p>
             </div>
             <div id="saveName" class="saveInput">
                 <label for="memberName">이름</label><br>
@@ -81,14 +80,17 @@
                 <div class="checkBlock marginInput">
                     <input type="text" class="checkInput" id="savePhoneCheck" name="memberPhone"
                            placeholder="전화번호입력">
-                    <button class="confirmBtn">인증번호받기</button>
+                    <button onclick="recieveNum()" class="confirmBtn">인증번호받기</button>
                 </div>
                 <div class="checkBlock">
                     <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요" disabled>
                 </div>
             </div>
             <div id="saveBtn" class="saveInput">
-                <button onclick="save()" class="input"> 가입하기</button>
+                <button onclick="save()" class="input" > 가입하기</button>
+            </div>
+            <div id="backBtn" class="saveInput">
+                <button onclick="back()" class="input"> 뒤로가기</button>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
 server:
   port: 8120
 
+
 # data base ?? ??
 spring:
   datasource:
@@ -33,3 +34,9 @@ logging:
           descriptor:
             sql:
               BasicBinder: trace
+
+
+naver-cloud-sms.accessKey: ZKxzIkHO60IpdWw47JQR
+naver-cloud-sms.secretKey: aiedH7otonnMpfCDHZBpxBkRKbJgv6skOG3WKL4k
+naver-cloud-sms.serviceId: ncp:sms:kr:309336187163:save_sms_service
+naver-cloud-sms.senderPhone: 01068441656

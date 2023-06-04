@@ -74,13 +74,15 @@ body {
     flex-direction: column;
     align-items: center;
     margin: 3%;
-    background-color: rgba(250, 250, 250, 0.6);
+    background-color: rgba(250, 250, 250, 0.4);
+    border: 2px solid black;
 }
 
 input, select, button {
     padding: 10px 5px;
     border-radius: 5px;
 }
+
 
 /* 아이디, 비밀번호, 성별, 인증번호입력 input 설정 */
 .saveInput {
