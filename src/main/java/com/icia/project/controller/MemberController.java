@@ -1,6 +1,7 @@
 package com.icia.project.controller;
 
 
+import com.icia.project.dto.MemberDTO;
 import com.icia.project.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ public class MemberController {
     public String login() {
         return "/memberPages/memberLogin";
     }
+
     @PostMapping("/login")
     public String loginParam(){
         return "redirect:/myPage";
@@ -29,8 +31,9 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public String saveParam() {
-        return "redirect:/login";
+    public ResponseEntity saveParam(@RequestBody MemberDTO memberDTO) {
+        System.out.println("Controller: memberDTO = " + memberDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/myPage")

@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/memberSave.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/memberSave.js"></script>
 </head>
 <body>
+
+
 <div id="section" class="container">
     <div id="wrapper">
-        <form id="saveForm">
+        <div id="saveForm" name="saveForm">
             <div id="saveId" class="saveInput">
                 <label for="memberId">아이디</label><br>
                 <input class="input" name="memberId" id="memberId" type="text">
@@ -56,13 +60,11 @@
                     <option name="female">여</option>
                 </select>
             </div>
-
             <div id="saveEmail" class="saveInput">
-                <!--                <label for="saveEmailCheck">이메일입력</label>-->
-                <!--                <input type="text" class="input" id="saveEmailCheck" name="saveEmailCheck">-->
                 <label for="saveEmailCheck">이메일입력</label>
                 <div class="checkBlock marginInput">
-                    <input type="text" class="checkInput" id="saveEmailCheck" name="saveEmailCheck">
+                    <input type="hidden" class="memberEmail">
+                    <input type="text" class="checkInput" id="saveEmailCheck" name="saveEmail">
                     <select name="domain" id="domain" class="domainSelect">
                         <option>이메일선택</option>
                         <option name="naver.com">naver.com</option>
@@ -73,10 +75,11 @@
                 </div>
             </div>
 
+
             <div id="savePhone" class="saveInput">
                 <label for="savePhoneCheck">휴대전화</label>
                 <div class="checkBlock marginInput">
-                    <input type="text" class="checkInput" id="savePhoneCheck" name="savePhoneCheck"
+                    <input type="text" class="checkInput" id="savePhoneCheck" name="memberPhone"
                            placeholder="전화번호입력">
                     <button class="confirmBtn">인증번호받기</button>
                 </div>
@@ -84,12 +87,16 @@
                     <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요" disabled>
                 </div>
             </div>
-
             <div id="saveBtn" class="saveInput">
-                <button class="input"> 가입하기</button>
+                <button onclick="save()" class="input"> 가입하기</button>
             </div>
-        </form>
+        </div>
     </div>
+
 </div>
+
+
+<script>
+</script>
 </body>
 </html>
