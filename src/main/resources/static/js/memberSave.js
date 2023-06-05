@@ -41,7 +41,6 @@ const writePass = () => {
 }
 
 const save = () => {
-
     const memberId = document.querySelector("#memberId");
     const memberPass = document.querySelector("#memberPass");
     const passCheck = document.querySelector("#passCheck");
@@ -58,6 +57,8 @@ const save = () => {
     const memberPhone = document.querySelector("#savePhoneCheck");
     console.log(memberId.value);
     console.log(domain.value);
+    console.log(memberEmail);
+    console.log(memberPhone.value);
     if (memberId.value == "") {
         memberId.focus();
         alert("아이디를 입력해주세요");
@@ -97,7 +98,7 @@ const save = () => {
     } else {
         axios({
             method: "post",
-            url: "/member/ save",
+            url: "/member/save",
             data: {
                 memberId: memberId.value,
                 memberPass: memberPass.value,
@@ -111,7 +112,7 @@ const save = () => {
             .then(res => {
                 console.log("가입성공!");
             })
-            .catch(error => {
+            .catch(err => {
                 console.log("가입실패!");
             });
     }

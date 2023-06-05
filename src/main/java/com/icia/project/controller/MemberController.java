@@ -29,11 +29,14 @@ public class MemberController {
     public String save() {
         return "/memberPages/memberSave";
     }
+
     @PostMapping("/save")
     public ResponseEntity saveParam(@RequestBody MemberDTO memberDTO) {
         System.out.println("Controller: memberDTO = " + memberDTO);
+        memberService.save(memberDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping("/myPage")
     public String myPage() {
         return "/memberPages/myPage";
