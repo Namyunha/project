@@ -1,9 +1,7 @@
-const recieveNum = () => {
-    let memberPhone = document.querySelector("#savePhoneCheck").val();
-
-    sendSMS(memberPhone);
-
-}
+// const recieveNum = () => {
+//     let memberPhone = document.querySelector("#savePhoneCheck").val();
+//     sendSMS(memberPhone);
+// }
 
 // function sendSMS(memberPhone) {
 //     let clientId = "ncp:sms:kr:309336187163:save_sms_service";
@@ -29,17 +27,66 @@ const recieveNum = () => {
 //     })
 // }
 
-const writePass = () => {
-    const memberPass = document.querySelector("#memberPass");
-    const passCheck = document.querySelector("#passCheck");
-    if (memberPass.value == "") {
-        passCheck.disabled = true;
-    } else {
-        passCheck.disabled = false;
 
+// 아이디 중복체크
+const idDuCheck = () => {
+    const memberId = document.querySelector("#memberId");
+    const duResult = document.querySelector("#duResult");
+    console.log(memberId.value);
+    axios({
+        url: "/member/duCheck",
+        method: "post",
+        data: {
+            memberId: memberId.value
+        }
+    }).then(res => {
+        duResult.innerHTML = "이용 가능한 아이디입니다.";
+        duResult.style.color = "green";
+    }).catch(err => {
+        duResult.innerHTML = "중복된 아이디 입니다."
+        duResult.style.color = "red";
+    })
+}
+
+// 아이디 정규식
+const idBlur = () => {
+    const memberId = document.querySelector("#memberId");
+    const duResult = document.querySelector("#duResult");
+    const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
+    <!-- 4. 영문소문자(필수), 숫자(필수) 6~12글자 -->
+    if (memberId.value == "") {
+        duResult.innerHTML = "";
+    } else if (!memberId.value.match(exp)) {
+        duResult.innerHTML = "영소문자,숫자 6~12로 입력해주세요";
+        duResult.style.color = "red"
+    } else {
+        duResult.innerHTML = "";
     }
 }
 
+// 비밀번호 정규식
+const writePass = () => {
+    const memberPass = document.querySelector("#memberPass");
+    const passCheck = document.querySelector("#passCheck");
+    const pwCheck = document.querySelector("#pwCheck");
+    const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
+    <!-- 4. 영문소문자(필수), 숫자(필수) 6~12글자 -->
+    if (memberPass.value == "") {
+        pwCheck.innerHTML = "";
+        passCheck.disabled = true;
+    } else if (!memberPass.value.match(exp)) {
+        pwCheck.innerHTML = "영소문자,숫자 6~12로 입력해주세요";
+        pwCheck.style.color = "red"
+        passCheck.disabled = true;
+    } else {
+        pwCheck.innerHTML = "이용 가능한 비밀번호입니다";
+        pwCheck.style.color = "green"
+        passCheck.disabled = false;
+    }
+}
+
+
+// 빈칸체크
 const save = () => {
     const memberId = document.querySelector("#memberId");
     const memberPass = document.querySelector("#memberPass");
@@ -110,13 +157,13 @@ const save = () => {
             }
         })
             .then(res => {
-                console.log("가입성공!");
+                location.href = "/member/login";
+                alert("회원가입에 성공하셨습니다");
             })
             .catch(err => {
-                console.log("가입실패!");
+                alert("회원가입에 실패하셨습니다");
             });
     }
-
 }
 
 

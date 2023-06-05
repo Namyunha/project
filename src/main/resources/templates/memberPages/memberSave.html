@@ -13,11 +13,16 @@
         <div id="saveForm" name="saveForm">
             <div id="saveId" class="saveInput">
                 <label for="memberId">아이디</label><br>
-                <input class="input" name="memberId" id="memberId" type="text">
+                <div class="checkBlock marginInput">
+                    <input class="checkInput" onblur="idBlur()" name="memberId" id="memberId" type="text" placeholder="영소문자,숫자 6~12로 입력해주세요">
+                    <input type="button" onclick="idDuCheck()" class="confirmBtn" th:value="중복체크하기">
+                </div>
+                <p id="duResult"></p>
             </div>
             <div id="savePass" class="saveInput">
                 <label for="memberPass">비밀번호</label><br>
-                <input class="input" name="memberPass" id="memberPass" onblur="writePass()" type="text">
+                <input class="input" name="memberPass" id="memberPass" onblur="writePass()" type="password" placeholder="영소문자,숫자 6~12로 입력해주세요">
+                <p id="pwCheck"></p>
             </div>
             <div id="savePassCheck" class="saveInput">
                 <label for="passCheck">비밀번호재확인</label><br>
@@ -62,7 +67,6 @@
             <div id="saveEmail" class="saveInput">
                 <label for="saveEmailCheck">이메일입력</label>
                 <div class="checkBlock marginInput">
-                    <input type="hidden" class="memberEmail">
                     <input type="text" class="checkInput" id="saveEmailCheck" name="saveEmail">
                     <select name="domain" id="domain" class="domainSelect">
                         <option>이메일선택</option>
@@ -83,11 +87,11 @@
                     <button onclick="recieveNum()" class="confirmBtn">인증번호받기</button>
                 </div>
                 <div class="checkBlock">
-                    <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요" disabled>
+                    <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요" >
                 </div>
             </div>
             <div id="saveBtn" class="saveInput">
-                <button onclick="save()" class="input" > 가입하기</button>
+                <button onclick="save()" class="input"> 가입하기</button>
             </div>
             <div id="backBtn" class="saveInput">
                 <button onclick="back()" class="input"> 뒤로가기</button>

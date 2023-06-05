@@ -21,10 +21,11 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String loginParam(){
+    public String loginParam() {
         return "redirect:/myPage";
     }
-//    프로젝트가 정해지거나, 게시판이 만들어졌을 때 움직일 곳 (다시 만져야 함)
+
+    //    프로젝트가 정해지거나, 게시판이 만들어졌을 때 움직일 곳 (다시 만져야 함)
     @GetMapping("/save")
     public String save() {
         return "/memberPages/memberSave";
@@ -56,4 +57,17 @@ public class MemberController {
     public ResponseEntity delete() {
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PostMapping("/duCheck")
+    public ResponseEntity duCheck(@RequestBody MemberDTO memberDTO) {
+        System.out.println("memberDTO.getMemberId() = " + memberDTO.getMemberId());
+        if (memberService.findEmail(memberDTO)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
 }

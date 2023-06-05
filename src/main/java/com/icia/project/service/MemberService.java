@@ -7,13 +7,25 @@ import com.icia.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
     private final MemberRepository memberRepository;
 
     public void save(MemberDTO memberDTO) {
         MemberEntity memberEntity = MemberEntity.toSaveEntity(memberDTO);
         memberRepository.save(memberEntity);
+    }
+
+    public boolean findEmail(MemberDTO memberDTO) {
+        Optional<MemberEntity> memberEntity = memberRepository.findByMemberId(memberDTO.getMemberId());
+        if (memberEntity.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
