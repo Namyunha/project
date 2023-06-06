@@ -10,13 +10,15 @@
 </head>
 <body>
 
+
 <div id="wrapper">
     <form id="saveForm" action="/member/login">
         <div id="loginIcon">
             <img id="loginIcon-img" src="/images/person-circle.svg" alt="">
         </div>
-        <input id="memberId" name="memberId" type="text" placeholder="아이디"><br>
-        <input id="memberPass" name="memberPass" type="password" placeholder="비밀번호"><br>
+        <input type="hidden" name="redirectURI" th:value="${redirectURI}">
+        <input id="memberId" class="loginInfo" name="memberId" type="text" placeholder="아이디"><br>
+        <input id="memberPass" class="loginInfo" name="memberPass" type="password" placeholder="비밀번호"><br>
         <div id="loginBtnGroup">
             <input class="loginInput" type="button" onclick="login()" value="로그인">
             <input class="loginInput" type="button" onclick="goSave()" value="회원가입하기">
@@ -24,6 +26,8 @@
         </div>
     </form>
 </div>
+
+
 <script>
     const goSave = () => {
         location.href = "/member/save";

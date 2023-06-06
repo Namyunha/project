@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -18,18 +19,41 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(value = "redirectURI", defaultValue = "/member/mypage") String redirectURI,
+                        Model model) {
+        System.out.println("MemberController.loginForm");
+        System.out.println("redirectURI = " + redirectURI);
+        model.addAttribute("redirectURI", redirectURI);
         return "/memberPages/memberLogin";
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity loginParam(@RequestBody MemberDTO memberDTO, HttpSession session) {
+//        if (memberService.login(memberDTO)) {
+//            session.setAttribute("loginId", memberDTO.getMemberId());
+//            return new ResponseEntity<>(HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
     @PostMapping("/login")
-    public ResponseEntity loginParam(@RequestBody MemberDTO memberDTO, HttpSession session) {
+    public String loginParam(@ModelAttribute MemberDTO memberDTO, HttpSession session, @RequestParam("redirectURI") String redirectURI) {
+        System.out.println("MemberController.memberLogin");
+        System.out.println("URI" + redirectURI);
+        System.out.println("Controller: MemberDTO" + memberDTO);
         if (memberService.login(memberDTO)) {
             session.setAttribute("loginId", memberDTO.getMemberId());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return "redirect:" + redirectURI;
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return "memberPages/memberLogin";
         }
+    }
+
+    @PostMapping("/login/axios")
+    public ResponseEntity memberLoginAxios(@RequestBody MemberDTO memberDTO, HttpSession session) throws Exception {
+        memberService.loginAxios(memberDTO);
+        session.setAttribute("loginId", memberDTO.getMemberId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/save")
@@ -44,9 +68,9 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/myPage")
+    @GetMapping("/mypage")
     public String myPage() {
-        return "/memberPages/myPage";
+        return "/memberPages/memberMain";
     }
 
     @GetMapping("/update")
@@ -73,6 +97,5 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 }

@@ -7,6 +7,7 @@ import com.icia.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -36,5 +37,11 @@ public class MemberService {
         } else {
             return false;
         }
+    }
+
+    public void loginAxios(MemberDTO memberDTO) {
+        // chaining method (체이닝 메서드)
+        memberRepository.findByMemberIdAndMemberPass(memberDTO.getMemberId(), memberDTO.getMemberPass())
+                .orElseThrow(() -> new NoSuchElementException("이메일 또는 비밀번호가 틀립니다"));
     }
 }
