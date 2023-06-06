@@ -11,6 +11,12 @@
 input{
     width: 100%;
 }
+#loginIcon-img{
+    width: 60%;
+    height: 50%;
+}
+
+/*로그인, 회원가입 뒤로가기 버튼관리 */
 .loginInput{
     margin-bottom: 10px;
     display: block;
@@ -27,7 +33,4 @@ input{
     justify-content: center;
     align-items: center;
 }
-#loginIcon-img{
-    width: 60%;
-    height: 50%;
-}
+

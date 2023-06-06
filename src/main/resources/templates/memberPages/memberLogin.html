@@ -5,19 +5,22 @@
     <title>Title</title>
     <link rel="stylesheet" href="/css/memberLogin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/memberLogin.js"></script>
 </head>
 <body>
 
 <div id="wrapper">
     <form id="saveForm" action="/member/login">
         <div id="loginIcon">
-            <img id="loginIcon-img"  src="/images/person-circle.svg" alt="">
+            <img id="loginIcon-img" src="/images/person-circle.svg" alt="">
         </div>
         <input id="memberId" name="memberId" type="text" placeholder="아이디"><br>
-        <input id="memberPass" name="memberPass" type="text" placeholder="비밀번호"><br>
+        <input id="memberPass" name="memberPass" type="password" placeholder="비밀번호"><br>
         <div id="loginBtnGroup">
-            <input class="loginInput" type="button" value="로그인">
+            <input class="loginInput" type="button" onclick="login()" value="로그인">
             <input class="loginInput" type="button" onclick="goSave()" value="회원가입하기">
+            <input class="loginInput" type="button" onclick="history.back()" value="뒤로가기">
         </div>
     </form>
 </div>

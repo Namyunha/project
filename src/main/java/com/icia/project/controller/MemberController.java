@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -21,11 +23,15 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String loginParam() {
-        return "redirect:/myPage";
+    public ResponseEntity loginParam(@RequestBody MemberDTO memberDTO, HttpSession session) {
+        if (memberService.login(memberDTO)) {
+            session.setAttribute("loginId", memberDTO.getMemberId());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    //    프로젝트가 정해지거나, 게시판이 만들어졌을 때 움직일 곳 (다시 만져야 함)
     @GetMapping("/save")
     public String save() {
         return "/memberPages/memberSave";
@@ -67,7 +73,6 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 
 }

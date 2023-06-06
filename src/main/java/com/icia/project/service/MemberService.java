@@ -28,4 +28,13 @@ public class MemberService {
             return false;
         }
     }
+
+    public boolean login(MemberDTO memberDTO) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberIdAndMemberPass(memberDTO.getMemberId(), memberDTO.getMemberPass());
+        if (optionalMemberEntity.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

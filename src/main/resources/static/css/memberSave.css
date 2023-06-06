@@ -45,3 +45,7 @@
 .domainSelect {
     width: 28%
 }
+
+.saveBtnGroup{
+    cursor: pointer;
+}

@@ -2,7 +2,6 @@
 //     let memberPhone = document.querySelector("#savePhoneCheck").val();
 //     sendSMS(memberPhone);
 // }
-
 // function sendSMS(memberPhone) {
 //     let clientId = "ncp:sms:kr:309336187163:save_sms_service";
 //     let apiUrl = "https://sens.apigw.ntruss.com/sms/v2/services/{" + clientId + "}/messages";
@@ -48,6 +47,7 @@ const idDuCheck = () => {
     })
 }
 
+
 // 아이디 정규식
 const idBlur = () => {
     const memberId = document.querySelector("#memberId");
@@ -63,6 +63,7 @@ const idBlur = () => {
         duResult.innerHTML = "";
     }
 }
+
 
 // 비밀번호 정규식
 const writePass = () => {
