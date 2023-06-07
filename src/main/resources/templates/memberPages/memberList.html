@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/memberList.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>가입일자</th>
+            <th>조회</th>
+        </tr>
+        <tr th:each="member: ${list}">
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.memberId}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberEmail}"></td>
+            <td th:text="${member.createdAt}"></td>
+            <td><button th:onclick="member_detail([[${member.id}]])"></button></td>
+        </tr>
+    </table>
+</div>
+<div id="detailArea"></div>
+<script>
+    const member_detail = (id) => {
+        const detailArea = document.querySelector("#detailArea");
+        axios({
+            method: "post",
+            uri: "/member/detail",
+
+        })
+    }
+</script>
+</body>
+</html>
+
+<!--private Long id;-->
+<!--private String memberId;-->
+<!--private String memberPass;-->
+<!--private String memberName;-->
+<!--private String memberPrivate;-->
+<!--private String memberGender;-->
+<!--private String memberEmail;-->
+<!--private String memberPhone;-->

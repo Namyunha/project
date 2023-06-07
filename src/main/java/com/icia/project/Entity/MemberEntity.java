@@ -3,9 +3,11 @@ package com.icia.project.Entity;
 import com.icia.project.dto.MemberDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -30,6 +32,10 @@ public class MemberEntity {
     private String memberEmail;
     @Column(length = 20, nullable = false)
     private String memberPhone;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();

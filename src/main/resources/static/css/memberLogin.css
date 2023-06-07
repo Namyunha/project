@@ -5,9 +5,11 @@
 
 #wrapper {
     width: 100vw;
+    display: flex;
 }
-#saveForm {
+.saveForm {
     width: 34%;
+    margin: 5%;
 }
 input {
     width: 100%;
@@ -27,7 +29,7 @@ input {
 }
 
 
-#loginBtnGroup {
+.loginBtnGroup {
     width: 100%;
 }
 
@@ -48,4 +50,6 @@ input {
     background-color: rgba(0, 0, 0, 0);
 }
 
-
+.subBtnGroup{
+    justify-content: center;
+}

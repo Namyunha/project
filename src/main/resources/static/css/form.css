@@ -4,7 +4,7 @@
     justify-content: center;
 }
 
-#saveForm {
+.saveForm {
     /*  폼 너비설정  */
     padding: 5%;
     width: 38%;

@@ -10,11 +10,9 @@ import java.io.IOException;
 // 로그인 여부를 확인하고 로그인 상태라면 사용자가 요청한 주소로 보내고
 // 로그인하지 않은 상태라면 컨트롤러의 로그인 요청 주소로 넘김
 public class LoginCheckInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws IOException {
-
         // 사용자가 요청한 주소 확인
         String requestURI = request.getRequestURI();
         System.out.println("requestURI = " + requestURI);
@@ -32,3 +30,5 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
     }
 }
+
+

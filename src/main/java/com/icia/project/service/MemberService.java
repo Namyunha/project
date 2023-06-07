@@ -7,6 +7,8 @@ import com.icia.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -43,5 +45,15 @@ public class MemberService {
         // chaining method (체이닝 메서드)
         memberRepository.findByMemberIdAndMemberPass(memberDTO.getMemberId(), memberDTO.getMemberPass())
                 .orElseThrow(() -> new NoSuchElementException("이메일 또는 비밀번호가 틀립니다"));
+    }
+
+    public List<MemberDTO> findAll() {
+        List<MemberEntity> memberEntityList = memberRepository.findAll();
+        List<MemberDTO> memberDTOList = new ArrayList<>();
+        for (MemberEntity memberEntity : memberEntityList) {
+            MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
+            memberDTOList.add(memberDTO);
+        }
+        return memberDTOList;
     }
 }

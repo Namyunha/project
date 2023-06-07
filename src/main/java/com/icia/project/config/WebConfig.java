@@ -16,3 +16,4 @@ public class WebConfig implements WebMvcConfigurer {
                         "/*.ico", "/favicon/**"); // 인터셉터 검증을 하지 않을 주소
     }
 }
+

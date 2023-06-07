@@ -1,0 +1,30 @@
+@import "backgroundColor.css";
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 55%;
+}
+
+tr {
+    border-bottom: 1px solid black;
+    height: 50px;
+}
+
+th, td {
+    text-align: center;
+}

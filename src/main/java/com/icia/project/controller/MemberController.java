@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +28,8 @@ public class MemberController {
         return "/memberPages/memberLogin";
     }
 
-//    @PostMapping("/login")
+
+    //    @PostMapping("/login")
 //    public ResponseEntity loginParam(@RequestBody MemberDTO memberDTO, HttpSession session) {
 //        if (memberService.login(memberDTO)) {
 //            session.setAttribute("loginId", memberDTO.getMemberId());
@@ -40,7 +42,6 @@ public class MemberController {
     public String loginParam(@ModelAttribute MemberDTO memberDTO, HttpSession session, @RequestParam("redirectURI") String redirectURI) {
         System.out.println("MemberController.memberLogin");
         System.out.println("URI" + redirectURI);
-        System.out.println("Controller: MemberDTO" + memberDTO);
         if (memberService.login(memberDTO)) {
             session.setAttribute("loginId", memberDTO.getMemberId());
             return "redirect:" + redirectURI;
@@ -71,6 +72,14 @@ public class MemberController {
     @GetMapping("/mypage")
     public String myPage() {
         return "/memberPages/memberMain";
+    }
+
+    @GetMapping("/list")
+    public String memberList(Model model) {
+        List<MemberDTO> memberDTOList = memberService.findAll();
+        System.out.println("Controller: memberDTOList = " + memberDTOList);
+        model.addAttribute("list", memberDTOList);
+        return "/memberPages/memberList";
     }
 
     @GetMapping("/update")

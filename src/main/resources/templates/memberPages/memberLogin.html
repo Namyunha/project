@@ -12,21 +12,29 @@
 
 
 <div id="wrapper">
-    <form id="saveForm" action="/member/login">
+    <form class="saveForm" action="/member/login">
         <div id="loginIcon">
             <img id="loginIcon-img" src="/images/person-circle.svg" alt="">
         </div>
         <input type="hidden" name="redirectURI" th:value="${redirectURI}">
         <input id="memberId" class="loginInfo" name="memberId" type="text" placeholder="아이디"><br>
         <input id="memberPass" class="loginInfo" name="memberPass" type="password" placeholder="비밀번호"><br>
-        <div id="loginBtnGroup">
+        <div class="loginBtnGroup">
             <input class="loginInput" type="button" onclick="login()" value="로그인">
             <input class="loginInput" type="button" onclick="goSave()" value="회원가입하기">
-            <input class="loginInput" type="button" onclick="history.back()" value="뒤로가기">
         </div>
     </form>
+    <div class="saveForm subBtnGroup">
+        <div class="loginBtnGroup">
+            <input class="loginInput" type="button" value="ID찾기">
+            <input class="loginInput" type="button" value="PW찾기">
+            <input class="loginInput" type="button" value="Naver로 로그인하기">
+            <input class="loginInput" type="button" value="google로 로그인하기">
+            <input class="loginInput" type="button" value="github로 로그인하기">
+            <input class="loginInput" type="button" onclick="history.back()" value="뒤로가기">
+        </div>
+    </div>
 </div>
-
 
 <script>
     const goSave = () => {
