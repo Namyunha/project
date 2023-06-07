@@ -38,6 +38,7 @@ public class MemberController {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
 //    }
+
     @PostMapping("/login")
     public String loginParam(@ModelAttribute MemberDTO memberDTO, HttpSession session, @RequestParam("redirectURI") String redirectURI) {
         System.out.println("MemberController.memberLogin");
@@ -105,6 +106,13 @@ public class MemberController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/detail/{id}")
+    public ResponseEntity detail(@PathVariable Long id) {
+        MemberDTO memberDTO = memberService.findById(id);
+        System.out.println("Controller-detail: memberDTO = " + memberDTO);
+        return new ResponseEntity<>(memberDTO, HttpStatus.OK);
     }
 
 }

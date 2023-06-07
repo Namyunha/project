@@ -56,4 +56,16 @@ public class MemberService {
         }
         return memberDTOList;
     }
+
+    public MemberDTO findById(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("아이디를 조회할 수 없습니다."));
+        return MemberDTO.toDTO(memberEntity);
+    }
 }
+
+
+
+
+
+
+

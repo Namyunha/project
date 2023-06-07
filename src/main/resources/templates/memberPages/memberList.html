@@ -5,10 +5,11 @@
     <title>Title</title>
     <link rel="stylesheet" href="/css/memberList.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/memberList.js"></script>
 </head>
 <body>
 <div class="container">
-    <table>
+    <table class="listArea">
         <tr>
             <th>번호</th>
             <th>아이디</th>
@@ -23,20 +24,14 @@
             <td th:text="${member.memberName}"></td>
             <td th:text="${member.memberEmail}"></td>
             <td th:text="${member.createdAt}"></td>
-            <td><button th:onclick="member_detail([[${member.id}]])"></button></td>
+            <td>
+                <button th:onclick="member_detail([[${member.id}]])">조회</button>
+            </td>
         </tr>
     </table>
+    <div id="detailArea"></div>
 </div>
-<div id="detailArea"></div>
 <script>
-    const member_detail = (id) => {
-        const detailArea = document.querySelector("#detailArea");
-        axios({
-            method: "post",
-            uri: "/member/detail",
-
-        })
-    }
 </script>
 </body>
 </html>
