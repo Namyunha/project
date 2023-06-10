@@ -61,6 +61,21 @@ public class MemberService {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("아이디를 조회할 수 없습니다."));
         return MemberDTO.toDTO(memberEntity);
     }
+
+
+    //  id로 memberDTO 가져오기
+    public MemberDTO findByMemberId(String loginDTO) {
+        MemberEntity memberEntity = memberRepository
+                .findByMemberId(loginDTO).orElseThrow(() -> new NoSuchElementException());
+        System.out.println("서비스에있는 memberEntity = " + memberEntity);
+        if (memberEntity == null) {
+            return null;
+        } else {
+            MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
+            System.out.println("서비스에있는 memberDTO = " + memberDTO);
+            return memberDTO;
+        }
+    }
 }
 
 
