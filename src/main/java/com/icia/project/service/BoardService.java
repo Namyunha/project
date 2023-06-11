@@ -9,6 +9,8 @@ import com.icia.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -25,7 +27,13 @@ public class BoardService {
     }
 
 
-
-
-
+    public List<BoardDTO> findAll() {
+        List<BoardEntity> boardEntityList = boardRepository.findAll();
+        List<BoardDTO> boardDTOList = new ArrayList<>();
+        for (BoardEntity boardEntity : boardEntityList) {
+            BoardDTO boardDTO = BoardDTO.toDTO(boardEntity);
+            boardDTOList.add(boardDTO);
+        }
+        return boardDTOList;
+    }
 }
