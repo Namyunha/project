@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -42,10 +39,15 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity saveParam(@RequestBody BoardDTO boardDTO) {
+    public String saveParam(@ModelAttribute BoardDTO boardDTO) {
         System.out.println("컨트롤러에 있는 saveParam: boardDTO = " + boardDTO);
         boardService.save(boardDTO);
-        return new ResponseEntity<>(boardDTO, HttpStatus.OK);
+        return "redirect:/";
+    }
+
+    @GetMapping("/list")
+    public String list() {
+        return "boardPages/boardList";
     }
 }
 

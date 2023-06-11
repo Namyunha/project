@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="component/config :: config"></th:block>
+    <script src="/js/boardSave.js"></script>
 </head>
 <body>
 
-<div id="saveForm">
+<form id="saveForm" onsubmit="saveBoard(event)" action="/board/save" method="post" enctype="multipart/form-data">
     <input type="hidden" id="memberId" name="memberId" th:value="${loginDTO.id}">
     <label for="boardWriter">작성자</label>
     <input type="text" id="boardWriter" name="boardWriter" readonly th:value="${loginDTO.memberName}"><br>
-    <label for="boartTitle">제목</label>
-    <input type="text" id="boartTitle" name="boartTitle" placeholder="제목을 적어주세요"><br>
+    <label for="boardTitle">제목</label>
+    <input type="text" id="boardTitle" name="boardTitle" placeholder="제목을 적어주세요"><br>
     <label for="boardContents">내용</label>
     <textarea name="boardContents" id="boardContents" cols="30" rows="10">
     </textarea><br>
@@ -23,41 +24,12 @@
     </select><br>
     <label for="boardPassword">비밀번호</label>
     <input type="password" id="boardPassword" name="boardPassword"><br>
-    <input type="button" value="작성하기" onclick="saveBoard()">
+    <input type="submit" value="작성하기">
     <input type="button" value="뒤로가기" onclick="back()">
-</div>
+</form>
 
 <script>
-    const back = () => {
-        history.back();
-    }
 
-    const saveBoard = () => {
-        const memberId = document.querySelector("#memberId").value;
-        const boardWriter = document.querySelector("#boardWriter").value;
-        const boardTitle = document.querySelector("#boartTitle").value;
-        const boardContents = document.querySelector("#boardContents").value;
-        const boardCategory = document.querySelector("#boardCategory").value;
-        const boardPassword = document.querySelector("#boardPassword").value;
-        axios({
-            method: "post",
-            url: "/board/save",
-            data: {
-                memberId: memberId,
-                boardWriter: boardWriter,
-                boardTitle: boardTitle,
-                boardContents: boardContents,
-                boardCategory: boardCategory,
-                boardPassword: boardPassword
-            }
-        }).then(res => {
-            console.log("저장성공");
-            console.log("axios - res: " + res)
-        }).catch(err => {
-            console.log("저장실패");
-            console.log("axios - err: "+err)
-        })
-    }
 </script>
 </body>
 </html>
