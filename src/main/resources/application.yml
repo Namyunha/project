@@ -1,6 +1,6 @@
 # server port ?? ??
 server:
-  port: 8120
+  port: 8220
 
 
 # data base ?? ??
