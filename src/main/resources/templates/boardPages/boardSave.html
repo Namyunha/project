@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="component/config :: config"></th:block>
+    <script src="/js/boardSave.js"></script>
+</head>
+<body>
+
+<form id="saveForm" onsubmit="saveBoard(event)" action="/board/save" method="post" enctype="multipart/form-data">
+    <input type="hidden" id="memberId" name="memberId" th:value="${loginDTO.id}">
+    <label for="boardWriter">작성자</label>
+    <input type="text" id="boardWriter" name="boardWriter" readonly th:value="${loginDTO.memberName}"><br>
+    <label for="boardTitle">제목</label>
+    <input type="text" id="boardTitle" name="boardTitle" placeholder="제목을 적어주세요"><br>
+    <label for="boardContents">내용</label>
+    <textarea name="boardContents" id="boardContents" cols="30" rows="10">
+    </textarea><br>
+    <label for="boardCategory">카테고리</label>
+    <select name="boardCategory" id="boardCategory">
+        <option value="">선택</option>
+        <option value="Notice">Notice</option>
+        <option value="Q&A">Q&A</option>
+        <option value="FAQ">FAQ</option>
+    </select><br>
+    <label for="boardPassword">비밀번호</label>
+    <input type="password" id="boardPassword" name="boardPassword"><br>
+    <input type="submit" value="작성하기">
+    <input type="button" value="뒤로가기" onclick="back()">
+</form>
+
+<script>
+
+</script>
+</body>
+</html>
+
+
+

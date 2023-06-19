@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="component/config :: config"></th:block>
+</head>
+<body>
+<div id="category-list" name="category-list">
+    <ul>
+        <li th:onclick="" th:text="공지사항"></li>
+        <li th:onclick="" th:text="QnA"></li>
+        <li th:onclick="" th:text="자주묻는질문"></li>
+        <li th:onclick="" th:text="자유게시판"></li>
+    </ul>
+</div>
+<div>
+    <table>
+        <tr>
+            <th>No</th>
+            <th>제목</th>
+            <th>작성자</th>
+        </tr>
+        <tr th:each="board:${list}">
+            <td th:text="${board.id}">1</td>
+            <td th:text="${board.boardTitle}">자바</td>
+            <td th:text="${board.boardWriter}">남윤하</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

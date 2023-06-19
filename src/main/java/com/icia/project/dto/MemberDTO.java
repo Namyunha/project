@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+
 public class MemberDTO {
     private Long id;
     private String memberId;

@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -30,6 +32,7 @@ public class MemberEntity {
     private String memberGender;
     @Column(length = 20, nullable = false)
     private String memberEmail;
+
     @Column(length = 20, nullable = false)
     private String memberPhone;
 
@@ -37,9 +40,11 @@ public class MemberEntity {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<BoardEntity> boardEntityList = new ArrayList<>();
+
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
-        memberEntity.setMemberId(memberDTO.getMemberId());
         memberEntity.setMemberPass(memberDTO.getMemberPass());
         memberEntity.setMemberName(memberDTO.getMemberName());
         memberEntity.setMemberPrivate(memberDTO.getMemberPrivate());
