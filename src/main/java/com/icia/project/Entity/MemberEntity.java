@@ -32,7 +32,6 @@ public class MemberEntity {
     private String memberGender;
     @Column(length = 20, nullable = false)
     private String memberEmail;
-
     @Column(length = 20, nullable = false)
     private String memberPhone;
 
@@ -46,6 +45,7 @@ public class MemberEntity {
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberPass(memberDTO.getMemberPass());
+        memberEntity.setMemberId(memberDTO.getMemberId());
         memberEntity.setMemberName(memberDTO.getMemberName());
         memberEntity.setMemberPrivate(memberDTO.getMemberPrivate());
         memberEntity.setMemberGender(memberDTO.getMemberGender());

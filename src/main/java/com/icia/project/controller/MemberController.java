@@ -89,7 +89,7 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
-    public String updateParam() {
+    public String updateUser() {
         return "redirect:/member/myPages";
     }
 

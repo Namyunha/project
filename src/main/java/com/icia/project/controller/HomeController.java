@@ -11,10 +11,12 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+
     @GetMapping("/")
     public String index(HttpSession session, Model model) {
         String loginId = (String) session.getAttribute("loginId");
         model.addAttribute("loginId", loginId);
         return "index";
     }
+
 }

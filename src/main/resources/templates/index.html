@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="/component/config::config"></th:block>
 </head>
 <body>
-<a href="/member/login">로그인하기</a>
-<a href="/member/list">회원목록</a>
+<th:block th:replace="/component/header::header"></th:block>
 <a href="/board">게시판페이지</a><br>
-<h2 th:text="${loginId + ' 님 환영합니다'}"></h2> <!-- 수정: Thymeleaf 표현식으로 텍스트 값 추가 -->
+<h2 th:unless="${loginId == null}" th:text="${loginId + ' 님 환영합니다'}"></h2> <!-- 수정: Thymeleaf 표현식으로 텍스트 값 추가 -->
 </body>
 </html>
