@@ -19,6 +19,16 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/searchId")
+    public ResponseEntity searchId() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/searchPw")
+    public ResponseEntity searchPw() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/login")
     public String login(@RequestParam(value = "redirectURI", defaultValue = "/member/mypage") String redirectURI,
                         Model model) {
@@ -71,7 +81,10 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public String myPage() {
+    public String myPage(HttpSession session, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        MemberDTO loginUser = memberService.findByMemberId(loginId);
+        model.addAttribute("loginUser", loginUser);
         return "/memberPages/memberMain";
     }
 
@@ -81,11 +94,6 @@ public class MemberController {
         System.out.println("Controller: memberDTOList = " + memberDTOList);
         model.addAttribute("list", memberDTOList);
         return "/memberPages/memberList";
-    }
-
-    @GetMapping("/update")
-    public String update() {
-        return "/memberPages/memberUpdate";
     }
 
     @PutMapping("/{id}")
@@ -108,7 +116,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id) {
         MemberDTO memberDTO = memberService.findById(id);
         System.out.println("Controller-detail: memberDTO = " + memberDTO);

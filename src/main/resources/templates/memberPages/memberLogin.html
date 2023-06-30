@@ -26,12 +26,12 @@
     </form>
     <div class="saveForm subBtnGroup">
         <div class="loginBtnGroup">
-            <input class="loginInput" type="button" value="ID찾기">
-            <input class="loginInput" type="button" value="PW찾기">
+            <input class="loginInput" onclick="searchId()" type="button" value="ID찾기">
+            <input class="loginInput" type="button" value="PW찾기" onclick="searchPw()">
             <input class="loginInput" type="button" value="Naver로 로그인하기">
             <input class="loginInput" type="button" value="google로 로그인하기">
             <input class="loginInput" type="button" value="github로 로그인하기">
-            <input class="loginInput" type="button" onclick="history.back()" value="뒤로가기">
+            <input class="loginInput" type="button" onclick="goIndex()" value="뒤로가기">
         </div>
     </div>
 </div>
@@ -41,5 +41,6 @@
         location.href = "/member/save";
     }
 </script>
+
 </body>
 </html>

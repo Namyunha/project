@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/memberSave.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/memberSave.js"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
 </head>
 <body>
 
@@ -16,14 +17,16 @@
             <div id="saveId" class="saveInput">
                 <label for="memberId">아이디</label><br>
                 <div class="checkBlock marginInput">
-                    <input class="checkInput" onblur="idBlur()" name="memberId" id="memberId" type="text" placeholder="영소문자,숫자 6~12로 입력해주세요">
+                    <input class="checkInput" onblur="idBlur()" name="memberId" id="memberId" type="text"
+                           placeholder="영소문자,숫자 6~12로 입력해주세요">
                     <input type="button" onclick="idDuCheck()" class="confirmBtn saveBtnGroup" th:value="중복체크하기">
                 </div>
                 <p id="duResult"></p>
             </div>
             <div id="savePass" class="saveInput">
                 <label for="memberPass">비밀번호</label><br>
-                <input class="input" name="memberPass" id="memberPass" onblur="writePass()" type="password" placeholder="영소문자,숫자 6~12로 입력해주세요">
+                <input class="input" name="memberPass" id="memberPass" onblur="writePass()" type="password"
+                       placeholder="영소문자,숫자 6~12로 입력해주세요">
                 <p id="pwCheck"></p>
             </div>
             <div id="savePassCheck" class="saveInput">
@@ -78,8 +81,8 @@
                         <option name="google.com">google.com</option>
                     </select>
                 </div>
+                <button onclick="checkEmail()">인증하기</button>
             </div>
-
 
             <div id="savePhone" class="saveInput">
                 <label for="savePhoneCheck">휴대전화</label>
@@ -89,7 +92,7 @@
                     <button onclick="recieveNum()" class="confirmBtn saveBtnGroup">인증번호받기</button>
                 </div>
                 <div class="checkBlock">
-                    <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요" >
+                    <input class="confirmNum input" type="text" placeholder="인증번호를 입력하세요">
                 </div>
             </div>
             <div id="saveBtn" class="saveInput">
