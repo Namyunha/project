@@ -80,30 +80,12 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/mypage")
-    public String myPage(HttpSession session, Model model) {
-        String loginId = (String) session.getAttribute("loginId");
-        MemberDTO loginUser = memberService.findByMemberId(loginId);
-        model.addAttribute("loginUser", loginUser);
-        return "/memberPages/memberMain";
-    }
-
     @GetMapping("/list")
     public String memberList(Model model) {
         List<MemberDTO> memberDTOList = memberService.findAll();
         System.out.println("Controller: memberDTOList = " + memberDTOList);
         model.addAttribute("list", memberDTOList);
         return "/memberPages/memberList";
-    }
-
-    @PutMapping("/{id}")
-    public String updateUser() {
-        return "redirect:/member/myPages";
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity delete() {
-        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/duCheck")
@@ -116,11 +98,31 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/mypage")
+    public String myPage(HttpSession session, Model model) {
+        String loginId = (String) session.getAttribute("loginId");
+        MemberDTO loginUser = memberService.findByMemberId(loginId);
+        model.addAttribute("loginUser", loginUser);
+        return "/memberPages/memberMain";
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id) {
         MemberDTO memberDTO = memberService.findById(id);
         System.out.println("Controller-detail: memberDTO = " + memberDTO);
         return new ResponseEntity<>(memberDTO, HttpStatus.OK);
+//        myPage에서 업데이트 창이랑 정보창 띄우기
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity updateUser(@RequestBody MemberDTO memberDTO) {
+        System.out.println("컨트롤러에 있는 수정된 memberDTO = " + memberDTO);
+        memberService.updateUser(memberDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

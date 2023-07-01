@@ -73,163 +73,39 @@
             <tbody>
             <tr>
                 <th>회원번호</th>
-                <td><input type="text" th:value="${loginUser.id}"></td>
+                <td id="memberId" th:text="${loginUser.id}"></td>
             </tr>
             <tr>
                 <th>아이디</th>
-                <td><input type="text" th:value="${loginUser.memberId}"></td>
+                <td th:text="${loginUser.memberId}"></td>
             </tr>
             <tr>
                 <th>비밀번호</th>
-                <td><input type="text" th:value="${loginUser.memberPass}"></td>
+                <td th:text="${loginUser.memberPass}"></td>
             </tr>
             <tr>
                 <th>이름</th>
-                <td><input type="text" th:value="${loginUser.memberName}"></td>
+                <td th:text="${loginUser.memberName}"></td>
             </tr>
             <tr>
                 <th>생년월일</th>
-                <td><input type="text" th:value="${loginUser.memberPrivate}"></td>
+                <td th:text="${loginUser.memberPrivate}"></td>
             </tr>
             <tr>
                 <th>성별</th>
-                <td><input type="text" th:value="${loginUser.memberGender}"></td>
+                <td th:text="${loginUser.memberGender}"></td>
             </tr>
             <tr>
                 <th>이메일</th>
-                <td><input type="text" th:value="${loginUser.memberGender}"></td>
+                <td th:text="${loginUser.memberEmail}"></td>
             </tr>
             <tr>
                 <th>휴대번호</th>
-                <td><input type="text" th:value="${loginUser.memberPhone}"></td>
+                <td th:text="${loginUser.memberPhone}"></td>
             </tr>
             </tbody>
         </table>
     </div>
-
-
+    <script src="/js/mypage.js"></script>
 </div>
-<script>
-    const checkUser = () => {
-        const viewArea = document.querySelector("#viewArea");
-        const id = "[[${loginUser.id}]]";
-        axios({
-            url: "/member/" + id,
-            method: "get"
-        }).then(res => {
-            const loginUser = res.data; // 서버에서 받아온 데이터를 loginUser 변수에 저장
-            let result = "<table>\n" +
-                "            <tbody>\n" +
-                "            <tr>\n" +
-                "                <th>회원번호</th>\n" +
-                "                <td>" + loginUser.id + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>아이디</th>\n" +
-                "                <td>" + loginUser.memberId + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>비밀번호</th>\n" +
-                "                <td>" + loginUser.memberPass + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>이름</th>\n" +
-                "                <td>" + loginUser.memberName + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>생년월일</th>\n" +
-                "                <td>" + loginUser.memberPrivate + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>성별</th>\n" +
-                "                <td>" + loginUser.memberGender + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>이메일</th>\n" +
-                "                <td>" + loginUser.memberEmail + "</td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>휴대번호</th>\n" +
-                "                <td>" + loginUser.memberPhone + "</td>\n" +
-                "            </tr>\n" +
-                "            </tbody>\n" +
-                "        </table>";
-            viewArea.innerHTML = result;
-        }).catch(err => {
-            alert("정보를 불러올 수 없습니다.");
-        });
-    };
-
-    const updateUser = () => {
-        const viewArea = document.querySelector("#viewArea");
-        const id = "[[${loginUser.id}]]";
-        axios({
-            url: "/member/" + id,
-            method: "get"
-        }).then(res => {
-            const loginUser = res.data; // 서버에서 받아온 데이터를 loginUser 변수에 저장
-            let result = "<table>\n" +
-                "            <tbody>\n" +
-                "            <tr>\n" +
-                "                <th>회원번호</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.id + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>아이디</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberId + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>비밀번호</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberPass + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>이름</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberName + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>생년월일</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberPrivate + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>성별</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberGender + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>이메일</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberEmail + "\"></td>\n" +
-                "            </tr>\n" +
-                "            <tr>\n" +
-                "                <th>휴대번호</th>\n" +
-                "                <td><input type=\"text\" value=\"" + loginUser.memberPhone + "\"></td>\n" +
-                "            </tr>\n" +
-                "            </tbody>\n" +
-                "        </table>" +
-                "<td><button onclick='goUpdate()'>수정하기</button></td>";
-            viewArea.innerHTML = result;
-        }).catch(err => {
-            alert("업데이트가 불가합니다");
-        });
-    };
-
-    const goUpdate = () => {
-        const viewArea = document.querySelector("#viewArea");
-        const id = "[[${loginUser.id}]]";
-        const memberId = "[[${loginUser.memberId}]]";
-        const memberPass = "[[${loginUser.memberId}]]";
-        const memberName = "[[${loginUser.memberName}]]";
-        const memberPrivate = "[[${loginUser.memberPrivate}]]";
-        const memberGender = "[[${loginUser.memberGender}]]";
-        const memberEmail = "[[${loginUser.memberEmail}]]";
-
-        axios({
-            url: "/member/" + id,
-            method: "put"
-        }).then(res => {
-
-        }).catch(err => {
-
-        })
-    }
-
-</script>
 </html>

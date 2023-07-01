@@ -67,14 +67,18 @@ public class MemberService{
     public MemberDTO findByMemberId(String loginDTO) {
         MemberEntity memberEntity = memberRepository
                 .findByMemberId(loginDTO).orElseThrow(() -> new NoSuchElementException());
-        System.out.println("서비스에있는 memberEntity = " + memberEntity);
         if (memberEntity == null) {
             return null;
         } else {
             MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
-            System.out.println("서비스에있는 memberDTO = " + memberDTO);
             return memberDTO;
         }
+    }
+
+    public Long updateUser(MemberDTO memberDTO) {
+        System.out.println("서비스에 있는 업데이트 memberDTO = " + memberDTO);
+        MemberEntity memberEntity = MemberEntity.toUpdateEntity(memberDTO);
+        return memberRepository.save(memberEntity).getId();
     }
 }
 
