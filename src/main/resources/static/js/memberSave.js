@@ -27,42 +27,72 @@
 // }
 
 
+const regularExpression = () => {
+    const memberId = document.querySelector("#memberId");
+    const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
+    <!-- 4. 영문소문자(필수), 숫자(필수) 6~12글자 -->
+    if (!memberId.value.match(exp)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 // 아이디 중복체크
 const idDuCheck = () => {
     const memberId = document.querySelector("#memberId");
     const duResult = document.querySelector("#duResult");
     console.log(memberId.value);
-    axios({
-        url: "/member/duCheck",
-        method: "post",
-        data: {
-            memberId: memberId.value
-        }
-    }).then(res => {
-        duResult.innerHTML = "이용 가능한 아이디입니다.";
-        duResult.style.color = "green";
-    }).catch(err => {
-        duResult.innerHTML = "중복된 아이디 입니다."
-        duResult.style.color = "red";
-    })
+    if(regularExpression()){
+        axios({
+            url: "/member/duCheck",
+            method: "post",
+            data: {
+                memberId: memberId.value
+            }
+        }).then(res => {
+            duResult.innerHTML = "중복된 아이디가 없습니다.";
+            duResult.style.color = "green";
+        }).catch(err => {
+            duResult.innerHTML = "중복된 아이디 입니다."
+            duResult.style.color = "red";
+        })
+    } else {
+        duResult.innerHTML = "영소문자,숫자 6~12로 입력해주세요";
+        duResult.style.color = "red"
+    }
 }
 
 
-// 아이디 정규식
 const idBlur = () => {
     const memberId = document.querySelector("#memberId");
     const duResult = document.querySelector("#duResult");
-    const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
-    <!-- 4. 영문소문자(필수), 숫자(필수) 6~12글자 -->
     if (memberId.value == "") {
         duResult.innerHTML = "";
-    } else if (!memberId.value.match(exp)) {
+    } else if (!regularExpression()) {
         duResult.innerHTML = "영소문자,숫자 6~12로 입력해주세요";
         duResult.style.color = "red"
     } else {
-        duResult.innerHTML = "";
+        duResult.innerHTML = "사용가능한 아이디입니다.";
+        duResult.style.color = "green"
     }
 }
+
+// 아이디 정규식
+// const idBlur = () => {
+//     const memberId = document.querySelector("#memberId");
+//     const duResult = document.querySelector("#duResult");
+//     const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
+//     <!-- 4. 영문소문자(필수), 숫자(필수) 6~12글자 -->
+//     if (memberId.value == "") {
+//         duResult.innerHTML = "";
+//     } else if (!memberId.value.match(exp)) {
+//         duResult.innerHTML = "영소문자,숫자 6~12로 입력해주세요";
+//         duResult.style.color = "red"
+//     } else {
+//         duResult.innerHTML = "";
+//     }
+// }
 
 
 // 비밀번호 정규식
