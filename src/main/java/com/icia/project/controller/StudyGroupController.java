@@ -1,7 +1,9 @@
 package com.icia.project.controller;
 
+import com.icia.project.dto.StudygroupDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,8 +21,8 @@ public class StudyGroupController {
     }
 
     @PostMapping("/save")
-    public String saveGroup() {
-
+    public String saveGroup(@ModelAttribute StudygroupDTO studygroupDTO) {
+        System.out.println("studygroupDTO = " + studygroupDTO);
         return "/redirect:/list";
     }
 
