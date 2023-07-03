@@ -34,13 +34,14 @@ public class MemberEntity {
     private String memberEmail;
     @Column(length = 20, nullable = false)
     private String memberPhone;
-
+    @Column
+    private int fileAttached;
+    @OneToMany(mappedBy = "MemberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MemberFileEntity>  memberFileEntityList = new ArrayList<>();
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<BoardEntity> boardEntityList = new ArrayList<>();
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
@@ -51,6 +52,7 @@ public class MemberEntity {
         memberEntity.setMemberGender(memberDTO.getMemberGender());
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPhone(memberDTO.getMemberPhone());
+        memberEntity.setFileAttached(0);
         return memberEntity;
     }
 
@@ -64,6 +66,20 @@ public class MemberEntity {
         memberEntity.setMemberGender(memberDTO.getMemberGender());
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPhone(memberDTO.getMemberPhone());
+        memberEntity.setFileAttached(1);
+        return memberEntity;
+    }
+
+    public static MemberEntity toSaveEntityWithFile(MemberDTO memberDTO) {
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setMemberPass(memberDTO.getMemberPass());
+        memberEntity.setMemberId(memberDTO.getMemberId());
+        memberEntity.setMemberName(memberDTO.getMemberName());
+        memberEntity.setMemberPrivate(memberDTO.getMemberPrivate());
+        memberEntity.setMemberGender(memberDTO.getMemberGender());
+        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
+        memberEntity.setMemberPhone(memberDTO.getMemberPhone());
+        memberEntity.setFileAttached(1);
         return memberEntity;
     }
 }

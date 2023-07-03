@@ -2,12 +2,17 @@ package com.icia.project.service;
 
 
 import com.icia.project.Entity.MemberEntity;
+import com.icia.project.Entity.MemberFileEntity;
 import com.icia.project.dto.MemberDTO;
+import com.icia.project.repository.MemberFileRepository;
 import com.icia.project.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,12 +20,26 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService{
+public class MemberService {
     private final MemberRepository memberRepository;
+    private final MemberFileRepository memberFileRepository;
 
-    public void save(MemberDTO memberDTO) {
-        MemberEntity memberEntity = MemberEntity.toSaveEntity(memberDTO);
-        memberRepository.save(memberEntity);
+    public void save(MemberDTO memberDTO) throws IOException {
+        if (memberDTO.getMemberProfile() == null || memberDTO.getMemberProfile().get(0).isEmpty()) {
+            MemberEntity memberEntity = MemberEntity.toSaveEntity(memberDTO);
+            memberRepository.save(memberEntity);
+        } else {
+            MemberEntity memberEntity = MemberEntity.toSaveEntityWithFile(memberDTO);
+            System.out.println("서비스에 있는 memberEntity.getMemberName() = " + memberEntity.getMemberName());
+            MemberEntity saveFile = memberRepository.save(memberEntity);
+            List<MultipartFile> memberFile = memberDTO.getMemberProfile();
+            String originalFileName = memberFile.get(0).getOriginalFilename();
+            String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
+            String savePath = "D:\\Springboot_project_img\\" + storedFileName;
+            memberFile.get(0).transferTo(new File(savePath));
+            MemberFileEntity memberFileEntity = MemberFileEntity.saveFileEntity(originalFileName, storedFileName, saveFile);
+            memberFileRepository.save(memberFileEntity);
+        }
     }
 
     public boolean findEmail(MemberDTO memberDTO) {

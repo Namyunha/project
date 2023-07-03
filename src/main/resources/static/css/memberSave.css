@@ -2,6 +2,15 @@
 @import "backgroundColor.css";
 @import "form.css";
 
+body{
+    height: 100vh;
+}
+#section{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 /* 아이디, 비밀번호, 성별, 인증번호입력 input 설정 */
 .saveInput {

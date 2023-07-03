@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -68,17 +69,30 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
     @GetMapping("/save")
     public String save() {
         return "/memberPages/memberSave";
     }
 
+//    @PostMapping("/save")
+//    public ResponseEntity saveParam(@RequestBody MemberDTO memberDTO) throws IOException {
+//        System.out.println("Controller: memberDTO = " + memberDTO);
+//        memberService.save(memberDTO);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
     @PostMapping("/save")
-    public ResponseEntity saveParam(@RequestBody MemberDTO memberDTO) {
+    public String saveParam(@RequestBody MemberDTO memberDTO) throws IOException {
         System.out.println("Controller: memberDTO = " + memberDTO);
         memberService.save(memberDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return "redirect:login/";
     }
+
 
     @GetMapping("/list")
     public String memberList(Model model) {
