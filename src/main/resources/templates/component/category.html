@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="category">
+    <div class="d-flex gap-5 justify-content-center cate">
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-0-circle-fill fs-3 category_content_icon"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-amd fs-3 "></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-apple fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-android2 fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-browser-chrome fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-browser-edge fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-cpu-fill fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-device-hdd-fill fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-discord fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-eye-fill fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-geo-alt-fill fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div class="btn"><i class="bi bi-github fs-3"></i></div>
+            <span>공무원,임용</span>
+        </div>
+        <div class="category_content">
+            <div onclick="saveGroup()" class="btn"><i class="bi bi-plus-square fs-3"></i></div>
+            <span>모임만들기</span>
+        </div>
+    </div>
+    <script>
+        const saveGroup = () => {
+            location.href = "/studygroup/save";
+        }
+    </script>
+</th:block>
+</body>
+</html>

@@ -27,6 +27,7 @@
 // }
 
 
+// 아이디 정규식
 const regularExpression = () => {
     const memberId = document.querySelector("#memberId");
     const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;

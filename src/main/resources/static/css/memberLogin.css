@@ -2,18 +2,27 @@
 @import "backgroundColor.css";
 @import "form.css";
 
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 #wrapper {
     width: 100vw;
     display: flex;
 }
+
 .saveForm {
     width: 34%;
     margin: 5%;
 }
+
 input {
     width: 100%;
 }
+
 #loginIcon-img {
     width: 60%;
     height: 50%;

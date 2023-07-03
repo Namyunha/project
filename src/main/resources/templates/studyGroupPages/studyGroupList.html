@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <th:block th:replace="/component/config::config"></th:block>
     <script th:src="@{/js/axios.min.js}"></script>
 </head>
 <body>
-
 <th:block th:replace="/component/header::header"></th:block>
-<h2 th:unless="${loginId == null}" th:text="${loginId + ' 님 환영합니다'}"></h2> <!-- 수정: Thymeleaf 표현식으로 텍스트 값 추가 -->
+<th:block th:replace="/component/category::category"></th:block>
+<th:block th:replace="/component/group::group"></th:block>
 <th:block th:replace="/component/footer::footer"></th:block>
+
 </body>
 </html>

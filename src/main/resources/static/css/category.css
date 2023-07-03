@@ -1,0 +1,13 @@
+span{
+    font-size: 5px;
+}
+
+.category_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.category_content_icon{
+    width: 100%;
+}
