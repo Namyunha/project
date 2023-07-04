@@ -1,6 +1,7 @@
 package com.icia.project.Entity;
 
 
+import com.icia.project.dto.StudygroupDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "studygroup_table")
-public class StudygroupEntity extends BaseEntity{
+public class StudygroupEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,6 +41,35 @@ public class StudygroupEntity extends BaseEntity{
     @Column
     private int fileAttached;
 
-    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "StudygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StudygroupFileEntity> studygroupFileEntityList;
+
+    public static StudygroupEntity saveGroupEntity(StudygroupDTO studygroupDTO) {
+        StudygroupEntity studygroupEntity = new StudygroupEntity();
+        studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
+        studygroupEntity.setPartyHost(studygroupDTO.getPartyHost());
+        studygroupEntity.setPartyDetail(studygroupDTO.getPartyDetail());
+        studygroupEntity.setPartyTitle(studygroupDTO.getPartyTitle());
+        studygroupEntity.setPartyMethod(studygroupDTO.getPartyMethod());
+        studygroupEntity.setPartyTimes(studygroupDTO.getPartyTimes());
+        studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
+        studygroupEntity.setFileAttached(0);
+        return studygroupEntity;
+    }
+
+    public static StudygroupEntity saveGroupEntityWithFile(StudygroupDTO studygroupDTO) {
+        StudygroupEntity studygroupEntity = new StudygroupEntity();
+        studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
+        studygroupEntity.setPartyHost(studygroupDTO.getPartyHost());
+        studygroupEntity.setPartyDetail(studygroupDTO.getPartyDetail());
+        studygroupEntity.setPartyTitle(studygroupDTO.getPartyTitle());
+        studygroupEntity.setPartyMethod(studygroupDTO.getPartyMethod());
+        studygroupEntity.setPartyTimes(studygroupDTO.getPartyTimes());
+        studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
+        studygroupEntity.setFileAttached(1);
+        return studygroupEntity;
+    }
 }
+
+
+

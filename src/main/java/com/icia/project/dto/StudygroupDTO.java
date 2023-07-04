@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,13 +20,14 @@ public class StudygroupDTO {
     private String partyMethod;
     private String partyTimes;
     private String partyCategory;
-    private String createdAt;
-    private int fileAttached;
+    private LocalDateTime partyCreatedTime;
+    private LocalDateTime partyUpdatedTime;
 
     private List<MultipartFile> groupFile;
 
     private String originalFileName;
     private String storedFileName;
+    private int fileAttached;
 }
 
 

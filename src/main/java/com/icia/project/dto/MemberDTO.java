@@ -23,7 +23,8 @@ public class MemberDTO {
     private String memberGender;
     private String memberEmail;
     private String memberPhone;
-    private LocalDateTime createdAt;
+    private LocalDateTime memberCreatedTime;
+    private LocalDateTime memberUpdatedTime;
     private int fileAttached;
 
     private List<MultipartFile> memberProfile;
@@ -41,7 +42,8 @@ public class MemberDTO {
         memberDTO.setMemberGender(memberEntity.getMemberGender());
         memberDTO.setMemberEmail(memberEntity.getMemberEmail());
         memberDTO.setMemberPhone(memberEntity.getMemberPhone());
-        memberDTO.setCreatedAt(memberEntity.getCreatedAt());
+        memberDTO.setMemberCreatedTime(memberEntity.getCreatedAt());
+        memberDTO.setMemberUpdatedTime(memberEntity.getUpdatedAt());
         if (memberEntity.getFileAttached() == 1) {
             memberDTO.setFileAttached(1);
         } else {

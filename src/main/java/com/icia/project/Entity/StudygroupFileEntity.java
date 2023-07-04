@@ -23,5 +23,13 @@ public class StudygroupFileEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studygroup_id")
-    private StudygroupEntity studygroupEntity;
+    private StudygroupEntity StudygroupEntity;
+
+    public static StudygroupFileEntity save(StudygroupEntity studygroupEntity, String originalFileName, String storedFileName) {
+        StudygroupFileEntity studygroupFileEntity = new StudygroupFileEntity();
+        studygroupFileEntity.setStudygroupEntity(studygroupEntity);
+        studygroupFileEntity.setOriginalFileName(originalFileName);
+        studygroupFileEntity.setStoredFileName(storedFileName);
+        return studygroupFileEntity;
+    }
 }
