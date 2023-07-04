@@ -1,6 +1,7 @@
 package com.icia.project.Entity;
 
 import com.icia.project.dto.MemberDTO;
+import com.icia.project.dto.StudygroupDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,12 +37,13 @@ public class MemberEntity extends BaseEntity{
     private String memberPhone;
     @Column
     private int fileAttached;
-    @OneToMany(mappedBy = "MemberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<MemberFileEntity>  memberFileEntityList = new ArrayList<>();
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
+    @OneToMany(mappedBy = "MemberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<MemberFileEntity>  memberFileEntityList = new ArrayList<>();
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<StudygroupEntity> studygroupEntityList = new ArrayList<>();
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();

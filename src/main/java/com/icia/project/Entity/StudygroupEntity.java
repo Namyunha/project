@@ -44,6 +44,10 @@ public class StudygroupEntity extends BaseEntity {
     @OneToMany(mappedBy = "StudygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StudygroupFileEntity> studygroupFileEntityList;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_id")
+    private MemberEntity memberEntity;
+
     public static StudygroupEntity saveGroupEntity(StudygroupDTO studygroupDTO) {
         StudygroupEntity studygroupEntity = new StudygroupEntity();
         studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
