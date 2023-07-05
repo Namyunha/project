@@ -24,6 +24,7 @@ public class StudygroupDTO {
     private String partyCategory;
     private LocalDateTime partyCreatedTime;
     private LocalDateTime partyUpdatedTime;
+    private Long hostId;
 
     private List<MultipartFile> groupFile;
 
@@ -42,6 +43,7 @@ public class StudygroupDTO {
         studygroupDTO.setPartyCategory(studygroupEntity.getPartyCategory());
         studygroupDTO.setPartyCreatedTime(studygroupEntity.getCreatedAt());
         studygroupDTO.setPartyUpdatedTime(studygroupEntity.getUpdatedAt());
+        studygroupDTO.setHostId(studygroupEntity.getMemberEntity().getId());
         if (studygroupEntity.getFileAttached() == 1) {
             StudygroupFileEntity groupFile = studygroupEntity.getStudygroupFileEntityList().get(0);
             String originalFileName = groupFile.getOriginalFileName();

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private String resourcePath = "/upload/**"; // html 에서 접근할 경로
-    private String savePath = "file:///D:/Springboot_project_img";
+    private String savePath = "file:///D:/Springboot_project_img/";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

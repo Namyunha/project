@@ -48,7 +48,7 @@ public class StudygroupEntity extends BaseEntity {
     @JoinColumn(name = "host_id")
     private MemberEntity memberEntity;
 
-    public static StudygroupEntity saveGroupEntity(StudygroupDTO studygroupDTO) {
+    public static StudygroupEntity saveGroupEntity(StudygroupDTO studygroupDTO, MemberEntity memberEntity) {
         StudygroupEntity studygroupEntity = new StudygroupEntity();
         studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
         studygroupEntity.setPartyHost(studygroupDTO.getPartyHost());
@@ -58,10 +58,11 @@ public class StudygroupEntity extends BaseEntity {
         studygroupEntity.setPartyTimes(studygroupDTO.getPartyTimes());
         studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
         studygroupEntity.setFileAttached(0);
+        studygroupEntity.setMemberEntity(memberEntity);
         return studygroupEntity;
     }
 
-    public static StudygroupEntity saveGroupEntityWithFile(StudygroupDTO studygroupDTO) {
+    public static StudygroupEntity saveGroupEntityWithFile(StudygroupDTO studygroupDTO, MemberEntity memberEntity) {
         StudygroupEntity studygroupEntity = new StudygroupEntity();
         studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
         studygroupEntity.setPartyHost(studygroupDTO.getPartyHost());
@@ -71,6 +72,7 @@ public class StudygroupEntity extends BaseEntity {
         studygroupEntity.setPartyTimes(studygroupDTO.getPartyTimes());
         studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
         studygroupEntity.setFileAttached(1);
+        studygroupEntity.setMemberEntity(memberEntity);
         return studygroupEntity;
     }
 }
