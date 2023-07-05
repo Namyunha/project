@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -61,5 +62,12 @@ public class StudygroupService {
         return studygroupDTOList;
     }
 
-
+    @Transactional
+    public StudygroupDTO findById(Long id) {
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        StudygroupDTO studygroupDTO = StudygroupDTO.toDTO(studygroupEntity);
+        return studygroupDTO;
+    }
 }
+
+

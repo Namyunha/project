@@ -60,10 +60,20 @@ public class StudyGroupController {
         return new ResponseEntity<>(studygroupDTO.getPartyTimes(), HttpStatus.OK);
     }
 
-    @GetMapping("/detail")
-    public String detail() {
+    @Transactional
+    @GetMapping("/{id}")
+    public String detail(@PathVariable Long id, Model model, HttpSession session) {
+        StudygroupDTO studygroupDTO = studygroupService.findById(id);
+        String loginUser = (String) session.getAttribute("loginId");
+        if (loginUser == null) {
+            model.addAttribute("loginUser", "");
+            model.addAttribute("loginUserId", 0);
+        } else {
+            MemberDTO loginUserDTO = memberService.findByMemberId(loginUser);
+            model.addAttribute("loginUser", loginUserDTO.getMemberName());
+            model.addAttribute("loginUserId", loginUserDTO.getId());
+        }
+            model.addAttribute("group", studygroupDTO);
         return "/studyGroupPages/studyGroupDetail";
     }
-
-
 }

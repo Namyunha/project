@@ -34,6 +34,7 @@ public class StudygroupDTO {
 
     public static StudygroupDTO toDTO(StudygroupEntity studygroupEntity) {
         StudygroupDTO studygroupDTO = new StudygroupDTO();
+        studygroupDTO.setId(studygroupEntity.getId());
         studygroupDTO.setPartyPersonnel(studygroupEntity.getPartyPersonnel());
         studygroupDTO.setPartyHost(studygroupEntity.getPartyHost());
         studygroupDTO.setPartyDetail(studygroupEntity.getPartyDetail());

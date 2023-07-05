@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1) // 해당 인터셉터의 우선순위
                 .addPathPatterns("/**") // 인터셉터로 체크할 주소(모든주소)
                 .excludePathPatterns("/", "/member/save", "/member/login", "/member/login/axios", "/member/duCheck",
-                        "/studygroup/list", "/studygroup/detail", "/js/**", "/css/**", "/images/**", "/upload/**",
+                        "/studygroup/list", "/studygroup/detail", "/js/**", "/css/**", "/images/**", "/upload/**", "/studygroup/**",
                         "/*.ico", "/favicon/**"); // 인터셉터 검증을 하지 않을 주소
     }
 

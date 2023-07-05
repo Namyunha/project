@@ -15,6 +15,7 @@
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div th:each="group: ${groupList}" class="col">
+
                     <div th:unless="${group.storedFileName == null}" class="card shadow-sm">
                         <img th:src="@{|/upload/${group.storedFileName}}" class="bd-placeholder-img card-img-top"
                              width="100%" height="330"
@@ -25,27 +26,8 @@
                             <p class="card-text" th:text="${group.partyDetail}"></p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                            th:if="${group.hostId == loginUserId}">Edit
-                                    </button>
-                                </div>
-                                <small class="text-body-secondary">9 mins</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div th:if="${group.storedFileName == null}" class="card shadow-sm">
-                        <img src="/images/NoImage.jpg" class="bd-placeholder-img card-img-top"
-                             width="100%" height="330"
-                             preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <rect width="100%" height="100%" fill="#55595c"></rect>
-                        <div class="card-body bg-dark text-white">
-                            <h2 th:text="${group.partyTitle}"></h2>
-                            <p class="card-text" th:text="${group.partyDetail}"></p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button onclick="viewBtn()" type="button" class="btn btn-sm btn-outline-secondary">
+                                    <button th:onclick="'viewBtn(\'' + ${group.id} + '\')'" type="button"
+                                            class="btn btn-sm btn-outline-secondary">
                                         View
                                     </button>
                                     <button type="button"
@@ -57,16 +39,42 @@
                             </div>
                         </div>
                     </div>
+
+                    <div th:if="${group.storedFileName == null}" class="card shadow-sm">
+                        <img src="/images/NoImage.jpg" class="bd-placeholder-img card-img-top"
+                             width="100%" height="330"
+                             preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                        <div class="card-body bg-dark text-white">
+                            <h2 th:text="${group.partyTitle}"></h2>
+                            <p class="card-text" th:text="${group.partyDetail}"></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button th:onclick="'viewBtn(\'' + ${group.id} + '\')'" type="button"
+                                            class="btn btn-sm btn-outline-secondary">
+                                        View
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            th:if="${group.hostId == loginUserId}">Edit
+                                    </button>
+                                </div>
+                                <small class="text-body-secondary">9 mins</small>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>
 
-<script>
-    const viewBtn = () => {
-        location.href = "/studygroup/detail";
-    }
-</script>
+    <script>
+        const viewBtn = (id) => {
+            location.href = "/studygroup/" + id;
+        }
+    </script>
 </th:block>
 </body>
 </html>

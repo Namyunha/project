@@ -44,6 +44,10 @@ public class StudygroupEntity extends BaseEntity {
     @OneToMany(mappedBy = "StudygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StudygroupFileEntity> studygroupFileEntityList;
 
+//    신청서 참조
+    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ApplyEntity> applyEntityList;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
     private MemberEntity memberEntity;

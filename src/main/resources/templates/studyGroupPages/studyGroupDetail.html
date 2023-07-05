@@ -8,18 +8,128 @@
 <body>
 <th:block th:replace="/component/header::header"></th:block>
 <div class="row featurette" style="margin: 5%">
-    <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-body-secondary">See for yourself.</span></h2>
-        <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+    <div class="col-md-7 order-md-2" style="padding-top: 7%">
+        <h1 class="featurette-heading fw-normal lh-1" th:text="${group.getPartyTitle()}"></h1><br>
+        <div>
+            <strong>모임정원: </strong>
+            <span class="lead" th:text="${group.getPartyPersonnel()}"></span>
+        </div>
+        <div>
+            <strong>모임종류: </strong>
+            <span class="lead" th:text="${group.getPartyCategory()}"></span>
+        </div>
+        <div>
+            <strong>모임시간: </strong>
+            <span class="lead" th:text="${group.getPartyTimes()}"></span>
+        </div>
+
+        <div>
+            <strong>모임설명: </strong>
+            <span class="lead" th:text="${group.getPartyDetail()}"></span>
+        </div>
+
+        <div>
+            <strong>모임방법: </strong>
+            <span class="lead" th:text="${group.getPartyMethod()}"></span>
+        </div>
+
+        <div style="margin-top: 5%">
+            <button th:if="${loginUserId == group.getHostId()}" type="button" class="btn btn-primary">모임수정
+            </button>
+            <button th:unless="${loginUserId == group.getHostId()}" type="button" class="btn btn-primary"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
+            </button>
+            <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="applyForm">
+                                <div class="mb-3">
+                                    <input id="memberName" type="text" style="display: none" name="memberName"
+                                           th:value="${loginUser}">
+                                    <label for="applyParty" class="col-form-label">신청모임</label>
+                                    <input id="applyParty" type="text" class="form-control"
+                                           name="applyParty"
+                                           th:value="${group.getPartyTitle()}" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="applyContents" class="col-form-label">가입인사</label>
+                                    <textarea id="applyContents" class="form-control"
+                                              name="applyContents"></textarea>
+                                </div>
+                                <input id="memberId" type="text" style="display:none;" name="memberId"
+                                       th:value="${loginUserId}">
+                                <input id="partyId" type="text" style="display:none;" name="partyId"
+                                       th:value="${group.getId()}">
+                                <input id="hostId" type="text" style="display:none;" name="hostId"
+                                       th:value="${group.getHostId()}">
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button onclick="applySave()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                Send message
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-5 order-md-1">
-        <img src="/images/NoImage.jpg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
+
+    <div th:if="${group.storedFileName == null}" class="col-md-5 order-md-1">
+        <img src="/images/NoImage.jpg"
+             class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+             height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
     </div>
-</div>
-<div style="margin: 6%">
-    <button type="button" class="btn btn-primary">모임신청</button>
-    <button type="button" class="btn btn-light">뒤로가기</button>
+    <div th:unless="${group.storedFileName == null}" class="col-md-5 order-md-1">
+        <img th:src="@{|/upload/${group.storedFileName}}"
+             class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+             height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
+        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
+    </div>
 </div>
 <th:block th:replace="/component/footer::footer"></th:block>
+<script>
+    const applySave = () => {
+        const applyForm = document.querySelector("#applyForm");
+        const memberName = document.querySelector("#memberName");
+        const applyParty = document.querySelector("#applyParty");
+        const applyContents = document.querySelector("#applyContents");
+        const memberId = document.querySelector("#memberId");
+        const partyId = document.querySelector("#partyId");
+        const hostId = document.querySelector("#hostId");
+        axios({
+            url: "/apply/save",
+            method: "post",
+            data: {
+                memberName: memberName.value,
+                applyParty: applyParty.value,
+                applyContents: applyContents.value,
+                memberId: memberId.value,
+                partyId: partyId.value,
+                hostId: hostId.value
+            }
+        }).then(res => {
+            location.href = "/studygroup/" + partyId.value;
+        }).catch(err => {
+            alert("모임 신청에 실패하였습니다.");
+        })
+    }
+
+</script>
 </body>
 </html>
