@@ -4,27 +4,74 @@
     <th:block th:replace="/component/config::config"></th:block>
 </head>
 <body>
-<th:block th:fragment="nav">
-    <nav class="py-2 bg-body-tertiary border-bottom">
-        <div class="container d-flex flex-wrap" >
-            <ul class="nav me-auto" style="color: white">
-                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2 active"
-                                        aria-current="page">홈페이지</a></li>
-                <li class="nav-item"><a href="/board" class="nav-link link-body-emphasis px-2">게시판</a></li>
-                <li class="nav-item"><a href="/studygroup/list" class="nav-link link-body-emphasis px-2">전체모임</a></li>
-                <li class="nav-item"><a href="/studygroup/location" class="nav-link link-body-emphasis px-2">모임장소</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">공지사항</a></li>
-            </ul>
-            <ul th:if="${session.loginId == null}" class="nav">
-                <li class="nav-item"><a href="/member/login" class="nav-link link-body-emphasis px-2">로그인</a></li>
-                <li class="nav-item"><a href="/member/save" class="nav-link link-body-emphasis px-2">회원가입</a></li>
-            </ul>
-            <ul th:unless="${session.loginId == null}" class="nav">
-                <li class="nav-item"><a href="/member/logout" class="nav-link link-body-emphasis px-2">로그아웃</a></li>
-                <li class="nav-item"><a href="/member/mypage" class="nav-link link-body-emphasis px-2">마이페이지</a></li>
-            </ul>
+<!--<th:block th:fragment="nav">-->
+<!--    <nav class="py-2 bg-body-tertiary border-bottom">-->
+<!--        <div class="container d-flex flex-wrap" >-->
+<!--            <ul class="nav me-auto" style="color: white">-->
+<!--                <li class="nav-item"><a href="/" class="nav-link link-body-emphasis px-2 active"-->
+<!--                                        aria-current="page">홈페이지</a></li>-->
+<!--                <li class="nav-item"><a href="/board" class="nav-link link-body-emphasis px-2">게시판</a></li>-->
+<!--                <li class="nav-item"><a href="/studygroup/list" class="nav-link link-body-emphasis px-2">전체모임</a></li>-->
+<!--                <li class="nav-item"><a href="/studygroup/location" class="nav-link link-body-emphasis px-2">모임장소</a></li>-->
+<!--                <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">공지사항</a></li>-->
+<!--            </ul>-->
+<!--            <ul th:if="${session.loginId == null}" class="nav">-->
+<!--                <li class="nav-item"><a href="/member/login" class="nav-link link-body-emphasis px-2">로그인</a></li>-->
+<!--                <li class="nav-item"><a href="/member/save" class="nav-link link-body-emphasis px-2">회원가입</a></li>-->
+<!--            </ul>-->
+<!--            <ul th:unless="${session.loginId == null}" class="nav">-->
+<!--                <li class="nav-item"><a href="/member/logout" class="nav-link link-body-emphasis px-2">로그아웃</a></li>-->
+<!--                <li class="nav-item"><a href="/member/mypage" class="nav-link link-body-emphasis px-2">마이페이지</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--</th:block>-->
+<nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand d-md-none" href="#">
+            <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
+            Aperture
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="#offcanvas" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="#offcanvasLabel">Aperture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul th:if="${session.loginId == null}" class="navbar-nav flex-grow-1 justify-content-between">
+                    <li class="nav-item"><a class="nav-link" href="#">
+                        <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
+                    </a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">홈페이지</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/board">게시판</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/studygroup/list">전체모임</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/studygroup/location">모임장소</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/member/save">회원가입</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">
+                        <svg class="bi" width="24" height="24"><use xlink:href="#cart"></use></svg>
+                    </a></li>
+                </ul>
+                <ul th:unless="${session.loginId == null}" class="navbar-nav flex-grow-1 justify-content-between">
+                    <li class="nav-item"><a class="nav-link" href="#">
+                        <svg class="bi" width="24" height="24"><use xlink:href="#aperture"></use></svg>
+                    </a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">홈페이지</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/board">게시판</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/studygroup/list">전체모임</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/studygroup/location">모임장소</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/member/logout">로그아웃</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">
+                        <svg class="bi" width="24" height="24"><use xlink:href="#cart"></use></svg>
+                    </a></li>
+                </ul>
+            </div>
         </div>
-    </nav>
-</th:block>
+    </div>
+</nav>
 </body>
 </html>

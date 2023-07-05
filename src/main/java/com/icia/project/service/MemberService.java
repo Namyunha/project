@@ -100,6 +100,19 @@ public class MemberService {
         return memberRepository.save(memberEntity).getId();
     }
 
+
+    public Long findUserId(String loginId) {
+        MemberEntity memberEntity = memberRepository
+                .findByMemberId(loginId).orElseThrow(() -> new NoSuchElementException());
+        if (memberEntity == null) {
+            int intValue = 0;
+            long longValue = intValue;
+            return longValue;
+        } else {
+            MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
+            return memberDTO.getId();
+        }
+    }
 }
 
 

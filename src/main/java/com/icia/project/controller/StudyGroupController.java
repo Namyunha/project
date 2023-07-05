@@ -25,9 +25,18 @@ public class StudyGroupController {
 
     @Transactional
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(Model model, HttpSession session) {
         List<StudygroupDTO> studygroupDTOList = studygroupService.findAll();
+        String loginUser = (String) session.getAttribute("loginId");
         System.out.println("studygroupDTOList = " + studygroupDTOList);
+        if (loginUser == null) {
+            model.addAttribute("loginUserId", 0);
+            System.out.println("0");
+        } else {
+            MemberDTO memberDTO = memberService.findByMemberId(loginUser);
+            System.out.println("memberDTO = " + memberDTO);
+            model.addAttribute("loginUserId", memberDTO.getId());
+        }
         model.addAttribute("groupList", studygroupDTOList);
         return "/studyGroupPages/studyGroupList";
     }
@@ -50,4 +59,11 @@ public class StudyGroupController {
     public ResponseEntity axiosSave(@RequestBody StudygroupDTO studygroupDTO) {
         return new ResponseEntity<>(studygroupDTO.getPartyTimes(), HttpStatus.OK);
     }
+
+    @GetMapping("/detail")
+    public String detail() {
+        return "/studyGroupPages/studyGroupDetail";
+    }
+
+
 }
