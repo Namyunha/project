@@ -8,8 +8,9 @@
 <th:block th:replace="/component/header::header"></th:block>
 <body>
 
-<div id="container">
-    <div id="selectArea" class="flex-shrink-0 p-3" style="width: 280px;">
+<div id="container" style="height: 100vh">
+    <div id="selectArea" class="flex-shrink-0 p-3"
+         style="width: 280px; height: 100%;">
         <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
             <svg class="bi pe-none me-2" width="30" height="24">
                 <use xlink:href="#bootstrap"></use>
@@ -38,6 +39,15 @@
                     </ul>
                 </div>
             </li>
+            <li id="manageGroup" class="mb-1">
+                <button id="manageGroup_title"
+                        class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                        data-bs-toggle="collapse" data-bs-target="#dashboard" aria-expanded="false">
+                    모임 관리
+                </button>
+            </li>
+
+
             <li id="manageLocation" class="mb-1">
                 <button id="manageLocation_title"
                         class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -51,6 +61,7 @@
                     </ul>
                 </div>
             </li>
+
             <li id="manageCounsel" class="mb-1">
                 <button id="manageCounsel_title"
                         class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -69,42 +80,72 @@
     </div>
 
     <div id="viewArea">
-        <table>
-            <tbody>
-            <tr>
-                <th>회원번호</th>
-                <td id="memberId" th:text="${loginUser.id}"></td>
-            </tr>
-            <tr>
-                <th>아이디</th>
-                <td th:text="${loginUser.memberId}"></td>
-            </tr>
-            <tr>
-                <th>비밀번호</th>
-                <td th:text="${loginUser.memberPass}"></td>
-            </tr>
-            <tr>
-                <th>이름</th>
-                <td th:text="${loginUser.memberName}"></td>
-            </tr>
-            <tr>
-                <th>생년월일</th>
-                <td th:text="${loginUser.memberPrivate}"></td>
-            </tr>
-            <tr>
-                <th>성별</th>
-                <td th:text="${loginUser.memberGender}"></td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td th:text="${loginUser.memberEmail}"></td>
-            </tr>
-            <tr>
-                <th>휴대번호</th>
-                <td th:text="${loginUser.memberPhone}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <!--        <table>-->
+        <!--            <tbody>-->
+        <!--            <tr>-->
+        <!--                <th>회원번호</th>-->
+        <!--                <td id="memberId" th:text="${loginUser.id}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>아이디</th>-->
+        <!--                <td th:text="${loginUser.memberId}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>비밀번호</th>-->
+        <!--                <td th:text="${loginUser.memberPass}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>이름</th>-->
+        <!--                <td th:text="${loginUser.memberName}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>생년월일</th>-->
+        <!--                <td th:text="${loginUser.memberPrivate}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>성별</th>-->
+        <!--                <td th:text="${loginUser.memberGender}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>이메일</th>-->
+        <!--                <td th:text="${loginUser.memberEmail}"></td>-->
+        <!--            </tr>-->
+        <!--            <tr>-->
+        <!--                <th>휴대번호</th>-->
+        <!--                <td th:text="${loginUser.memberPhone}"></td>-->
+        <!--            </tr>-->
+        <!--            </tbody>-->
+        <!--        </table>-->
+        <ul class="nav nav-tabs">
+            <li class="nav-item  ">
+                <button class="nav-link active aria-current=page bg-dark text-white" href="#">등록한 모임</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link text-black" aria-current="page" href="#">신청한 모임</button>
+            </li>
+        </ul>
+        <div>
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>번호</th>
+                        <th>모임이름</th>
+                        <th>모임종류</th>
+                        <th>모임시간</th>
+                        <th>개설일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>테스트1</td>
+                        <td>테스트종류</td>
+                        <td>테스트시간</td>
+                        <td>테스트일</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="/js/mypage.js"></script>
 </div>

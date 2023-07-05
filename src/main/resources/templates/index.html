@@ -7,7 +7,8 @@
 <body>
 
 <th:block th:replace="/component/header::header"></th:block>
-<h2 th:unless="${loginId == null}" th:text="${loginId + ' 님 환영합니다'}"></h2> <!-- 수정: Thymeleaf 표현식으로 텍스트 값 추가 -->
+<h2 th:unless="${loginId == null}" th:text="${loginId + ' 님 환영합니다'}"></h2>
 <th:block th:replace="/component/footer::footer"></th:block>
+
 </body>
 </html>
