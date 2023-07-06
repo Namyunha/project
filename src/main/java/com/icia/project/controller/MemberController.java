@@ -87,19 +87,19 @@ public class MemberController {
         return "/memberPages/memberSave";
     }
 
-//    @PostMapping("/save")
+    //    @PostMapping("/save")
 //    public ResponseEntity saveParam(@RequestBody MemberDTO memberDTO) throws IOException {
 //        System.out.println("Controller: memberDTO = " + memberDTO);
 //        memberService.save(memberDTO);
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
+
     @PostMapping("/save")
     public String saveParam(@RequestBody MemberDTO memberDTO) throws IOException {
         System.out.println("Controller: memberDTO = " + memberDTO);
         memberService.save(memberDTO);
         return "redirect:login/";
     }
-
 
     @GetMapping("/list")
     public String memberList(Model model) {
@@ -118,39 +118,44 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
     @Transactional
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
         String loginId = (String) session.getAttribute("loginId");
         MemberDTO loginUser = memberService.findByMemberId(loginId);
         model.addAttribute("loginUser", loginUser);
-
-        List<StudygroupDTO> studygroupDTOList = studygroupService.findAllById(loginUser.getId());
-        List<StudygroupDTO> applyStudyGroupList = applyService.findAllById(loginUser.getId());
-
-        model.addAttribute("applyStudyGroupList", applyStudyGroupList);
-        model.addAttribute("groupList", studygroupDTOList);
+        ApplyDTO applyDTO = applyService.findByUserId(loginUser.getId());
+        model.addAttribute("applyDTO", applyDTO);
         return "/memberPages/memberMain";
     }
 
+    //  등록모임리스트
     @GetMapping("/groupList/{id}")
     public ResponseEntity groupList(@PathVariable Long id) {
         List<StudygroupDTO> studygroupDTOList = studygroupService.findAllById(id);
         return new ResponseEntity<>(studygroupDTOList, HttpStatus.OK);
     }
 
+    //  신청모임리스트
     @Transactional
     @GetMapping("/applyGroupList/{id}")
-    public ResponseEntity applyGroupList(@PathVariable Long id) {
+    public ResponseEntity applyGroupList(@PathVariable Long id, Model model) {
         List<StudygroupDTO> applyStudyGroupList = applyService.findAllById(id);
         return new ResponseEntity<>(applyStudyGroupList, HttpStatus.OK);
+    }
+
+    //  신청내역리스트
+    @GetMapping("/applyHistory/{id}")
+    public ResponseEntity historyList(@PathVariable Long id) {
+        System.out.println("id = " + id);
+        List<ApplyDTO> applyDTOList = applyService.findApplyById(id);
+        System.out.println("컨트롤러에있는 applyDTOList = " + applyDTOList);
+        return new ResponseEntity<>(applyDTOList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id) {
         MemberDTO memberDTO = memberService.findById(id);
-        System.out.println("Controller-detail: memberDTO = " + memberDTO);
         return new ResponseEntity<>(memberDTO, HttpStatus.OK);
 //        myPage에서 업데이트 창이랑 정보창 띄우기
     }

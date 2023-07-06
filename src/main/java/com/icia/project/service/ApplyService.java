@@ -35,11 +35,6 @@ public class ApplyService {
     public List<StudygroupDTO> findAllById(Long id) {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
         List<ApplyEntity> applyEntityList = applyRepository.findAllByMemberEntity(memberEntity);
-        List<ApplyDTO> applyDTOList = new ArrayList<>();
-        for (ApplyEntity applyEntity : applyEntityList) {
-            ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
-            applyDTOList.add(applyDTO);
-        }
         List<StudygroupDTO> studygroupDTOList = new ArrayList<>();
         for (ApplyEntity applyEntity : applyEntityList) {
             StudygroupEntity studygroupEntity = studygroupRepository.findById(applyEntity.getStudygroupEntity().getId()).orElseThrow(() -> new NoSuchElementException());
@@ -48,4 +43,28 @@ public class ApplyService {
         }
         return studygroupDTOList;
     }
+
+    public ApplyDTO findByUserId(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        ApplyEntity applyEntity = applyRepository.findByMemberEntity(memberEntity);
+        ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
+        return applyDTO;
+    }
+
+    public List<ApplyDTO> findApplyById(Long id) {
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        List<ApplyDTO> applyDTOList = new ArrayList<>();
+        List<ApplyEntity> applyEntityList = applyRepository.findAllByStudygroupEntity(studygroupEntity);
+        if (applyEntityList.isEmpty()) {
+            return applyDTOList;
+        } else {
+            for (ApplyEntity applyEntity : applyEntityList) {
+                ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
+                applyDTOList.add(applyDTO);
+            }
+            return applyDTOList;
+        }
+
+    }
+
 }
