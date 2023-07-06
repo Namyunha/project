@@ -25,6 +25,9 @@ public class ApplyEntity {
     @Column(nullable = false, length = 10)
     private String applyParty;
 
+    @Column
+    private String isAuthorized;
+
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private MemberEntity memberEntity;

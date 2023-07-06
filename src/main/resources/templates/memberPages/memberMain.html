@@ -136,12 +136,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>테스트1</td>
-                        <td>테스트종류</td>
-                        <td>테스트시간</td>
-                        <td>테스트일</td>
+                    <tr th:each="group: ${groupList}">
+                        <td th:text="${group.id}"></td>
+                        <td th:text="${group.partyTitle}"></td>
+                        <td th:text="${group.partyCategory}"></td>
+                        <td th:text="${group.partyTimes}"></td>
+                        <td th:text="${group.partyCreatedTime}"></td>
                     </tr>
                 </tbody>
             </table>

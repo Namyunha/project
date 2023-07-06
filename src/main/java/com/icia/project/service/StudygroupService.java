@@ -68,6 +68,19 @@ public class StudygroupService {
         StudygroupDTO studygroupDTO = StudygroupDTO.toDTO(studygroupEntity);
         return studygroupDTO;
     }
+
+    @Transactional
+    public List<StudygroupDTO> findAllById(Long id) {
+        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        List<StudygroupEntity> studygroupEntityList = studygroupRepository.findAllByMemberEntity(memberEntity);
+        List<StudygroupDTO> studygroupDTOList = new ArrayList<>();
+        for (StudygroupEntity studygroupEntity : studygroupEntityList) {
+            StudygroupDTO studygroupDTO = StudygroupDTO.toDTO(studygroupEntity);
+            studygroupDTOList.add(studygroupDTO);
+        }
+        System.out.println("서비스에 있는 studygroupDTOList = " + studygroupDTOList);
+        return studygroupDTOList;
+    }
 }
 
 

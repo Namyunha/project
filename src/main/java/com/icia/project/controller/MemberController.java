@@ -1,12 +1,17 @@
 package com.icia.project.controller;
 
 
+import com.icia.project.dto.ApplyDTO;
 import com.icia.project.dto.MemberDTO;
+import com.icia.project.dto.StudygroupDTO;
+import com.icia.project.service.ApplyService;
 import com.icia.project.service.MemberService;
+import com.icia.project.service.StudygroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +24,8 @@ import java.util.List;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+    private final ApplyService applyService;
+    private final StudygroupService studygroupService;
 
     @GetMapping("/searchId")
     public ResponseEntity searchId() {
@@ -112,10 +119,16 @@ public class MemberController {
         }
     }
 
+    @Transactional
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
         String loginId = (String) session.getAttribute("loginId");
         MemberDTO loginUser = memberService.findByMemberId(loginId);
+        List<StudygroupDTO> studygroupDTOList = studygroupService.findAllById(loginUser.getId());
+        List<StudygroupDTO> applyStudyGroupList = applyService.findAllById(loginUser.getId());
+        System.out.println("마이페이지에 있는 applyStudyGroupList = " + applyStudyGroupList);
+        model.addAttribute("applyStudyGroupList", applyStudyGroupList);
+        model.addAttribute("groupList", studygroupDTOList);
         model.addAttribute("loginUser", loginUser);
         return "/memberPages/memberMain";
     }
