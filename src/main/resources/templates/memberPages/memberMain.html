@@ -203,13 +203,15 @@
             alert("모임 리스트를 가져오는 데 실패했습니다.");
         });
     };
-
+    // 신청자 내역
     const partyHistory = (id) => {
         const historyArea = document.querySelector("#historyArea");
+        const applyUser = [[${applyUserDTO}]];
         axios({
             url: "/member/applyHistory/" + id,
             method: "get",
         }).then(res => {
+            console.log(applyUser);
             const applyList = res.data;
             applyList.forEach(apply => {
                 let result = "            <table class=\"table table-hover\">\n" +
@@ -219,6 +221,7 @@
                     "                    <th>신청자</th>\n" +
                     "                    <th>가입인사</th>\n" +
                     "                    <th>신청상황</th>\n" +
+                    "                    <th>신청자정보</th>\n" +
                     "                </tr>\n" +
                     "                </thead>\n" +
                     "                <tbody>";
@@ -228,6 +231,25 @@
                         "<td>" + apply.memberName + "</td>" +
                         "<td>" + apply.applyContents + "</td>" +
                         "<td>" + apply.isAuthorized + "</td>" +
+                        "<td> <button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\">조회</button> </td>" +
+                        "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
+                        "  <div class=\"modal-dialog\">\n" +
+                        "    <div class=\"modal-content\">\n" +
+                        "      <div class=\"modal-header\">\n" +
+                        "        <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">Modal title</h1>\n" +
+                        "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
+                        "      </div>\n" +
+                        "      <div class=\"modal-body\">\n" +
+                        // "        " + applyUser.id+ "\n" +
+                        "      </div>\n" +
+                        "      <div class=\"modal-footer\">\n" +
+                        "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
+                        "        <button type=\"button\" class=\"btn btn-primary\">승인</button>\n" +
+                        "        <button type=\"button\" class=\"btn btn-danger\">거절</button>\n" +
+                        "      </div>\n" +
+                        "    </div>\n" +
+                        "  </div>\n" +
+                        "</div>"+
                         "</tr>";
                 });
                 result += "                </tbody>\n" +

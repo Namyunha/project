@@ -1,6 +1,7 @@
 package com.icia.project.controller;
 
 
+import com.icia.project.Entity.MemberEntity;
 import com.icia.project.dto.ApplyDTO;
 import com.icia.project.dto.MemberDTO;
 import com.icia.project.dto.StudygroupDTO;
@@ -125,7 +126,16 @@ public class MemberController {
         MemberDTO loginUser = memberService.findByMemberId(loginId);
         model.addAttribute("loginUser", loginUser);
         ApplyDTO applyDTO = applyService.findByUserId(loginUser.getId());
+        System.out.println("컨트롤러에있는 applyDTO = " + applyDTO);
+        if(applyDTO == null){
+        model.addAttribute("applyDTO", "");
+        } else {
+        System.out.println("applyDTO = " + applyDTO.getMemberId());
+        MemberDTO applyUserDTO = memberService.findById(applyDTO.getMemberId());
+        System.out.println("마이페이지 applyUserDTO = " + applyUserDTO);
         model.addAttribute("applyDTO", applyDTO);
+        model.addAttribute("applyUserDTO", applyUserDTO);
+        }
         return "/memberPages/memberMain";
     }
 

@@ -35,7 +35,7 @@ public class MemberService {
             List<MultipartFile> memberFile = memberDTO.getMemberProfile();
             String originalFileName = memberFile.get(0).getOriginalFilename();
             String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
-            String savePath = "D:\\Springboot_project_img\\" + storedFileName;
+            String savePath = "C:\\Springboot_project_img\\" + storedFileName;
             memberFile.get(0).transferTo(new File(savePath));
             MemberFileEntity memberFileEntity = MemberFileEntity.saveFileEntity(originalFileName, storedFileName, saveFile);
             memberFileRepository.save(memberFileEntity);
