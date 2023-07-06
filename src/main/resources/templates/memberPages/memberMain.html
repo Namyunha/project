@@ -18,6 +18,7 @@
             <span class="fs-5 fw-semibold">마이페이지</span>
         </a>
         <ul class="list-unstyled ps-0">
+
             <li id="manageProfile" class="mb-1">
                 <button id="manageProfile_title"
                         class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -40,14 +41,12 @@
                 </div>
             </li>
             <li id="manageGroup" class="mb-1">
-                <button id="manageGroup_title"
+                <button onclick="manageGroup()" id="manageGroup_title"
                         class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                         data-bs-toggle="collapse" data-bs-target="#dashboard" aria-expanded="false">
                     모임 관리
                 </button>
             </li>
-
-
             <li id="manageLocation" class="mb-1">
                 <button id="manageLocation_title"
                         class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
@@ -78,75 +77,319 @@
             </li>
         </ul>
     </div>
-
     <div id="viewArea">
-        <!--        <table>-->
-        <!--            <tbody>-->
-        <!--            <tr>-->
-        <!--                <th>회원번호</th>-->
-        <!--                <td id="memberId" th:text="${loginUser.id}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>아이디</th>-->
-        <!--                <td th:text="${loginUser.memberId}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>비밀번호</th>-->
-        <!--                <td th:text="${loginUser.memberPass}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>이름</th>-->
-        <!--                <td th:text="${loginUser.memberName}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>생년월일</th>-->
-        <!--                <td th:text="${loginUser.memberPrivate}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>성별</th>-->
-        <!--                <td th:text="${loginUser.memberGender}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>이메일</th>-->
-        <!--                <td th:text="${loginUser.memberEmail}"></td>-->
-        <!--            </tr>-->
-        <!--            <tr>-->
-        <!--                <th>휴대번호</th>-->
-        <!--                <td th:text="${loginUser.memberPhone}"></td>-->
-        <!--            </tr>-->
-        <!--            </tbody>-->
-        <!--        </table>-->
-        <ul class="nav nav-tabs">
-            <li class="nav-item  ">
-                <button class="nav-link active aria-current=page bg-dark text-white" href="#">등록한 모임</button>
-            </li>
-            <li class="nav-item">
-                <button class="nav-link text-black" aria-current="page" href="#">신청한 모임</button>
-            </li>
-        </ul>
-        <div>
-            <table class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>번호</th>
-                        <th>모임이름</th>
-                        <th>모임종류</th>
-                        <th>모임시간</th>
-                        <th>개설일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="group: ${groupList}">
-                        <td th:text="${group.id}"></td>
-                        <td th:text="${group.partyTitle}"></td>
-                        <td th:text="${group.partyCategory}"></td>
-                        <td th:text="${group.partyTimes}"></td>
-                        <td th:text="${group.partyCreatedTime}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <table>
+            <tbody>
+            <tr>
+                <th>회원번호</th>
+                <td id="memberId" th:text="${loginUser.id}"></td>
+            </tr>
+            <tr>
+                <th>아이디</th>
+                <td th:text="${loginUser.memberId}"></td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td th:text="${loginUser.memberPass}"></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td th:text="${loginUser.memberName}"></td>
+            </tr>
+            <tr>
+                <th>생년월일</th>
+                <td th:text="${loginUser.memberPrivate}"></td>
+            </tr>
+            <tr>
+                <th>성별</th>
+                <td th:text="${loginUser.memberGender}"></td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td th:text="${loginUser.memberEmail}"></td>
+            </tr>
+            <tr>
+                <th>휴대번호</th>
+                <td th:text="${loginUser.memberPhone}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!--        <ul class="nav nav-tabs">-->
+        <!--            <li class="nav-item  ">-->
+        <!--                <button class="nav-link active aria-current=page bg-dark text-white">등록한 모임</button>-->
+        <!--            </li>-->
+        <!--            <li class="nav-item">-->
+        <!--                <button class="nav-link text-black" aria-current="page">신청한 모임</button>-->
+        <!--            </li>-->
+        <!--        </ul>-->
+        <!--        <div>-->
+        <!--            <table class="table table-hover">-->
+        <!--                <thead class="table-dark">-->
+        <!--                <tr>-->
+        <!--                    <th>번호</th>-->
+        <!--                    <th>모임이름</th>-->
+        <!--                    <th>모임종류</th>-->
+        <!--                    <th>모임시간</th>-->
+        <!--                    <th>개설일</th>-->
+        <!--                </tr>-->
+        <!--                </thead>-->
+        <!--                <tbody>-->
+        <!--                <tr th:each="group: ${groupList}">-->
+        <!--                    <td th:text="${group.id}"></td>-->
+        <!--                    <td th:text="${group.partyTitle}"></td>-->
+        <!--                    <td th:text="${group.partyCategory}"></td>-->
+        <!--                    <td th:text="${group.partyTimes}"></td>-->
+        <!--                    <td th:text="${group.partyCreatedTime}"></td>-->
+        <!--                </tr>-->
+        <!--                </tbody>-->
+        <!--            </table>-->
+        <!--        </div>-->
     </div>
-    <script src="/js/mypage.js"></script>
+    <script th:inline="javascript">
+        const manageGroup = () => {
+            const viewArea = document.querySelector("#viewArea");
+            const applyGroup = document.querySelector(".applyGroup");
+            const saveGroup = document.querySelector(".saveGroup");
+            const id = [[${loginUser.id}]];
+            console.log(id);
+            axios({
+                url: "/member/groupList/" + id,  // 서버에서 JSON 데이터를 가져올 엔드포인트 URL로 변경해야 합니다.
+                method: "get",
+                data: {
+                    id: id
+                }
+            }).then(res => {
+                const groupList = res.data; // 서버에서 받아온 데이터를 groupList 변수에 저장
+                let result = "<ul class=\"nav nav-tabs\">\n" +
+                    "            <li class=\"nav-item  \">\n" +
+                    "                <button class=\"nav-link active aria-current=page bg-dark text-white saveGroup\">등록한 모임</button>\n" +
+                    "            </li>\n" +
+                    "            <li class=\"nav-item\">\n" +
+                    "                <button class=\"nav-link text-black applyGroup\" onclick='manageApplyGroup()' aria-current=\"page\">신청한 모임</button>\n" +
+                    "            </li>\n" +
+                    "        </ul>\n" +
+                    "        <div>\n" +
+                    "            <table class=\"table table-hover\">\n" +
+                    "                <thead class=\"table-dark\">\n" +
+                    "                <tr>\n" +
+                    "                    <th>번호</th>\n" +
+                    "                    <th>모임이름</th>\n" +
+                    "                    <th>모임종류</th>\n" +
+                    "                    <th>모임시간</th>\n" +
+                    "                    <th>개설일</th>\n" +
+                    "                </tr>\n" +
+                    "                </thead>\n" +
+                    "                <tbody>";
+
+                groupList.forEach(group => {
+                    result += "<tr>" +
+                        "<td>" + group.id + "</td>" +
+                        "<td>" + group.partyTitle + "</td>" +
+                        "<td>" + group.partyCategory + "</td>" +
+                        "<td>" + group.partyTimes + "</td>" +
+                        "<td>" + group.partyCreatedTime + "</td>" +
+                        "</tr>";
+                });
+
+                result += "                </tbody>\n" +
+                    "            </table>\n" +
+                    "        </div>";
+                viewArea.innerHTML = result;
+                applyGroup.classList.remove(bg-dark);
+                saveGroup.classList.add(bg-dark);
+            }).catch(err => {
+                alert("모임 리스트를 가져오는 데 실패했습니다.");
+            });
+        };
+        const manageApplyGroup = () => {
+            const viewArea = document.querySelector("#viewArea");
+            const id = [[${loginUser.id}]];
+            const applyGroup = document.querySelector(".applyGroup");
+            const saveGroup = document.querySelector(".saveGroup");
+            console.log(id);
+            axios({
+                url: "/member/applyGroupList/" + id,  // 서버에서 JSON 데이터를 가져올 엔드포인트 URL로 변경해야 합니다.
+                method: "get",
+                data: {
+                    id: id
+                }
+            }).then(res => {
+                const groupList = res.data; // 서버에서 받아온 데이터를 groupList 변수에 저장
+                let result = "<ul class=\"nav nav-tabs\">\n" +
+                    "            <li class=\"nav-item  \">\n" +
+                    "                <button class=\"nav-link active aria-current=page text-white saveGroup\" onclick='manageGroup()'>등록한 모임</button>\n" +
+                    "            </li>\n" +
+                    "            <li class=\"nav-item\">\n" +
+                    "                <button class=\"nav-link text-black applyGroup\" onclick='manageApplyGroup()' aria-current=\"page\">신청한 모임</button>\n" +
+                    "            </li>\n" +
+                    "        </ul>\n" +
+                    "        <div>\n" +
+                    "            <table class=\"table table-hover\">\n" +
+                    "                <thead class=\"table-dark\">\n" +
+                    "                <tr>\n" +
+                    "                    <th>번호</th>\n" +
+                    "                    <th>모임이름</th>\n" +
+                    "                    <th>모임종류</th>\n" +
+                    "                    <th>모임시간</th>\n" +
+                    "                    <th>개설일</th>\n" +
+                    "                </tr>\n" +
+                    "                </thead>\n" +
+                    "                <tbody>";
+
+                groupList.forEach(group => {
+                    result += "<tr>" +
+                        "<td>" + group.id + "</td>" +
+                        "<td>" + group.partyTitle + "</td>" +
+                        "<td>" + group.partyCategory + "</td>" +
+                        "<td>" + group.partyTimes + "</td>" +
+                        "<td>" + group.partyCreatedTime + "</td>" +
+                        "</tr>";
+                });
+
+                result += "                </tbody>\n" +
+                    "            </table>\n" +
+                    "        </div>";
+                viewArea.innerHTML = result;
+            }).catch(err => {
+                alert("모임 리스트를 가져오는 데 실패했습니다.");
+            });
+        }
+
+        const updateUser = () => {
+            const viewArea = document.querySelector("#viewArea");
+            const id = [[${loginUser.id}]];
+            axios({
+                url: "/member/" + id,
+                method: "get"
+            }).then(res => {
+                const loginUser = res.data; // 서버에서 받아온 데이터를 loginUser 변수에 저장
+                let result = "<table>\n" +
+                    "            <tbody>\n" +
+                    "            <tr>\n" +
+                    "                <th>회원번호</th>\n" +
+                    "                <td><input id='id' type=\"text\" value=\"" + loginUser.id + "\" readonly></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>아이디</th>\n" +
+                    "                <td><input id='memberId' type=\"text\" value=\"" + loginUser.memberId + "\" readonly></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>비밀번호</th>\n" +
+                    "                <td><input id='memberPass' type=\"text\" value=\"" + loginUser.memberPass + "\"></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>이름</th>\n" +
+                    "                <td><input id='memberName' type=\"text\" value=\"" + loginUser.memberName + "\"></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>생년월일</th>\n" +
+                    "                <td><input id='memberPrivate' type=\"date\" value=\"" + loginUser.memberPrivate + "\"></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>성별</th>\n" +
+                    "                <td><input id='memberGender' type=\"text\" value=\"" + loginUser.memberGender + "\"></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>이메일</th>\n" +
+                    "                <td><input id='memberEmail' type=\"text\" value=\"" + loginUser.memberEmail + "\"></td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>휴대번호</th>\n" +
+                    "                <td><input id='memberPhone' type=\"text\" value=\"" + loginUser.memberPhone + "\"></td>\n" +
+                    "            </tr>\n" +
+                    "            </tbody>\n" +
+                    "        </table>" +
+                    "<td><button onclick='goUpdate()'>수정하기</button></td>";
+                viewArea.innerHTML = result;
+            }).catch(err => {
+                alert("업데이트가 불가합니다");
+            });
+        };
+
+        const checkUser = () => {
+            const viewArea = document.querySelector("#viewArea");
+            const id = [[${loginUser.id}]];
+            console.log(id);
+            axios({
+                url: "/member/" + id,
+                method: "get"
+            }).then(res => {
+                const loginUser = res.data; // 서버에서 받아온 데이터를 loginUser 변수에 저장
+                let result = "<table>\n" +
+                    "            <tbody>\n" +
+                    "            <tr>\n" +
+                    "                <th>회원번호</th>\n" +
+                    "                <td id='memberId'>" + loginUser.id + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>아이디</th>\n" +
+                    "                <td>" + loginUser.memberId + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>비밀번호</th>\n" +
+                    "                <td>" + loginUser.memberPass + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>이름</th>\n" +
+                    "                <td>" + loginUser.memberName + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>생년월일</th>\n" +
+                    "                <td>" + loginUser.memberPrivate + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>성별</th>\n" +
+                    "                <td>" + loginUser.memberGender + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>이메일</th>\n" +
+                    "                <td>" + loginUser.memberEmail + "</td>\n" +
+                    "            </tr>\n" +
+                    "            <tr>\n" +
+                    "                <th>휴대번호</th>\n" +
+                    "                <td>" + loginUser.memberPhone + "</td>\n" +
+                    "            </tr>\n" +
+                    "            </tbody>\n" +
+                    "        </table>";
+                viewArea.innerHTML = result;
+            }).catch(err => {
+                alert("정보를 불러올 수 없습니다.");
+            });
+        };
+
+        const goUpdate = () => {
+            const viewArea = document.querySelector("#viewArea");
+            const id = document.querySelector("#id").value;
+            const memberId = document.querySelector("#memberId").value;
+            const memberPass = document.querySelector("#memberPass").value;
+            const memberName = document.querySelector("#memberName").value;
+            const memberPrivate = document.querySelector("#memberPrivate").value;
+            const memberGender = document.querySelector("#memberGender").value;
+            const memberEmail = document.querySelector("#memberEmail").value;
+            const memberPhone = document.querySelector("#memberPhone").value;
+            axios({
+                url: "/member/" + id,
+                method: "put",
+                data: {
+                    id: id,
+                    memberId: memberId,
+                    memberPass: memberPass,
+                    memberName: memberName,
+                    memberPrivate: memberPrivate,
+                    memberGender: memberGender,
+                    memberEmail: memberEmail,
+                    memberPhone: memberPhone
+                }
+            }).then(res => {
+                checkUser();
+                alert("수정완료");
+            }).catch(err => {
+                console.log("업데이트 실패");
+            })
+        }
+
+
+    </script>
 </div>
 </html>

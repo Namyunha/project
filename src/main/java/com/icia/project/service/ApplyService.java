@@ -10,6 +10,7 @@ import com.icia.project.repository.MemberRepository;
 import com.icia.project.repository.StudygroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ApplyService {
         applyRepository.save(applyEntity);
     }
 
+    @Transactional
     public List<StudygroupDTO> findAllById(Long id) {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
         List<ApplyEntity> applyEntityList = applyRepository.findAllByMemberEntity(memberEntity);

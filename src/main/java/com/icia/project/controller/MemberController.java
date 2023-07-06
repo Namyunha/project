@@ -124,13 +124,27 @@ public class MemberController {
     public String myPage(HttpSession session, Model model) {
         String loginId = (String) session.getAttribute("loginId");
         MemberDTO loginUser = memberService.findByMemberId(loginId);
+        model.addAttribute("loginUser", loginUser);
+
         List<StudygroupDTO> studygroupDTOList = studygroupService.findAllById(loginUser.getId());
         List<StudygroupDTO> applyStudyGroupList = applyService.findAllById(loginUser.getId());
-        System.out.println("마이페이지에 있는 applyStudyGroupList = " + applyStudyGroupList);
+
         model.addAttribute("applyStudyGroupList", applyStudyGroupList);
         model.addAttribute("groupList", studygroupDTOList);
-        model.addAttribute("loginUser", loginUser);
         return "/memberPages/memberMain";
+    }
+
+    @GetMapping("/groupList/{id}")
+    public ResponseEntity groupList(@PathVariable Long id) {
+        List<StudygroupDTO> studygroupDTOList = studygroupService.findAllById(id);
+        return new ResponseEntity<>(studygroupDTOList, HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/applyGroupList/{id}")
+    public ResponseEntity applyGroupList(@PathVariable Long id) {
+        List<StudygroupDTO> applyStudyGroupList = applyService.findAllById(id);
+        return new ResponseEntity<>(applyStudyGroupList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
