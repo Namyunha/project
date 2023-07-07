@@ -81,6 +81,11 @@ public class StudygroupService {
         System.out.println("서비스에 있는 studygroupDTOList = " + studygroupDTOList);
         return studygroupDTOList;
     }
+
+    @Transactional
+    public void updateCount(Long id) {
+        studygroupRepository.updateCount(id);
+    }
 }
 
 

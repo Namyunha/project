@@ -125,15 +125,15 @@ public class MemberController {
         String loginId = (String) session.getAttribute("loginId");
         MemberDTO loginUser = memberService.findByMemberId(loginId);
         model.addAttribute("loginUser", loginUser);
+//      로그인한 유저가 호스트인 경우
         ApplyDTO applyDTO = applyService.findByUserId(loginUser.getId());
         System.out.println("컨트롤러에있는 applyDTO = " + applyDTO);
         if (applyDTO == null) {
             model.addAttribute("applyDTO", "");
         } else {
-            System.out.println("applyDTO = " + applyDTO.getMemberId());
-            MemberDTO applyUserDTO = memberService.findById(applyDTO.getMemberId());
-            System.out.println("마이페이지 applyUserDTO = " + applyUserDTO);
             model.addAttribute("applyDTO", applyDTO);
+//          로그인한 유저가 신청자인 경우
+            ApplyDTO applyUserDTO = applyService.findByApplyUserId(applyDTO.getMemberId());
             model.addAttribute("applyUserDTO", applyUserDTO);
         }
         return "/memberPages/memberMain";
@@ -154,18 +154,20 @@ public class MemberController {
         return new ResponseEntity<>(applyStudyGroupList, HttpStatus.OK);
     }
 
-    //  신청내역리스트
+    // 로그인한 유저가 등록한 모임의 신청내역리스트
     @GetMapping("/applyHistory/{id}")
     public ResponseEntity historyList(@PathVariable Long id) {
         System.out.println("id = " + id);
-        List<ApplyDTO> applyDTOList = applyService.findApplyById(id);
+        List<ApplyDTO> applyDTOList = applyService.findApplyByGroupId(id);
         return new ResponseEntity<>(applyDTOList, HttpStatus.OK);
     }
 
-    //  신청유저리스트
+    //  신청리스트
     @GetMapping("/applyUser/{id}")
     public ResponseEntity applyUser(@PathVariable Long id) {
-        MemberDTO applyMemberDTO = memberService.findById(id);
+        ApplyDTO applyDTO = applyService.findById(id);
+        System.out.println("applyDTO = " + applyDTO);
+        MemberDTO applyMemberDTO = memberService.findById(applyDTO.getMemberId());
         System.out.println("컨트롤러에 있는 신청 유저  = " + applyMemberDTO);
         return new ResponseEntity<>(applyMemberDTO, HttpStatus.OK);
     }

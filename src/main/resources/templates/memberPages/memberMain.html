@@ -151,16 +151,13 @@
 
 
 <script th:inline="javascript">
+    <!--로그인한 유저가 등록한 모임-->
     const manageGroup = () => {
         const viewArea = document.querySelector("#viewArea");
         const id = [[${loginUser.id}]];
-        console.log(id);
         axios({
             url: "/member/groupList/" + id,  // 서버에서 JSON 데이터를 가져올 엔드포인트 URL로 변경해야 합니다.
-            method: "get",
-            data: {
-                id: id
-            }
+            method: "get"
         }).then(res => {
             const groupList = res.data; // 서버에서 받아온 데이터를 groupList 변수에 저장
             let result = "<ul class=\"nav nav-tabs\">\n" +
@@ -203,17 +200,20 @@
             alert("모임 리스트를 가져오는 데 실패했습니다.");
         });
     };
+
     // 신청자 내역
+    // 로그인한 유저가 등록한 모임의 그룹 id 조회
     const partyHistory = (id) => {
         const historyArea = document.querySelector("#historyArea");
-        const applyUser = [[${applyUserDTO}]];
         axios({
             url: "/member/applyHistory/" + id,
             method: "get",
         }).then(res => {
-            console.log(applyUser);
             const applyList = res.data;
             applyList.forEach(apply => {
+                const name = "" + apply.memberName;
+                const partyTitle = "" + apply.applyParty;
+                const partyId = apply.partyId
                 let result = "            <table class=\"table table-hover\">\n" +
                     "                <thead class=\"table-dark\">\n" +
                     "                <tr>\n" +
@@ -230,9 +230,9 @@
                         "<td>" + apply.id + "</td>" +
                         "<td>" + apply.memberName + "</td>" +
                         "<td>" + apply.applyContents + "</td>" +
-                        "<td>" + apply.isAuthorized + "</td>" +
                         "<td> <button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\"" +
                         "onclick='watchUser(" + apply.id + ")' >조회</button> </td>" +
+
                         "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
                         "  <div class=\"modal-dialog\">\n" +
                         "    <div class=\"modal-content\">\n" +
@@ -244,8 +244,9 @@
                         "      </div>\n" +
                         "      <div class=\"modal-footer\">\n" +
                         "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
-                        "        <button type=\"button\" class=\"btn btn-primary\">승인</button>\n" +
-                        "        <button type=\"button\" class=\"btn btn-danger\">거절</button>\n" +
+                        "<button type=\"button\" onclick='acceptUser(" + apply.id + ", \"" + name + "\", \"" + partyTitle + "\", " + partyId + ")' class=\"btn btn-primary\" data-bs-dismiss=\"modal\">승인</button>\n"
+                        +
+                        "        <button type=\"button\" onclick='rejectUser(" + apply + ")' class=\"btn btn-danger\" data-bs-dismiss=\"modal\">거절</button>\n" +
                         "      </div>\n" +
                         "    </div>\n" +
                         "  </div>\n" +
@@ -271,7 +272,7 @@
         }).then(res => {
             const applyUser = res.data;
             let result = "이름: " + applyUser.memberName + "<br><br>" +
-                "생년월일: " + applyUser.memberPass + "<br><br>" +
+                "생년월일: " + applyUser.memberPrivate + "<br><br>" +
                 "성별: " + applyUser.memberGender + "<br><br>" +
                 "이메일: " + applyUser.memberEmail + "<br><br>" +
                 "연락처: " + applyUser.memberPhone + "<br><br>";
@@ -282,17 +283,38 @@
         console.log(id);
     }
 
+    // 유저 승인하기
+    const acceptUser = (id, name, partyTitle, partyId) => {
+        axios({
+            url: "/partyUser/save",
+            method: "post",
+            data: {
+                partyTitle: partyTitle,
+                userName: name,
+                isAdmitted: true,
+                partyId: partyId,
+                memberId: id
+            }
+        }).then(res => {
+            console.log(res.data);
+        }).catch(err => {
+            console.log("승인 실패");
+        })
+    }
+
+    // 유저 거절하기
+    const rejectUser = () => {
+        //    신청서승인여부업데이트
+    }
+
     const manageApplyGroup = () => {
         const viewArea = document.querySelector("#viewArea");
         const id = [[${loginUser.id}]];
-        const apply = [[${applyDTO}]];
-        console.log(id);
+        const apply = [[${applyUserDTO}]];
+        console.log(apply);
         axios({
             url: "/member/applyGroupList/" + id,  // 서버에서 JSON 데이터를 가져올 엔드포인트 URL로 변경해야 합니다.
-            method: "get",
-            data: {
-                id: id
-            }
+            method: "get"
         }).then(res => {
             const groupList = res.data; // 서버에서 받아온 데이터를 groupList 변수에 저장
             let result = "<ul class=\"nav nav-tabs\">\n" +
@@ -316,7 +338,6 @@
                 "                </tr>\n" +
                 "                </thead>\n" +
                 "                <tbody>";
-
             groupList.forEach(group => {
                 result += "<tr>" +
                     "<td>" + group.id + "</td>" +
@@ -324,10 +345,8 @@
                     "<td>" + group.partyCategory + "</td>" +
                     "<td>" + group.partyTimes + "</td>" +
                     "<td>" + group.partyCreatedTime + "</td>" +
-                    "<td>" + apply.isAuthorized + "</td>" +
                     "</tr>";
             });
-
             result += "                </tbody>\n" +
                 "            </table>\n" +
                 "        </div>";

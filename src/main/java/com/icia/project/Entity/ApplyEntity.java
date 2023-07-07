@@ -40,7 +40,6 @@ public class ApplyEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private MemberEntity hostEntity;
 
-
     public static ApplyEntity toSaveEntity(ApplyDTO applyDTO, MemberEntity applyMember, MemberEntity hostMember, StudygroupEntity party) {
         ApplyEntity applyEntity = new ApplyEntity();
         applyEntity.setUserName(applyDTO.getMemberName());

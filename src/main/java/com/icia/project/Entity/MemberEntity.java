@@ -40,18 +40,26 @@ public class MemberEntity extends BaseEntity{
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
+
 //    이미지파일 참조
     @OneToMany(mappedBy = "MemberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MemberFileEntity>  memberFileEntityList = new ArrayList<>();
+
 //    모임 참조
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StudygroupEntity> studygroupEntityList = new ArrayList<>();
+
 //    신청자 참조
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ApplyEntity>  applyEntityList = new ArrayList<>();
+
 //    호스트 참조
     @OneToMany(mappedBy = "hostEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ApplyEntity> hostApplyEntityList = new ArrayList<>();
+
+//    가입한 모임 참조
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<PartyUserEntity> partyUserEntityList = new ArrayList<>();
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();

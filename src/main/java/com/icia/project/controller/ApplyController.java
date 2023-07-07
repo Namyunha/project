@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/apply")
 public class ApplyController {
     private final ApplyService applyService;
-
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody ApplyDTO applyDTO) {
         System.out.println("applyDTO = " + applyDTO);

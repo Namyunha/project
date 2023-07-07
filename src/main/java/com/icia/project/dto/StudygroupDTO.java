@@ -25,6 +25,7 @@ public class StudygroupDTO {
     private LocalDateTime partyCreatedTime;
     private LocalDateTime partyUpdatedTime;
     private Long hostId;
+    private int userCount;
 
     private List<MultipartFile> groupFile;
 
