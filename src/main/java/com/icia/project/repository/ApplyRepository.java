@@ -12,5 +12,8 @@ import java.util.List;
 public interface ApplyRepository extends JpaRepository<ApplyEntity, Long> {
     List<ApplyEntity> findAllByMemberEntity(MemberEntity memberEntity);
     ApplyEntity findByMemberEntity(MemberEntity memberEntity);
+
+    ApplyEntity findByHostEntity(MemberEntity memberEntity);
+
     List<ApplyEntity> findAllByStudygroupEntity(StudygroupEntity studygroupEntity);
 }

@@ -112,13 +112,13 @@ public class MemberController {
 
     @PostMapping("/duCheck")
     public ResponseEntity duCheck(@RequestBody MemberDTO memberDTO) {
-        System.out.println("memberDTO.getMemberId() = " + memberDTO.getMemberId());
         if (memberService.findEmail(memberDTO)) {
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @Transactional
     @GetMapping("/mypage")
     public String myPage(HttpSession session, Model model) {
@@ -127,14 +127,14 @@ public class MemberController {
         model.addAttribute("loginUser", loginUser);
         ApplyDTO applyDTO = applyService.findByUserId(loginUser.getId());
         System.out.println("컨트롤러에있는 applyDTO = " + applyDTO);
-        if(applyDTO == null){
-        model.addAttribute("applyDTO", "");
+        if (applyDTO == null) {
+            model.addAttribute("applyDTO", "");
         } else {
-        System.out.println("applyDTO = " + applyDTO.getMemberId());
-        MemberDTO applyUserDTO = memberService.findById(applyDTO.getMemberId());
-        System.out.println("마이페이지 applyUserDTO = " + applyUserDTO);
-        model.addAttribute("applyDTO", applyDTO);
-        model.addAttribute("applyUserDTO", applyUserDTO);
+            System.out.println("applyDTO = " + applyDTO.getMemberId());
+            MemberDTO applyUserDTO = memberService.findById(applyDTO.getMemberId());
+            System.out.println("마이페이지 applyUserDTO = " + applyUserDTO);
+            model.addAttribute("applyDTO", applyDTO);
+            model.addAttribute("applyUserDTO", applyUserDTO);
         }
         return "/memberPages/memberMain";
     }
@@ -149,7 +149,7 @@ public class MemberController {
     //  신청모임리스트
     @Transactional
     @GetMapping("/applyGroupList/{id}")
-    public ResponseEntity applyGroupList(@PathVariable Long id, Model model) {
+    public ResponseEntity applyGroupList(@PathVariable Long id) {
         List<StudygroupDTO> applyStudyGroupList = applyService.findAllById(id);
         return new ResponseEntity<>(applyStudyGroupList, HttpStatus.OK);
     }
@@ -159,9 +159,17 @@ public class MemberController {
     public ResponseEntity historyList(@PathVariable Long id) {
         System.out.println("id = " + id);
         List<ApplyDTO> applyDTOList = applyService.findApplyById(id);
-        System.out.println("컨트롤러에있는 applyDTOList = " + applyDTOList);
         return new ResponseEntity<>(applyDTOList, HttpStatus.OK);
     }
+
+    //  신청유저리스트
+    @GetMapping("/applyUser/{id}")
+    public ResponseEntity applyUser(@PathVariable Long id) {
+        MemberDTO applyMemberDTO = memberService.findById(id);
+        System.out.println("컨트롤러에 있는 신청 유저  = " + applyMemberDTO);
+        return new ResponseEntity<>(applyMemberDTO, HttpStatus.OK);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id) {
@@ -172,7 +180,6 @@ public class MemberController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@RequestBody MemberDTO memberDTO) {
-        System.out.println("컨트롤러에 있는 수정된 memberDTO = " + memberDTO);
         memberService.updateUser(memberDTO);
         return new ResponseEntity(HttpStatus.OK);
     }

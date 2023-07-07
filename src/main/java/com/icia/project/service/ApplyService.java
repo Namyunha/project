@@ -46,12 +46,12 @@ public class ApplyService {
 
     public ApplyDTO findByUserId(Long id) {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-        ApplyEntity applyEntity = applyRepository.findByMemberEntity(memberEntity);
-        if(applyEntity == null) {
+        ApplyEntity applyEntity = applyRepository.findByHostEntity(memberEntity);
+        if (applyEntity == null) {
             return null;
         } else {
-        ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
-        return applyDTO;
+            ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
+            return applyDTO;
         }
     }
 

@@ -231,16 +231,16 @@
                         "<td>" + apply.memberName + "</td>" +
                         "<td>" + apply.applyContents + "</td>" +
                         "<td>" + apply.isAuthorized + "</td>" +
-                        "<td> <button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\">조회</button> </td>" +
+                        "<td> <button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\"" +
+                        "onclick='watchUser(" + apply.id + ")' >조회</button> </td>" +
                         "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
                         "  <div class=\"modal-dialog\">\n" +
                         "    <div class=\"modal-content\">\n" +
                         "      <div class=\"modal-header\">\n" +
-                        "        <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">Modal title</h1>\n" +
+                        "        <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">회원 정보</h1>\n" +
                         "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
                         "      </div>\n" +
-                        "      <div class=\"modal-body\">\n" +
-                        // "        " + applyUser.id+ "\n" +
+                        "      <div id='applyInfoArea' class=\"modal-body\">\n" +
                         "      </div>\n" +
                         "      <div class=\"modal-footer\">\n" +
                         "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
@@ -249,7 +249,7 @@
                         "      </div>\n" +
                         "    </div>\n" +
                         "  </div>\n" +
-                        "</div>"+
+                        "</div>" +
                         "</tr>";
                 });
                 result += "                </tbody>\n" +
@@ -260,6 +260,26 @@
         }).catch(err => {
             alert("실패했습니다.");
         })
+    }
+
+    // 모달창에있는 신청유저 내역확인
+    const watchUser = (id) => {
+        const applyInfoArea = document.querySelector("#applyInfoArea");
+        axios({
+            url: "/member/applyUser/" + id,
+            method: "get",
+        }).then(res => {
+            const applyUser = res.data;
+            let result = "이름: " + applyUser.memberName + "<br><br>" +
+                "생년월일: " + applyUser.memberPass + "<br><br>" +
+                "성별: " + applyUser.memberGender + "<br><br>" +
+                "이메일: " + applyUser.memberEmail + "<br><br>" +
+                "연락처: " + applyUser.memberPhone + "<br><br>";
+            applyInfoArea.innerHTML = result;
+        }).catch(err => {
+            alert("정보를 불러오지 못하였습니다");
+        })
+        console.log(id);
     }
 
     const manageApplyGroup = () => {
