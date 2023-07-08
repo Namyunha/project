@@ -126,20 +126,24 @@ public class MemberController {
         MemberDTO loginUser = memberService.findByMemberId(loginId);
         model.addAttribute("loginUser", loginUser);
 //      로그인한 유저가 호스트인 경우
-        ApplyDTO applyDTO = applyService.findByUserId(loginUser.getId());
+        ApplyDTO applyDTO = applyService.findByHostId(loginUser.getId());
         System.out.println("컨트롤러에있는 applyDTO = " + applyDTO);
         if (applyDTO == null) {
             model.addAttribute("applyDTO", "");
         } else {
             model.addAttribute("applyDTO", applyDTO);
-//          로그인한 유저가 신청자인 경우
-            ApplyDTO applyUserDTO = applyService.findByApplyUserId(applyDTO.getMemberId());
+        }
+//      로그인한 유저가 신청자인 경우
+        ApplyDTO applyUserDTO = applyService.findByApplyUserId(loginUser.getId());
+        if(applyUserDTO == null) {
+            model.addAttribute("applyUserDTO", "");
+        } else {
             model.addAttribute("applyUserDTO", applyUserDTO);
         }
         return "/memberPages/memberMain";
     }
 
-    //  등록모임리스트
+    //  등록모임리스트'
     @GetMapping("/groupList/{id}")
     public ResponseEntity groupList(@PathVariable Long id) {
         List<StudygroupDTO> studygroupDTOList = studygroupService.findAllById(id);
@@ -162,6 +166,7 @@ public class MemberController {
         return new ResponseEntity<>(applyDTOList, HttpStatus.OK);
     }
 
+
     //  신청리스트
     @GetMapping("/applyUser/{id}")
     public ResponseEntity applyUser(@PathVariable Long id) {
@@ -179,6 +184,7 @@ public class MemberController {
         return new ResponseEntity<>(memberDTO, HttpStatus.OK);
 //        myPage에서 업데이트 창이랑 정보창 띄우기
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@RequestBody MemberDTO memberDTO) {

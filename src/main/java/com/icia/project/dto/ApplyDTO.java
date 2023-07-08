@@ -31,7 +31,6 @@ public class ApplyDTO {
         } else if (applyEntity.getIsAuthorized() == "false") {
             applyDTO.setIsAuthorized("승인 거절");
         }
-        applyDTO.setIsAuthorized(applyEntity.getIsAuthorized());
         applyDTO.setMemberId(applyEntity.getMemberEntity().getId());
         applyDTO.setPartyId(applyEntity.getStudygroupEntity().getId());
         applyDTO.setHostId(applyEntity.getHostEntity().getId());

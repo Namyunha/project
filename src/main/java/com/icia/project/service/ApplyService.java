@@ -44,7 +44,7 @@ public class ApplyService {
         return studygroupDTOList;
     }
 
-    public ApplyDTO findByUserId(Long id) {
+    public ApplyDTO findByHostId(Long id) {
 //      로그인한 유저
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
 //      로그인한 유저가 호스트인 경우
@@ -75,15 +75,21 @@ public class ApplyService {
     }
 
     public ApplyDTO findById(Long id) {
-        ApplyEntity applyEntity = applyRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        MemberEntity applyMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        ApplyEntity applyEntity = applyRepository.findByMemberEntity(applyMember);
         ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
+        System.out.println("서비스에 있는 applyDTO = " + applyDTO);
         return applyDTO;
     }
 
     public ApplyDTO findByApplyUserId(Long memberId) {
         ApplyEntity applyEntity = applyRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException());
+        if(applyEntity == null) {
+            return null;
+        } else {
         ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
         System.out.println("서비스에 있는 로그인한 유저의 applyDTO = " + applyDTO);
         return applyDTO;
+        }
     }
 }

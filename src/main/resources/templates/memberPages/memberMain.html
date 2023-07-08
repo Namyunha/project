@@ -165,7 +165,7 @@
                 "                <button class=\"nav-link text-black saveGroup\" onclick='manageGroup()'>등록한 모임</button>\n" +
                 "            </li>\n" +
                 "            <li class=\"nav-item\">\n" +
-                "                <button class=\"nav-link text-black applyGroup\" onclick='manageApplyGroup()' aria-current=\"page\">신청한 모임</button>\n" +
+                "                <button class=\"nav-link text-black applyGroup\" onclick='manageApplyGroup(" + id + ")' aria-current=\"page\">신청한 모임</button>\n" +
                 "            </li>\n" +
                 "        </ul>\n" +
                 "        <div>\n" +
@@ -200,6 +200,78 @@
             alert("모임 리스트를 가져오는 데 실패했습니다.");
         });
     };
+
+
+    // 로그인한 유저의 신청현황
+    const manageApplyGroup = () => {
+        const viewArea = document.querySelector("#viewArea");
+        const id = [[${loginUser.id}]];
+        axios({
+            url: "/member/applyGroupList/" + id,  // 서버에서 JSON 데이터를 가져올 엔드포인트 URL로 변경해야 합니다.
+            method: "get"
+        }).then(res => {
+            const groupList = res.data; // 서버에서 받아온 데이터를 groupList 변수에 저장
+            let result = "<ul class=\"nav nav-tabs\">\n" +
+                "            <li class=\"nav-item  \">\n" +
+                "                <button class=\"nav-link text-black saveGroup\" onclick='manageGroup()'>등록한 모임</button>\n" +
+                "            </li>\n" +
+                "            <li class=\"nav-item\">\n" +
+                "                <button class=\"nav-link text-black applyGroup\" onclick='manageApplyGroup()' aria-current=\"page\">신청한 모임</button>\n" +
+                "            </li>\n" +
+                "        </ul>\n" +
+                "        <div>\n" +
+                "            <table class=\"table table-hover\">\n" +
+                "                <thead class=\"table-dark\">\n" +
+                "                <tr>\n" +
+                "                    <th>번호</th>\n" +
+                "                    <th>모임이름</th>\n" +
+                "                    <th>모임종류</th>\n" +
+                "                    <th>모임시간</th>\n" +
+                "                    <th>개설일</th>\n" +
+                "                    <th>신청상황</th>\n" +
+                "                </tr>\n" +
+                "                </thead>\n" +
+                "                <tbody>";
+            groupList.forEach(group => {
+                result += "<tr>" +
+                    "<td>" + group.id + "</td>" +
+                    "<td>" + group.partyTitle + "</td>" +
+                    "<td>" + group.partyCategory + "</td>" +
+                    "<td>" + group.partyTimes + "</td>" +
+                    "<td>" + group.partyCreatedTime + "</td>" +
+                    "<td><button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\" onclick='applyHistory(" + group.id + ", " + id + ")'>조회</button></td>" +
+                    "<div class=\"modal fade\" id=\"staticBackdrop\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\">\n" +
+                    "  <div class=\"modal-dialog\">\n" +
+                    "    <div class=\"modal-content\">\n" +
+                    "      <div class=\"modal-header\">\n" +
+                    "        <h1 class=\"modal-title fs-5\" id=\"staticBackdropLabel\">모임 신청 내역</h1>\n" +
+                    "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
+                    "      </div>\n" +
+                    "      <div id=\"applyContentArea\" class=\"modal-body \">\n" +
+                    "      </div>\n" +
+                    "      <div class=\"modal-footer\">\n" +
+                    "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
+                    "      </div>\n" +
+                    "    </div>\n" +
+                    "  </div>\n" +
+                    "</div>" +
+                    "</tr>";
+
+            });
+            result += "                </tbody>\n" +
+                "            </table>\n" +
+                "        </div>";
+            viewArea.innerHTML = result;
+        }).catch(err => {
+            alert("모임 리스트를 가져오는 데 실패했습니다.");
+        });
+    }
+
+
+    const applyHistory = (groupId, id) => {
+        const applyContentArea = document.querySelector("#applyContentArea");
+        console.log( "group: " + groupId + "id: " + id);
+    }
 
     // 신청자 내역
     // 로그인한 유저가 등록한 모임의 그룹 id 조회
@@ -307,54 +379,6 @@
         //    신청서승인여부업데이트
     }
 
-    const manageApplyGroup = () => {
-        const viewArea = document.querySelector("#viewArea");
-        const id = [[${loginUser.id}]];
-        const apply = [[${applyUserDTO}]];
-        console.log(apply);
-        axios({
-            url: "/member/applyGroupList/" + id,  // 서버에서 JSON 데이터를 가져올 엔드포인트 URL로 변경해야 합니다.
-            method: "get"
-        }).then(res => {
-            const groupList = res.data; // 서버에서 받아온 데이터를 groupList 변수에 저장
-            let result = "<ul class=\"nav nav-tabs\">\n" +
-                "            <li class=\"nav-item  \">\n" +
-                "                <button class=\"nav-link text-black saveGroup\" onclick='manageGroup()'>등록한 모임</button>\n" +
-                "            </li>\n" +
-                "            <li class=\"nav-item\">\n" +
-                "                <button class=\"nav-link text-black applyGroup\" onclick='manageApplyGroup()' aria-current=\"page\">신청한 모임</button>\n" +
-                "            </li>\n" +
-                "        </ul>\n" +
-                "        <div>\n" +
-                "            <table class=\"table table-hover\">\n" +
-                "                <thead class=\"table-dark\">\n" +
-                "                <tr>\n" +
-                "                    <th>번호</th>\n" +
-                "                    <th>모임이름</th>\n" +
-                "                    <th>모임종류</th>\n" +
-                "                    <th>모임시간</th>\n" +
-                "                    <th>개설일</th>\n" +
-                "                    <th>신청상황</th>\n" +
-                "                </tr>\n" +
-                "                </thead>\n" +
-                "                <tbody>";
-            groupList.forEach(group => {
-                result += "<tr>" +
-                    "<td>" + group.id + "</td>" +
-                    "<td>" + group.partyTitle + "</td>" +
-                    "<td>" + group.partyCategory + "</td>" +
-                    "<td>" + group.partyTimes + "</td>" +
-                    "<td>" + group.partyCreatedTime + "</td>" +
-                    "</tr>";
-            });
-            result += "                </tbody>\n" +
-                "            </table>\n" +
-                "        </div>";
-            viewArea.innerHTML = result;
-        }).catch(err => {
-            alert("모임 리스트를 가져오는 데 실패했습니다.");
-        });
-    }
 
     const updateUser = () => {
         const viewArea = document.querySelector("#viewArea");
