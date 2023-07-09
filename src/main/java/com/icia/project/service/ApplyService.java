@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -82,14 +83,18 @@ public class ApplyService {
         return applyDTO;
     }
 
+    @Transactional
     public ApplyDTO findByApplyUserId(Long memberId) {
-        ApplyEntity applyEntity = applyRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException());
-        if(applyEntity == null) {
+        Optional<ApplyEntity> optionalApplyEntity = applyRepository.findById(memberId);
+        if(optionalApplyEntity.isEmpty()) {
             return null;
         } else {
+        ApplyEntity applyEntity = optionalApplyEntity.get();
         ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
         System.out.println("서비스에 있는 로그인한 유저의 applyDTO = " + applyDTO);
         return applyDTO;
         }
     }
 }
+
+
