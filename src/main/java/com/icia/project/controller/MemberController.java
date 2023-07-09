@@ -125,21 +125,6 @@ public class MemberController {
         String loginId = (String) session.getAttribute("loginId");
         MemberDTO loginUser = memberService.findByMemberId(loginId);
         model.addAttribute("loginUser", loginUser);
-//      로그인한 유저가 호스트인 경우
-        ApplyDTO applyDTO = applyService.findByHostId(loginUser.getId());
-        System.out.println("컨트롤러에있는 applyDTO = " + applyDTO);
-        if (applyDTO == null) {
-            model.addAttribute("applyDTO", "");
-        } else {
-            model.addAttribute("applyDTO", applyDTO);
-        }
-//      로그인한 유저가 신청자인 경우
-        ApplyDTO applyUserDTO = applyService.findByApplyUserId(loginUser.getId());
-        if(applyUserDTO == null) {
-            model.addAttribute("applyUserDTO", "");
-        } else {
-            model.addAttribute("applyUserDTO", applyUserDTO);
-        }
         return "/memberPages/memberMain";
     }
 
@@ -166,17 +151,22 @@ public class MemberController {
         return new ResponseEntity<>(applyDTOList, HttpStatus.OK);
     }
 
-
     //  신청리스트
     @GetMapping("/applyUser/{id}")
     public ResponseEntity applyUser(@PathVariable Long id) {
         ApplyDTO applyDTO = applyService.findById(id);
-        System.out.println("applyDTO = " + applyDTO);
-        MemberDTO applyMemberDTO = memberService.findById(applyDTO.getMemberId());
-        System.out.println("컨트롤러에 있는 신청 유저  = " + applyMemberDTO);
-        return new ResponseEntity<>(applyMemberDTO, HttpStatus.OK);
+        MemberDTO userApply = memberService.findById(applyDTO.getMemberId());
+        return new ResponseEntity<>(userApply, HttpStatus.OK);
     }
 
+    //   신청자 apply목록 전달
+    @PostMapping("/userApply")
+    public ResponseEntity applyHistory(@RequestBody ApplyDTO applyDTO){
+        System.out.println(" applyDTO = " + applyDTO);
+        ApplyDTO userApply = applyService.findApplyByMemberIdAndPartyId(applyDTO);
+        System.out.println("In Controller, userApply = " + userApply);
+        return new ResponseEntity<>(userApply, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id) {
@@ -184,7 +174,6 @@ public class MemberController {
         return new ResponseEntity<>(memberDTO, HttpStatus.OK);
 //        myPage에서 업데이트 창이랑 정보창 띄우기
     }
-
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@RequestBody MemberDTO memberDTO) {

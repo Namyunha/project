@@ -4,6 +4,7 @@ import com.icia.project.Entity.ApplyEntity;
 import com.icia.project.Entity.MemberEntity;
 import com.icia.project.Entity.StudygroupEntity;
 import com.icia.project.dto.ApplyDTO;
+import com.icia.project.dto.PartyUserDTO;
 import com.icia.project.dto.StudygroupDTO;
 import com.icia.project.repository.ApplyRepository;
 import com.icia.project.repository.MemberRepository;
@@ -45,18 +46,6 @@ public class ApplyService {
         return studygroupDTOList;
     }
 
-    public ApplyDTO findByHostId(Long id) {
-//      로그인한 유저
-        MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-//      로그인한 유저가 호스트인 경우
-        ApplyEntity applyEntity = applyRepository.findByHostEntity(memberEntity);
-        if (applyEntity == null) {
-            return null;
-        } else {
-            ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
-            return applyDTO;
-        }
-    }
 
     // 로그인한 유저가 등록한 모임의 신청내역리스트
     public List<ApplyDTO> findApplyByGroupId(Long id) {
@@ -76,24 +65,36 @@ public class ApplyService {
     }
 
     public ApplyDTO findById(Long id) {
-        MemberEntity applyMember = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
-        ApplyEntity applyEntity = applyRepository.findByMemberEntity(applyMember);
+        ApplyEntity applyEntity = applyRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        System.out.println("In Service, applyEntity = " + applyEntity.getId());
         ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
-        System.out.println("서비스에 있는 applyDTO = " + applyDTO);
+        System.out.println("In Service, applyDTO = " + applyDTO);
         return applyDTO;
     }
 
-    @Transactional
-    public ApplyDTO findByApplyUserId(Long memberId) {
-        Optional<ApplyEntity> optionalApplyEntity = applyRepository.findById(memberId);
-        if(optionalApplyEntity.isEmpty()) {
+
+    public ApplyDTO findApplyByMemberIdAndPartyId(ApplyDTO applyDTO) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(applyDTO.getMemberId());
+        Optional<StudygroupEntity> optionalStudygroupEntity = studygroupRepository.findById(applyDTO.getPartyId());
+        if(optionalMemberEntity.isPresent() && optionalStudygroupEntity.isPresent()){
+           MemberEntity applyMemberEntity = optionalMemberEntity.get();
+           StudygroupEntity applyGroupEntity = optionalStudygroupEntity.get();
+           ApplyEntity applyEntity = applyRepository.findByMemberEntityAndStudygroupEntity(applyMemberEntity, applyGroupEntity);
+           ApplyDTO userApply = ApplyDTO.toDTO(applyEntity);
+            System.out.println("In service, userApply = " + userApply);
+           return userApply;
+        } else{
             return null;
-        } else {
-        ApplyEntity applyEntity = optionalApplyEntity.get();
-        ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
-        System.out.println("서비스에 있는 로그인한 유저의 applyDTO = " + applyDTO);
-        return applyDTO;
         }
+    }
+
+    public void updateAuthorization(PartyUserDTO partyUserDTO) {
+        System.out.println("In ApplyService, partyUserDTO = " + partyUserDTO);
+        MemberEntity memberEntity = memberRepository.findById(partyUserDTO.getMemberId()).orElseThrow(() -> new NoSuchElementException());
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(partyUserDTO.getPartyId()).orElseThrow(() -> new NoSuchElementException());
+        ApplyEntity applyEntity = applyRepository.findByMemberEntityAndStudygroupEntity(memberEntity, studygroupEntity);
+        ApplyEntity updatedApplyEntity = ApplyEntity.toUpdateAuthorization(applyEntity, partyUserDTO);
+        applyRepository.save(updatedApplyEntity);
     }
 }
 

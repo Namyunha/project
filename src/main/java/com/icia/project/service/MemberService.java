@@ -3,6 +3,7 @@ package com.icia.project.service;
 
 import com.icia.project.Entity.MemberEntity;
 import com.icia.project.Entity.MemberFileEntity;
+import com.icia.project.dto.ApplyDTO;
 import com.icia.project.dto.MemberDTO;
 import com.icia.project.repository.MemberFileRepository;
 import com.icia.project.repository.MemberRepository;
@@ -60,11 +61,13 @@ public class MemberService {
         }
     }
 
+
     public void loginAxios(MemberDTO memberDTO) {
         // chaining method (체이닝 메서드)
         memberRepository.findByMemberIdAndMemberPass(memberDTO.getMemberId(), memberDTO.getMemberPass())
                 .orElseThrow(() -> new NoSuchElementException("이메일 또는 비밀번호가 틀립니다"));
     }
+
 
     public List<MemberDTO> findAll() {
         List<MemberEntity> memberEntityList = memberRepository.findAll();
@@ -76,6 +79,7 @@ public class MemberService {
         return memberDTOList;
     }
 
+
     public MemberDTO findById(Long id) {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException("아이디를 조회할 수 없습니다."));
         return MemberDTO.toDTO(memberEntity);
@@ -84,11 +88,12 @@ public class MemberService {
 
     //  id로 memberDTO 가져오기
     public MemberDTO findByMemberId(String loginDTO) {
-        MemberEntity memberEntity = memberRepository
-                .findByMemberId(loginDTO).orElseThrow(() -> new NoSuchElementException());
-        if (memberEntity == null) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository
+                .findByMemberId(loginDTO);
+        if (optionalMemberEntity.isEmpty()) {
             return null;
         } else {
+            MemberEntity memberEntity = optionalMemberEntity.get();
             MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
             return memberDTO;
         }
@@ -113,6 +118,7 @@ public class MemberService {
             return memberDTO.getId();
         }
     }
+
 }
 
 

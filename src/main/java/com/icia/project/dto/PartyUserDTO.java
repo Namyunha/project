@@ -12,7 +12,7 @@ public class PartyUserDTO {
     private Long id;
     private String partyTitle;
     private String userName;
-    private boolean isAdmitted;
+    private String isAdmitted;
     private Long partyId;
     private Long memberId;
 }

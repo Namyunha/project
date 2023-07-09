@@ -239,7 +239,7 @@
                     "<td>" + group.partyCategory + "</td>" +
                     "<td>" + group.partyTimes + "</td>" +
                     "<td>" + group.partyCreatedTime + "</td>" +
-                    "<td><button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\" onclick='applyHistory(" + group.id + ", " + id + ")'>조회</button></td>" +
+                    "<td><button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\" onclick='checkApply(" + group.id + ", " + id + ")'>조회</button></td>" +
                     "<div class=\"modal fade\" id=\"staticBackdrop\" data-bs-backdrop=\"static\" data-bs-keyboard=\"false\" tabindex=\"-1\" aria-labelledby=\"staticBackdropLabel\" aria-hidden=\"true\">\n" +
                     "  <div class=\"modal-dialog\">\n" +
                     "    <div class=\"modal-content\">\n" +
@@ -247,8 +247,7 @@
                     "        <h1 class=\"modal-title fs-5\" id=\"staticBackdropLabel\">모임 신청 내역</h1>\n" +
                     "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
                     "      </div>\n" +
-                    "      <div id=\"applyContentArea\" class=\"modal-body \">\n" +
-                    "      </div>\n" +
+                    "      <div id=\"applyContentArea\" class=\"modal-body applyContentArea\"></div>\n" +
                     "      <div class=\"modal-footer\">\n" +
                     "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
                     "      </div>\n" +
@@ -256,7 +255,6 @@
                     "  </div>\n" +
                     "</div>" +
                     "</tr>";
-
             });
             result += "                </tbody>\n" +
                 "            </table>\n" +
@@ -267,10 +265,28 @@
         });
     }
 
-
-    const applyHistory = (groupId, id) => {
-        const applyContentArea = document.querySelector("#applyContentArea");
-        console.log( "group: " + groupId + "id: " + id);
+    const checkApply = (groupId, id) => {
+        const applyContentArea = document.querySelector(".applyContentArea");
+        axios({
+            url: "/member/userApply",
+            method: "post",
+            data: {
+                partyId : groupId,
+                memberId: id
+            }
+        }).then(res => {
+            const apply = res.data;
+            console.log(apply);
+            let output =
+                "<p> 이름: "+ apply.memberName +"</p><br>" +
+                "<p> 가입인사: "+ apply.applyContents +"</p><br>" +
+                "<p> 승인여부: "+ apply.isAuthorized +"</p><br>" ;
+            console.log(applyContentArea);
+            console.log(output)
+            applyContentArea.innerHTML = output;
+        }).catch(err => {
+            console.log("조회 불가")
+        })
     }
 
     // 신청자 내역
@@ -293,7 +309,6 @@
                     "                    <th>신청자</th>\n" +
                     "                    <th>가입인사</th>\n" +
                     "                    <th>신청상황</th>\n" +
-                    "                    <th>신청자정보</th>\n" +
                     "                </tr>\n" +
                     "                </thead>\n" +
                     "                <tbody>";
@@ -316,7 +331,7 @@
                         "      </div>\n" +
                         "      <div class=\"modal-footer\">\n" +
                         "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
-                        "<button type=\"button\" onclick='acceptUser(" + apply.id + ", \"" + name + "\", \"" + partyTitle + "\", " + partyId + ")' class=\"btn btn-primary\" data-bs-dismiss=\"modal\">승인</button>\n"
+                        "<button type=\"button\" onclick='acceptUser(" + apply.memberId + ", \"" + name + "\", \"" + partyTitle + "\", " + partyId + ")' class=\"btn btn-primary\" data-bs-dismiss=\"modal\">승인</button>\n"
                         +
                         "        <button type=\"button\" onclick='rejectUser(" + apply + ")' class=\"btn btn-danger\" data-bs-dismiss=\"modal\">거절</button>\n" +
                         "      </div>\n" +
@@ -363,7 +378,7 @@
             data: {
                 partyTitle: partyTitle,
                 userName: name,
-                isAdmitted: true,
+                isAdmitted: "true",
                 partyId: partyId,
                 memberId: id
             }
@@ -378,7 +393,6 @@
     const rejectUser = () => {
         //    신청서승인여부업데이트
     }
-
 
     const updateUser = () => {
         const viewArea = document.querySelector("#viewArea");

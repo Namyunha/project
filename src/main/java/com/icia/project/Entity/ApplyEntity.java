@@ -2,6 +2,7 @@ package com.icia.project.Entity;
 
 
 import com.icia.project.dto.ApplyDTO;
+import com.icia.project.dto.PartyUserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,6 +49,23 @@ public class ApplyEntity {
         applyEntity.setMemberEntity(applyMember);
         applyEntity.setHostEntity(hostMember);
         applyEntity.setStudygroupEntity(party);
+        return applyEntity;
+    }
+
+    public static ApplyEntity toUpdateAuthorization(ApplyEntity updatedApplyEntity , PartyUserDTO partyUserDTO) {
+        ApplyEntity applyEntity = new ApplyEntity();
+        applyEntity.setId(updatedApplyEntity.getId());
+        applyEntity.setUserName(updatedApplyEntity.getUserName());
+        applyEntity.setApplyContents(updatedApplyEntity.getApplyContents());
+        applyEntity.setApplyParty(updatedApplyEntity.getApplyParty());
+        applyEntity.setMemberEntity(updatedApplyEntity.getMemberEntity());
+        applyEntity.setHostEntity(updatedApplyEntity.getHostEntity());
+        applyEntity.setStudygroupEntity(updatedApplyEntity.getStudygroupEntity());
+        if(partyUserDTO.getIsAdmitted() == "true") {
+            applyEntity.setIsAuthorized("true");
+        } else if(partyUserDTO.getIsAdmitted() == "false") {
+            applyEntity.setIsAuthorized("false");
+        }
         return applyEntity;
     }
 }

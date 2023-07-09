@@ -25,15 +25,16 @@ public class ApplyDTO {
         applyDTO.setApplyContents(applyEntity.getApplyContents());
         applyDTO.setApplyParty(applyEntity.getApplyParty());
         if (applyEntity.getIsAuthorized() == null) {
-            applyDTO.setIsAuthorized("승인 대기중");
+            applyDTO.setIsAuthorized("승인대기중");
         } else if (applyEntity.getIsAuthorized() == "true") {
-            applyDTO.setIsAuthorized("승인 허가");
+            applyDTO.setIsAuthorized("승인허가");
         } else if (applyEntity.getIsAuthorized() == "false") {
-            applyDTO.setIsAuthorized("승인 거절");
+            applyDTO.setIsAuthorized("승인거절");
         }
-        applyDTO.setMemberId(applyEntity.getMemberEntity().getId());
+        applyDTO.setMemberId(applyEntity.getMemberEntity().getId()) ;
         applyDTO.setPartyId(applyEntity.getStudygroupEntity().getId());
         applyDTO.setHostId(applyEntity.getHostEntity().getId());
         return applyDTO;
     }
+
 }

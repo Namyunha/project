@@ -22,7 +22,7 @@ public class PartyUserEntity {
     private String userName;
 
     @Column
-    private boolean isAdmitted;
+    private String isAdmitted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "party_id")
@@ -32,11 +32,17 @@ public class PartyUserEntity {
     @JoinColumn(name = "member_id")
     MemberEntity memberEntity;
 
-    public static PartyUserEntity toSaveEntity(PartyUserDTO partyUserDTO) {
+    public static PartyUserEntity toSaveEntity(PartyUserDTO partyUserDTO, MemberEntity memberEntity, StudygroupEntity studygroupEntity) {
         PartyUserEntity partyUserEntity = new PartyUserEntity();
         partyUserEntity.setPartyTitle(partyUserDTO.getPartyTitle());
         partyUserEntity.setUserName(partyUserDTO.getUserName());
-        partyUserEntity.setAdmitted(true);
+        if(partyUserDTO.getIsAdmitted() == "true") {
+            partyUserEntity.setIsAdmitted("true");
+        } else if(partyUserDTO.getIsAdmitted() == "false") {
+            partyUserEntity.setIsAdmitted("false");
+        }
+        partyUserEntity.setMemberEntity(memberEntity);
+        partyUserEntity.setStudygroupEntity(studygroupEntity);
         return partyUserEntity;
     }
 }
