@@ -24,6 +24,7 @@ public class PartyUserService {
         MemberEntity memberEntity = memberRepository.findById(partyUserDTO.getMemberId()).orElseThrow(() -> new NoSuchElementException());
         StudygroupEntity studygroupEntity = studygroupRepository.findById(partyUserDTO.getPartyId()).orElseThrow(() -> new NoSuchElementException());
         PartyUserEntity partyUserEntity = PartyUserEntity.toSaveEntity(partyUserDTO, memberEntity, studygroupEntity);
+        System.out.println("서비스에 있는 partyUserEntity.getIsAdmitted() = " + partyUserEntity.getIsAdmitted());
         partyUserRepository.save(partyUserEntity);
     }
 }

@@ -36,9 +36,10 @@ public class PartyUserEntity {
         PartyUserEntity partyUserEntity = new PartyUserEntity();
         partyUserEntity.setPartyTitle(partyUserDTO.getPartyTitle());
         partyUserEntity.setUserName(partyUserDTO.getUserName());
-        if(partyUserDTO.getIsAdmitted() == "true") {
+        System.out.println("Entity에 있는 partyUserDTO.getIsAdmitted() = " + partyUserDTO.getIsAdmitted());
+        if (partyUserDTO.getIsAdmitted().equals("true")) {
             partyUserEntity.setIsAdmitted("true");
-        } else if(partyUserDTO.getIsAdmitted() == "false") {
+        } else if (partyUserDTO.getIsAdmitted().equals("false")) {
             partyUserEntity.setIsAdmitted("false");
         }
         partyUserEntity.setMemberEntity(memberEntity);

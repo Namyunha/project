@@ -36,7 +36,7 @@ public class MemberService {
             List<MultipartFile> memberFile = memberDTO.getMemberProfile();
             String originalFileName = memberFile.get(0).getOriginalFilename();
             String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
-            String savePath = "C:\\Springboot_project_img\\" + storedFileName;
+            String savePath = "D:\\Springboot_project_img\\" + storedFileName;
             memberFile.get(0).transferTo(new File(savePath));
             MemberFileEntity memberFileEntity = MemberFileEntity.saveFileEntity(originalFileName, storedFileName, saveFile);
             memberFileRepository.save(memberFileEntity);
@@ -106,18 +106,6 @@ public class MemberService {
     }
 
 
-    public Long findUserId(String loginId) {
-        MemberEntity memberEntity = memberRepository
-                .findByMemberId(loginId).orElseThrow(() -> new NoSuchElementException());
-        if (memberEntity == null) {
-            int intValue = 0;
-            long longValue = intValue;
-            return longValue;
-        } else {
-            MemberDTO memberDTO = MemberDTO.toDTO(memberEntity);
-            return memberDTO.getId();
-        }
-    }
 
 }
 

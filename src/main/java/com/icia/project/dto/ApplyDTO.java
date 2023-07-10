@@ -18,6 +18,7 @@ public class ApplyDTO {
     private Long memberId;
     private Long partyId;
     private Long hostId;
+
     public static ApplyDTO toDTO(ApplyEntity applyEntity) {
         ApplyDTO applyDTO = new ApplyDTO();
         applyDTO.setId(applyEntity.getId());
@@ -26,15 +27,14 @@ public class ApplyDTO {
         applyDTO.setApplyParty(applyEntity.getApplyParty());
         if (applyEntity.getIsAuthorized() == null) {
             applyDTO.setIsAuthorized("승인대기중");
-        } else if (applyEntity.getIsAuthorized() == "true") {
+        } else if (applyEntity.getIsAuthorized().equals("true")) {
             applyDTO.setIsAuthorized("승인허가");
-        } else if (applyEntity.getIsAuthorized() == "false") {
+        } else if (applyEntity.getIsAuthorized().equals("false")) {
             applyDTO.setIsAuthorized("승인거절");
         }
-        applyDTO.setMemberId(applyEntity.getMemberEntity().getId()) ;
+        applyDTO.setMemberId(applyEntity.getMemberEntity().getId());
         applyDTO.setPartyId(applyEntity.getStudygroupEntity().getId());
         applyDTO.setHostId(applyEntity.getHostEntity().getId());
         return applyDTO;
     }
-
 }

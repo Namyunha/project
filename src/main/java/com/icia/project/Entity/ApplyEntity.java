@@ -52,7 +52,7 @@ public class ApplyEntity {
         return applyEntity;
     }
 
-    public static ApplyEntity toUpdateAuthorization(ApplyEntity updatedApplyEntity , PartyUserDTO partyUserDTO) {
+    public static ApplyEntity toUpdateAuthorization(ApplyEntity updatedApplyEntity, PartyUserDTO partyUserDTO) {
         ApplyEntity applyEntity = new ApplyEntity();
         applyEntity.setId(updatedApplyEntity.getId());
         applyEntity.setUserName(updatedApplyEntity.getUserName());
@@ -61,9 +61,9 @@ public class ApplyEntity {
         applyEntity.setMemberEntity(updatedApplyEntity.getMemberEntity());
         applyEntity.setHostEntity(updatedApplyEntity.getHostEntity());
         applyEntity.setStudygroupEntity(updatedApplyEntity.getStudygroupEntity());
-        if(partyUserDTO.getIsAdmitted() == "true") {
+        if (partyUserDTO.getIsAdmitted().equals("true")) {
             applyEntity.setIsAuthorized("true");
-        } else if(partyUserDTO.getIsAdmitted() == "false") {
+        } else if (partyUserDTO.getIsAdmitted().equals("false")) {
             applyEntity.setIsAuthorized("false");
         }
         return applyEntity;

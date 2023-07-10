@@ -1,7 +1,9 @@
 package com.icia.project.controller;
 
+import com.icia.project.dto.ApplyDTO;
 import com.icia.project.dto.MemberDTO;
 import com.icia.project.dto.StudygroupDTO;
+import com.icia.project.service.ApplyService;
 import com.icia.project.service.MemberService;
 import com.icia.project.service.StudygroupService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.util.List;
 public class StudyGroupController {
     private final StudygroupService studygroupService;
     private final MemberService memberService;
+    private final ApplyService applyService;
 
     @Transactional
     @GetMapping("/list")
@@ -60,20 +63,24 @@ public class StudyGroupController {
         return new ResponseEntity<>(studygroupDTO.getPartyTimes(), HttpStatus.OK);
     }
 
+
     @Transactional
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id, Model model, HttpSession session) {
         StudygroupDTO studygroupDTO = studygroupService.findById(id);
         String loginUser = (String) session.getAttribute("loginId");
+
         if (loginUser == null) {
             model.addAttribute("loginUser", "");
             model.addAttribute("loginUserId", 0);
         } else {
             MemberDTO loginUserDTO = memberService.findByMemberId(loginUser);
+            System.out.println("컨트롤러에 있는 loginUserDTO = " + loginUserDTO);
             model.addAttribute("loginUser", loginUserDTO.getMemberName());
             model.addAttribute("loginUserId", loginUserDTO.getId());
         }
-            model.addAttribute("group", studygroupDTO);
+
+        model.addAttribute("group", studygroupDTO);
         return "/studyGroupPages/studyGroupDetail";
     }
 }

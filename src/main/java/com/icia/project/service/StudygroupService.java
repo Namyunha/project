@@ -44,7 +44,7 @@ public class StudygroupService {
             studygroupRepository.save(studygroupEntity);
             String originalFileName = studygroupDTO.getGroupFile().get(0).getOriginalFilename();
             String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
-            String savePath = "C:\\Springboot_project_img\\" + storedFileName;
+            String savePath = "D:\\Springboot_project_img\\" + storedFileName;
             studygroupDTO.getGroupFile().get(0).transferTo(new File(savePath));
             StudygroupFileEntity studygroupFileEntity = StudygroupFileEntity.save(studygroupEntity, originalFileName, storedFileName);
             studygroupFileRepository.save(studygroupFileEntity);

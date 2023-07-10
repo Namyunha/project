@@ -22,34 +22,37 @@
             <strong>모임시간: </strong>
             <span class="lead" th:text="${group.getPartyTimes()}"></span>
         </div>
-
         <div>
             <strong>모임설명: </strong>
             <span class="lead" th:text="${group.getPartyDetail()}"></span>
         </div>
-
         <div>
             <strong>모임방법: </strong>
             <span class="lead" th:text="${group.getPartyMethod()}"></span>
         </div>
-
         <div style="margin-top: 5%">
-            <button th:if="${loginUserId == group.getHostId()}" type="button" class="btn btn-primary">모임수정
-            </button>
-            <button th:unless="${loginUserId == group.getHostId()}" type="button" class="btn btn-primary"
-                    data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
-            </button>
-            <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+            <!--로그인한 유저가 모임의 등록유저 일 때-->
+            <div th:if="${group.hostId == loginUserId}">
+                <button type="button" class="btn btn-primary">모임수정
+                </button>
+                <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+            </div>
+
+            <!--로그인한 유저가 모임의 등록유저가 아닐 때-->
+            <div th:unless="${group.hostId == loginUserId}">
+                <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
+                </button>
+                <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+            </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
                         <div class="modal-body">
                             <div id="applyForm">
                                 <div class="mb-3">
@@ -73,14 +76,12 @@
                                        th:value="${group.getHostId()}">
                             </div>
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button onclick="applySave()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
                                 Send message
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -94,6 +95,7 @@
              preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
         <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
     </div>
+
     <div th:unless="${group.storedFileName == null}" class="col-md-5 order-md-1">
         <img th:src="@{|/upload/${group.storedFileName}}"
              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
@@ -101,6 +103,7 @@
              preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
         <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
     </div>
+
 </div>
 <th:block th:replace="/component/footer::footer"></th:block>
 <script>

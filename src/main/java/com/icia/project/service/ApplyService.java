@@ -76,14 +76,14 @@ public class ApplyService {
     public ApplyDTO findApplyByMemberIdAndPartyId(ApplyDTO applyDTO) {
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(applyDTO.getMemberId());
         Optional<StudygroupEntity> optionalStudygroupEntity = studygroupRepository.findById(applyDTO.getPartyId());
-        if(optionalMemberEntity.isPresent() && optionalStudygroupEntity.isPresent()){
-           MemberEntity applyMemberEntity = optionalMemberEntity.get();
-           StudygroupEntity applyGroupEntity = optionalStudygroupEntity.get();
-           ApplyEntity applyEntity = applyRepository.findByMemberEntityAndStudygroupEntity(applyMemberEntity, applyGroupEntity);
-           ApplyDTO userApply = ApplyDTO.toDTO(applyEntity);
+        if (optionalMemberEntity.isPresent() && optionalStudygroupEntity.isPresent()) {
+            MemberEntity applyMemberEntity = optionalMemberEntity.get();
+            StudygroupEntity applyGroupEntity = optionalStudygroupEntity.get();
+            ApplyEntity applyEntity = applyRepository.findByMemberEntityAndStudygroupEntity(applyMemberEntity, applyGroupEntity);
+            ApplyDTO userApply = ApplyDTO.toDTO(applyEntity);
             System.out.println("In service, userApply = " + userApply);
-           return userApply;
-        } else{
+            return userApply;
+        } else {
             return null;
         }
     }
@@ -96,6 +96,20 @@ public class ApplyService {
         ApplyEntity updatedApplyEntity = ApplyEntity.toUpdateAuthorization(applyEntity, partyUserDTO);
         applyRepository.save(updatedApplyEntity);
     }
+
+    public ApplyDTO findByMemberId(Long id) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
+        MemberEntity memberEntity = optionalMemberEntity.get();
+        ApplyEntity applyEntity = applyRepository.findByMemberEntity(memberEntity);
+        if (applyEntity == null) {
+            return null;
+        } else {
+            ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
+            return applyDTO;
+        }
+    }
+
+
 }
 
 
