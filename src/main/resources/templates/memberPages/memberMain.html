@@ -284,16 +284,18 @@
                     const name = apply.memberName;
                     const partyTitle = apply.applyParty;
                     const partyId = apply.partyId;
+                    const isAuthorized = String(apply.isAuthorized);
                     result += `
           <tr>
             <td>${apply.id}</td>
             <td>${apply.memberName}</td>
             <td>${apply.applyContents}</td>
             <td>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="watchUser(${apply.id})">조회</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="watchUser(${apply.id}, '${isAuthorized}')">조회</button>
             </td>
             <td>${apply.isAuthorized}</td>
           </tr>
+
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -302,15 +304,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div id="applyInfoArea" class="modal-body"></div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>`;
-                    if (apply.isAuthorized === '승인대기중') {
-                        result += `
-                  <button type="button" onclick="acceptUser(${apply.memberId}, '${name}', '${partyTitle}', ${partyId})" class="btn btn-primary" data-bs-dismiss="modal">승인</button>
-                  <button type="button" onclick="rejectUser(${apply.memberId}, '${name}', '${partyTitle}', ${partyId})" class="btn btn-danger" data-bs-dismiss="modal">거절</button>`;
-                    }
-                    result += `
-                </div>
+                <div id="applyFooterArea" class="modal-footer"></div>
               </div>
             </div>
           </div>`;
@@ -327,8 +321,9 @@
     };
 
     // 모달창에있는 신청유저 내역확인
-    const watchUser = (id) => {
+    const watchUser = (id, isAuthorized) => {
         const applyInfoArea = document.querySelector("#applyInfoArea");
+        const applyFooterArea = document.querySelector("#applyFooterArea");
         axios({
             url: "/member/applyUser/" + id,
             method: "get",
@@ -340,6 +335,12 @@
                 "이메일: " + applyUser.memberEmail + "<br><br>" +
                 "연락처: " + applyUser.memberPhone + "<br><br>";
             applyInfoArea.innerHTML = result;
+            let footer = "<button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>";
+            if (isAuthorized === '승인대기중') {
+                footer += `<button type="button" onclick="acceptUser(${id}, '${applyUser.memberName}', '${applyUser.applyParty}', ${applyUser.partyId})" class="btn btn-primary" data-bs-dismiss="modal">승인</button>`;
+                footer += `<button type="button" onclick="rejectUser(${id}, '${applyUser.memberName}', '${applyUser.applyParty}', ${applyUser.partyId})" class="btn btn-danger" data-bs-dismiss="modal">거절</button>`;
+            }
+            applyFooterArea.innerHTML = footer;
         }).catch(err => {
             alert("정보를 불러오지 못하였습니다");
         })
@@ -486,7 +487,6 @@
             alert("정보를 불러올 수 없습니다.");
         });
     };
-
     const goUpdate = () => {
         const viewArea = document.querySelector("#viewArea");
         const id = document.querySelector("#id").value;
@@ -517,6 +517,4 @@
             console.log("업데이트 실패");
         })
     }
-
-
 </script>

@@ -46,6 +46,7 @@ public class StudygroupDTO {
         studygroupDTO.setPartyCreatedTime(studygroupEntity.getCreatedAt());
         studygroupDTO.setPartyUpdatedTime(studygroupEntity.getUpdatedAt());
         studygroupDTO.setHostId(studygroupEntity.getMemberEntity().getId());
+        studygroupDTO.setUserCount(studygroupEntity.getUserCount());
         if (studygroupEntity.getFileAttached() == 1) {
             StudygroupFileEntity groupFile = studygroupEntity.getStudygroupFileEntityList().get(0);
             String originalFileName = groupFile.getOriginalFileName();

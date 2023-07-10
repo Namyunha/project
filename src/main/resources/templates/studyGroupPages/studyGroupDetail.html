@@ -15,6 +15,10 @@
             <span class="lead" th:text="${group.getPartyPersonnel()}"></span>
         </div>
         <div>
+            <strong>현재인원: </strong>
+            <span class="lead" th:text="${group.getUserCount()}"></span>
+        </div>
+        <div>
             <strong>모임종류: </strong>
             <span class="lead" th:text="${group.getPartyCategory()}"></span>
         </div>

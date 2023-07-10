@@ -69,7 +69,6 @@ public class StudyGroupController {
     public String detail(@PathVariable Long id, Model model, HttpSession session) {
         StudygroupDTO studygroupDTO = studygroupService.findById(id);
         String loginUser = (String) session.getAttribute("loginId");
-
         if (loginUser == null) {
             model.addAttribute("loginUser", "");
             model.addAttribute("loginUserId", 0);
