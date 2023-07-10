@@ -282,16 +282,16 @@
           <tbody>`;
                 applyList.forEach((apply) => {
                     const name = apply.memberName;
-                    const partyTitle = apply.applyParty;
-                    const partyId = apply.partyId;
-                    const isAuthorized = String(apply.isAuthorized);
+                    let partyTitle = apply.applyParty;
+                    let partyId = apply.partyId;
+                    let isAuthorized = String(apply.isAuthorized);
                     result += `
           <tr>
             <td>${apply.id}</td>
             <td>${apply.memberName}</td>
             <td>${apply.applyContents}</td>
             <td>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="watchUser(${apply.id}, '${isAuthorized}')">조회</button>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="watchUser(${apply.id},'${apply.memberId}', '${isAuthorized}','${apply.partyId}','${apply.applyParty}' )">조회</button>
             </td>
             <td>${apply.isAuthorized}</td>
           </tr>
@@ -321,14 +321,15 @@
     };
 
     // 모달창에있는 신청유저 내역확인
-    const watchUser = (id, isAuthorized) => {
+    const watchUser = (applyId,memberId, isAuthorized, partyId, partyTitle) => {
         const applyInfoArea = document.querySelector("#applyInfoArea");
         const applyFooterArea = document.querySelector("#applyFooterArea");
         axios({
-            url: "/member/applyUser/" + id,
+            url: "/member/applyUser/" + applyId,
             method: "get",
         }).then(res => {
             const applyUser = res.data;
+            console.log(applyUser);
             let result = "이름: " + applyUser.memberName + "<br><br>" +
                 "생년월일: " + applyUser.memberPrivate + "<br><br>" +
                 "성별: " + applyUser.memberGender + "<br><br>" +
@@ -337,18 +338,17 @@
             applyInfoArea.innerHTML = result;
             let footer = "<button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>";
             if (isAuthorized === '승인대기중') {
-                footer += `<button type="button" onclick="acceptUser(${id}, '${applyUser.memberName}', '${applyUser.applyParty}', ${applyUser.partyId})" class="btn btn-primary" data-bs-dismiss="modal">승인</button>`;
-                footer += `<button type="button" onclick="rejectUser(${id}, '${applyUser.memberName}', '${applyUser.applyParty}', ${applyUser.partyId})" class="btn btn-danger" data-bs-dismiss="modal">거절</button>`;
+                footer += `<button type="button" onclick="acceptUser(${applyId},'${memberId}', '${applyUser.memberName}', '${partyTitle}', '${partyId}')" class="btn btn-primary" data-bs-dismiss="modal">승인</button>`;
+                footer += `<button type="button" onclick="rejectUser(${applyId},'${memberId}', '${applyUser.memberName}', '${partyTitle}', '${partyId}')" class="btn btn-danger" data-bs-dismiss="modal">거절</button>`;
             }
             applyFooterArea.innerHTML = footer;
         }).catch(err => {
             alert("정보를 불러오지 못하였습니다");
         })
-        console.log(id);
     }
 
     // 유저 승인하기
-    const acceptUser = (id, name, partyTitle, partyId) => {
+    const acceptUser = (applyId,memberId, name, partyTitle, partyId) => {
         axios({
             url: "/partyUser/save",
             method: "post",
@@ -357,7 +357,7 @@
                 userName: name,
                 isAdmitted: "true",
                 partyId: partyId,
-                memberId: id
+                memberId: memberId
             }
         }).then(res => {
             console.log(res.data);
@@ -367,7 +367,7 @@
     }
 
     // 유저 거절하기
-    const rejectUser = (id, name, partyTitle, partyId) => {
+    const rejectUser = (memberId, name, partyTitle, partyId) => {
         //    신청서승인여부업데이트
         axios({
             url: "/partyUser/reject",
@@ -377,7 +377,7 @@
                 userName: name,
                 isAdmitted: "false",
                 partyId: partyId,
-                memberId: id
+                memberId: memberId
             }
         }).then(res => {
             console.log(res.data);

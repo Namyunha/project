@@ -92,6 +92,7 @@ public class ApplyService {
         System.out.println("In ApplyService, partyUserDTO = " + partyUserDTO);
         MemberEntity memberEntity = memberRepository.findById(partyUserDTO.getMemberId()).orElseThrow(() -> new NoSuchElementException());
         StudygroupEntity studygroupEntity = studygroupRepository.findById(partyUserDTO.getPartyId()).orElseThrow(() -> new NoSuchElementException());
+
         ApplyEntity applyEntity = applyRepository.findByMemberEntityAndStudygroupEntity(memberEntity, studygroupEntity);
         ApplyEntity updatedApplyEntity = ApplyEntity.toUpdateAuthorization(applyEntity, partyUserDTO);
         applyRepository.save(updatedApplyEntity);

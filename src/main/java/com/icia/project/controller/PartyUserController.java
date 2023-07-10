@@ -23,6 +23,7 @@ public class PartyUserController {
     @Transactional
     @PostMapping("/save")
     public ResponseEntity savePartyUser(@RequestBody PartyUserDTO partyUserDTO) {
+        System.out.println("ParyUserController에 있는 partyUserDTO = " + partyUserDTO);
         // 모임이 있는 유저 +1
         partyUserService.save(partyUserDTO);
         // 유저가 가입한 모임의 인원수 +1
