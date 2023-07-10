@@ -108,7 +108,12 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button onclick="applySave()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                            <button th:unless="${session.loginId == null}" onclick="applySave()" type="button"
+                                    class="btn btn-primary" data-bs-dismiss="modal">
+                                Send message
+                            </button>
+                            <button th:if="${session.loginId == null}" onclick="goLogin()" type="button"
+                                    class="btn btn-primary" data-bs-dismiss="modal">
                                 Send message
                             </button>
                         </div>
@@ -126,7 +131,6 @@
              preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
         <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
     </div>
-
     <div th:unless="${group.storedFileName == null}" class="col-md-5 order-md-1">
         <img th:src="@{|/upload/${group.storedFileName}}"
              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
@@ -140,6 +144,7 @@
 <th:block th:replace="/component/footer::footer"></th:block>
 
 <script>
+
     const applySave = () => {
         const memberName = document.querySelector("#memberName");
         const applyParty = document.querySelector("#applyParty");
@@ -163,6 +168,13 @@
         }).catch(err => {
             alert("모임 인원이 다 찼습니다.");
         })
+    }
+
+    const goLogin = () => {
+        let con = confirm("로그인 하시겠습니끼?");
+        if (con) {
+            location.href = "/member/login";
+        }
     }
 </script>
 </body>
