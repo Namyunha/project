@@ -8,6 +8,7 @@
 <body>
 <th:block th:replace="/component/header::header"></th:block>
 <div class="row featurette" style="margin: 5%">
+
     <div class="col-md-7 order-md-2" style="padding-top: 7%">
         <h1 class="featurette-heading fw-normal lh-1" th:text="${group.getPartyTitle()}"></h1><br>
         <div>
@@ -34,20 +35,29 @@
             <strong>모임방법: </strong>
             <span class="lead" th:text="${group.getPartyMethod()}"></span>
         </div>
+
         <div style="margin-top: 5%">
+
             <!--로그인한 유저가 모임의 등록유저 일 때-->
             <div th:if="${group.hostId == loginUserId}">
                 <button type="button" class="btn btn-primary">모임수정
                 </button>
                 <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
             </div>
+
             <!--로그인한 유저가 모임의 등록유저가 아닐 때-->
             <div th:unless="${group.hostId == loginUserId}">
                 <!--조회한 모임에 신청을 하지 않았을 때-->
                 <div th:if="${applyDTO} == null">
-                    <button type="button" class="btn btn-primary"
+                    <button th:if="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
+                            class="btn btn-primary"
                             data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
                     </button>
+
+                    <button th:unless="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
+                            class="btn btn-primary" disabled>인원마감
+                    </button>
+
                     <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
                 </div>
                 <!--조회한 모임이 신청한 모임일 때-->
@@ -68,13 +78,11 @@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
-
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
                         <div class="modal-body">
                             <div id="applyForm">
                                 <div class="mb-3">
@@ -98,7 +106,6 @@
                                        th:value="${group.getHostId()}">
                             </div>
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button onclick="applySave()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
@@ -106,11 +113,12 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
+
         </div>
     </div>
+
     <div th:if="${group.storedFileName == null}" class="col-md-5 order-md-1">
         <img src="/images/NoImage.jpg"
              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
@@ -118,6 +126,7 @@
              preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
         <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect>
     </div>
+
     <div th:unless="${group.storedFileName == null}" class="col-md-5 order-md-1">
         <img th:src="@{|/upload/${group.storedFileName}}"
              class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
@@ -127,7 +136,9 @@
     </div>
 
 </div>
+
 <th:block th:replace="/component/footer::footer"></th:block>
+
 <script>
     const applySave = () => {
         const memberName = document.querySelector("#memberName");
@@ -150,10 +161,9 @@
         }).then(res => {
             location.href = "/studygroup/" + partyId.value;
         }).catch(err => {
-            alert("모임 신청에 실패하였습니다.");
+            alert("모임 인원이 다 찼습니다.");
         })
     }
-
 </script>
 </body>
 </html>
