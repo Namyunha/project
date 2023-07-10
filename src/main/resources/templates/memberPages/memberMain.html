@@ -321,7 +321,7 @@
     };
 
     // 모달창에있는 신청유저 내역확인
-    const watchUser = (applyId,memberId, isAuthorized, partyId, partyTitle) => {
+    const watchUser = (applyId, memberId, isAuthorized, partyId, partyTitle) => {
         const applyInfoArea = document.querySelector("#applyInfoArea");
         const applyFooterArea = document.querySelector("#applyFooterArea");
         axios({
@@ -348,7 +348,7 @@
     }
 
     // 유저 승인하기
-    const acceptUser = (applyId,memberId, name, partyTitle, partyId) => {
+    const acceptUser = (applyId, memberId, name, partyTitle, partyId) => {
         axios({
             url: "/partyUser/save",
             method: "post",
@@ -367,7 +367,7 @@
     }
 
     // 유저 거절하기
-    const rejectUser = (memberId, name, partyTitle, partyId) => {
+    const rejectUser = (applyId, memberId, name, partyTitle, partyId) => {
         //    신청서승인여부업데이트
         axios({
             url: "/partyUser/reject",
