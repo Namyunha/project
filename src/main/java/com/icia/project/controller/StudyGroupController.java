@@ -83,7 +83,7 @@ public class StudyGroupController {
             if (applyDTO != null) {
                 model.addAttribute("applyDTO", applyDTO);
             } else {
-                model.addAttribute("applyDTO", "nApplyDTO");
+                model.addAttribute("applyDTO", null);
             }
         }
         model.addAttribute("group", studygroupDTO);

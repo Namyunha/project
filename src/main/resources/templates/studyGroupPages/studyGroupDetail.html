@@ -43,7 +43,7 @@
             <div th:unless="${group.hostId == loginUserId}">
 
                 <!--조회한 모임에 신청을 하지 않았을 때-->
-                <div th:if="${applyDTO} == 'nApplyDTO'">
+                <div th:if="${applyDTO} == null">
                     <button type="button" class="btn btn-primary"
                             data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
                     </button>
@@ -51,21 +51,30 @@
                 </div>
 
                 <!--조회한 모임이 신청한 모임일 때-->
-                <div th:unless="${applyDTO} == 'nApplyDTO'">
+                <div th:unless="${applyDTO == null}" th:switch="${applyDTO.getIsAuthorized()}">
                     <!--신청한 모임이 승인 처리가 됐을 때-->
-                    <button th:if="${applyDTO.getIsAuthorized()} == '승인대기중'" type="button" class="btn btn-secondary"
-                            disabled>
-                        승인대기중
-                    </button>
+                    <!--                    <button th:if="${applyDTO.getIsAuthorized()} == '승인대기중'" type="button" class="btn btn-secondary"-->
+                    <!--                            disabled>-->
+                    <!--                        승인대기중-->
+                    <!--                    </button>-->
                     <!--신청한 모임이 승인 처리 됐을 때-->
-                    <button th:if="${applyDTO.getIsAuthorized()} == '승인허가'" type="button" class="btn btn-primary"
-                            disabled>
-                        가입된 모임
-                    </button>
+                    <!--                    <button th:if="${applyDTO.getIsAuthorized()} == '승인허가'" type="button" class="btn btn-primary"-->
+                    <!--                            disabled>-->
+                    <!--                        가입된 모임-->
+                    <!--                    </button>-->
 
                     <!--신청한 모임이 거부 처리 됐을 때-->
-                    <button th:if="${applyDTO.getIsAuthorized()} == '승인거절'" type="button" class="btn btn-danger"
-                            disabled>
+                    <!--                    <button th:if="${applyDTO.getIsAuthorized()} == '승인거절'" type="button" class="btn btn-danger"-->
+                    <!--                            disabled>-->
+                    <!--                        거절된 모임-->
+                    <!--                    </button>-->
+                    <button th:case="'승인대기중'" type="button" class="btn btn-secondary" disabled>
+                        승인대기중
+                    </button>
+                    <button th:case="'승인허가'" type="button" class="btn btn-primary" disabled>
+                        가입된 모임
+                    </button>
+                    <button th:case="'승인거절'" type="button" class="btn btn-danger" disabled>
                         거절된 모임
                     </button>
                     <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
