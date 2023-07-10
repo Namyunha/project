@@ -31,6 +31,7 @@
             <span class="lead" th:text="${group.getPartyMethod()}"></span>
         </div>
         <div style="margin-top: 5%">
+
             <!--로그인한 유저가 모임의 등록유저 일 때-->
             <div th:if="${group.hostId == loginUserId}">
                 <button type="button" class="btn btn-primary">모임수정
@@ -40,11 +41,37 @@
 
             <!--로그인한 유저가 모임의 등록유저가 아닐 때-->
             <div th:unless="${group.hostId == loginUserId}">
-                <button type="button" class="btn btn-primary"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
-                </button>
-                <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+
+                <!--조회한 모임에 신청을 하지 않았을 때-->
+                <div th:if="${applyDTO} == 'nApplyDTO'">
+                    <button type="button" class="btn btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
+                    </button>
+                    <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+                </div>
+
+                <!--조회한 모임이 신청한 모임일 때-->
+                <div th:unless="${applyDTO} == 'nApplyDTO'">
+                    <!--신청한 모임이 승인 처리가 됐을 때-->
+                    <button th:if="${applyDTO.getIsAuthorized()} == '승인대기중'" type="button" class="btn btn-secondary"
+                            disabled>
+                        승인대기중
+                    </button>
+                    <!--신청한 모임이 승인 처리 됐을 때-->
+                    <button th:if="${applyDTO.getIsAuthorized()} == '승인허가'" type="button" class="btn btn-primary"
+                            disabled>
+                        가입된 모임
+                    </button>
+
+                    <!--신청한 모임이 거부 처리 됐을 때-->
+                    <button th:if="${applyDTO.getIsAuthorized()} == '승인거절'" type="button" class="btn btn-danger"
+                            disabled>
+                        거절된 모임
+                    </button>
+                    <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+                </div>
             </div>
+
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -53,6 +80,7 @@
                             <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+
                         <div class="modal-body">
                             <div id="applyForm">
                                 <div class="mb-3">
@@ -83,8 +111,10 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 

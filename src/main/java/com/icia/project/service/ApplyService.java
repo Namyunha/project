@@ -109,7 +109,20 @@ public class ApplyService {
         }
     }
 
-
+    //    디테일창에 신청중, 모임신청 버튼 표시하기
+    public ApplyDTO findApplyBtn(Long userId, Long groupId) {
+        //  유저아이디와 그룹아이디는 무조건 있음 신청서 dto 만들 때 조심
+        MemberEntity memberEntity = memberRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(groupId).orElseThrow(() -> new NoSuchElementException());
+        ApplyEntity applyEntity = applyRepository.findByMemberEntityAndStudygroupEntity(memberEntity, studygroupEntity);
+        if (applyEntity == null) {
+            return null;
+        } else {
+            ApplyDTO applyDTO = ApplyDTO.toDTO(applyEntity);
+            System.out.println("서비스에 있는 applyDTO = " + applyDTO);
+            return applyDTO;
+        }
+    }
 }
 
 

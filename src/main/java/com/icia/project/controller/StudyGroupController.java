@@ -78,8 +78,14 @@ public class StudyGroupController {
             System.out.println("컨트롤러에 있는 loginUserDTO = " + loginUserDTO);
             model.addAttribute("loginUser", loginUserDTO.getMemberName());
             model.addAttribute("loginUserId", loginUserDTO.getId());
+            ApplyDTO applyDTO = applyService.findApplyBtn(loginUserDTO.getId(), studygroupDTO.getId());
+            System.out.println("컨트롤러에 있는 applyDTO = " + applyDTO);
+            if (applyDTO != null) {
+                model.addAttribute("applyDTO", applyDTO);
+            } else {
+                model.addAttribute("applyDTO", "nApplyDTO");
+            }
         }
-
         model.addAttribute("group", studygroupDTO);
         return "/studyGroupPages/studyGroupDetail";
     }

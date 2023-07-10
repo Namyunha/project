@@ -114,37 +114,6 @@
             </tr>
             </tbody>
         </table>
-
-        <!--        <ul class="nav nav-tabs">-->
-        <!--            <li class="nav-item  ">-->
-        <!--                <button class="nav-link active aria-current=page bg-dark text-white">등록한 모임</button>-->
-        <!--            </li>-->
-        <!--            <li class="nav-item">-->
-        <!--                <button class="nav-link text-black" aria-current="page">신청한 모임</button>-->
-        <!--            </li>-->
-        <!--        </ul>-->
-        <!--        <div>-->
-        <!--            <table class="table table-hover">-->
-        <!--                <thead class="table-dark">-->
-        <!--                <tr>-->
-        <!--                    <th>번호</th>-->
-        <!--                    <th>모임이름</th>-->
-        <!--                    <th>모임종류</th>-->
-        <!--                    <th>모임시간</th>-->
-        <!--                    <th>개설일</th>-->
-        <!--                </tr>-->
-        <!--                </thead>-->
-        <!--                <tbody>-->
-        <!--                <tr th:each="group: ${groupList}">-->
-        <!--                    <td th:text="${group.id}"></td>-->
-        <!--                    <td th:text="${group.partyTitle}"></td>-->
-        <!--                    <td th:text="${group.partyCategory}"></td>-->
-        <!--                    <td th:text="${group.partyTimes}"></td>-->
-        <!--                    <td th:text="${group.partyCreatedTime}"></td>-->
-        <!--                </tr>-->
-        <!--                </tbody>-->
-        <!--            </table>-->
-        <!--        </div>-->
     </div>
 </div>
 </html>
@@ -271,16 +240,16 @@
             url: "/member/userApply",
             method: "post",
             data: {
-                partyId : groupId,
+                partyId: groupId,
                 memberId: id
             }
         }).then(res => {
             const apply = res.data;
             console.log(apply);
             let output =
-                "<p> 이름: "+ apply.memberName +"</p><br>" +
-                "<p> 가입인사: "+ apply.applyContents +"</p><br>" +
-                "<p> 승인여부: "+ apply.isAuthorized +"</p><br>" ;
+                "<p> 이름: " + apply.memberName + "</p><br>" +
+                "<p> 가입인사: " + apply.applyContents + "</p><br>" +
+                "<p> 승인여부: " + apply.isAuthorized + "</p><br>";
             console.log(applyContentArea);
             console.log(output)
             applyContentArea.innerHTML = output;
@@ -296,59 +265,66 @@
         axios({
             url: "/member/applyHistory/" + id,
             method: "get",
-        }).then(res => {
-            const applyList = res.data;
-            applyList.forEach(apply => {
-                const name = "" + apply.memberName;
-                const partyTitle = "" + apply.applyParty;
-                const partyId = apply.partyId
-                let result = "            <table class=\"table table-hover\">\n" +
-                    "                <thead class=\"table-dark\">\n" +
-                    "                <tr>\n" +
-                    "                    <th>번호</th>\n" +
-                    "                    <th>신청자</th>\n" +
-                    "                    <th>가입인사</th>\n" +
-                    "                    <th>신청상황</th>\n" +
-                    "                </tr>\n" +
-                    "                </thead>\n" +
-                    "                <tbody>";
-                applyList.forEach(apply => {
-                    result += "<tr>" +
-                        "<td>" + apply.id + "</td>" +
-                        "<td>" + apply.memberName + "</td>" +
-                        "<td>" + apply.applyContents + "</td>" +
-                        "<td> <button class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\"" +
-                        "onclick='watchUser(" + apply.id + ")' >조회</button> </td>" +
-
-                        "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
-                        "  <div class=\"modal-dialog\">\n" +
-                        "    <div class=\"modal-content\">\n" +
-                        "      <div class=\"modal-header\">\n" +
-                        "        <h1 class=\"modal-title fs-5\" id=\"exampleModalLabel\">회원 정보</h1>\n" +
-                        "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n" +
-                        "      </div>\n" +
-                        "      <div id='applyInfoArea' class=\"modal-body\">\n" +
-                        "      </div>\n" +
-                        "      <div class=\"modal-footer\">\n" +
-                        "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">닫기</button>\n" +
-                        "<button type=\"button\" onclick='acceptUser(" + apply.memberId + ", \"" + name + "\", \"" + partyTitle + "\", " + partyId + ")' class=\"btn btn-primary\" data-bs-dismiss=\"modal\">승인</button>\n"
-                        +
-                        "        <button type=\"button\" onclick='rejectUser(" + apply + ")' class=\"btn btn-danger\" data-bs-dismiss=\"modal\">거절</button>\n" +
-                        "      </div>\n" +
-                        "    </div>\n" +
-                        "  </div>\n" +
-                        "</div>" +
-                        "</tr>";
+        })
+            .then((res) => {
+                const applyList = res.data;
+                let result = `
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>번호</th>
+              <th>신청자</th>
+              <th>가입인사</th>
+              <th>회원정보</th>
+              <th>신청현황</th>
+            </tr>
+          </thead>
+          <tbody>`;
+                applyList.forEach((apply) => {
+                    const name = apply.memberName;
+                    const partyTitle = apply.applyParty;
+                    const partyId = apply.partyId;
+                    result += `
+          <tr>
+            <td>${apply.id}</td>
+            <td>${apply.memberName}</td>
+            <td>${apply.applyContents}</td>
+            <td>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="watchUser(${apply.id})">조회</button>
+            </td>
+            <td>${apply.isAuthorized}</td>
+          </tr>
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">회원 정보</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="applyInfoArea" class="modal-body"></div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>`;
+                    if (apply.isAuthorized === '승인대기중') {
+                        result += `
+                  <button type="button" onclick="acceptUser(${apply.memberId}, '${name}', '${partyTitle}', ${partyId})" class="btn btn-primary" data-bs-dismiss="modal">승인</button>
+                  <button type="button" onclick="rejectUser(${apply.memberId}, '${name}', '${partyTitle}', ${partyId})" class="btn btn-danger" data-bs-dismiss="modal">거절</button>`;
+                    }
+                    result += `
+                </div>
+              </div>
+            </div>
+          </div>`;
                 });
-                result += "                </tbody>\n" +
-                    "            </table>\n" +
-                    "        </div>";
+                result += `
+          </tbody>
+        </table>
+      </div>`;
                 historyArea.innerHTML = result;
             })
-        }).catch(err => {
-            alert("실패했습니다.");
-        })
-    }
+            .catch((err) => {
+                alert("실패했습니다.");
+            });
+    };
 
     // 모달창에있는 신청유저 내역확인
     const watchUser = (id) => {
@@ -390,8 +366,23 @@
     }
 
     // 유저 거절하기
-    const rejectUser = () => {
+    const rejectUser = (id, name, partyTitle, partyId) => {
         //    신청서승인여부업데이트
+        axios({
+            url: "/partyUser/reject",
+            method: "post",
+            data: {
+                partyTitle: partyTitle,
+                userName: name,
+                isAdmitted: "false",
+                partyId: partyId,
+                memberId: id
+            }
+        }).then(res => {
+            console.log(res.data);
+        }).catch(err => {
+            alert("실패");
+        })
     }
 
     const updateUser = () => {

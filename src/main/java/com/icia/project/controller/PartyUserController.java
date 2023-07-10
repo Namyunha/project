@@ -23,7 +23,6 @@ public class PartyUserController {
     @Transactional
     @PostMapping("/save")
     public ResponseEntity savePartyUser(@RequestBody PartyUserDTO partyUserDTO) {
-        System.out.println("In Controller, partyUserDTO = " + partyUserDTO);
         // 모임이 있는 유저 +1
         partyUserService.save(partyUserDTO);
         // 유저가 가입한 모임의 인원수 +1
@@ -31,6 +30,13 @@ public class PartyUserController {
         // 유저의 신청서 현황 수정
         applyService.updateAuthorization(partyUserDTO);
 
+        return new ResponseEntity<>(partyUserDTO, HttpStatus.OK);
+    }
+
+    @PostMapping("/reject")
+    public ResponseEntity rejectPartyUser(@RequestBody PartyUserDTO partyUserDTO) {
+        System.out.println("In Controller, partyUserDTO = " + partyUserDTO);
+        applyService.updateAuthorization(partyUserDTO);
         return new ResponseEntity<>(partyUserDTO, HttpStatus.OK);
     }
 }
