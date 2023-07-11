@@ -53,6 +53,7 @@ public class MemberService {
     }
 
     public boolean login(MemberDTO memberDTO) {
+        System.out.println("서비스에있는 memberDTO = " + memberDTO);
         Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberIdAndMemberPass(memberDTO.getMemberId(), memberDTO.getMemberPass());
         if (optionalMemberEntity.isPresent()) {
             return true;

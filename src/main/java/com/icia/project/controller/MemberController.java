@@ -38,37 +38,44 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+//    로그인 일반버젼
     @GetMapping("/login")
-    public String login(@RequestParam(value = "redirectURI", defaultValue = "/member/mypage") String redirectURI,
-                        Model model) {
-        System.out.println("MemberController.loginForm");
-        System.out.println("redirectURI = " + redirectURI);
-        model.addAttribute("redirectURI", redirectURI);
+    public String login() {
         return "/memberPages/memberLogin";
     }
 
-
-    //    @PostMapping("/login")
-//    public ResponseEntity loginParam(@RequestBody MemberDTO memberDTO, HttpSession session) {
-//        if (memberService.login(memberDTO)) {
-//            session.setAttribute("loginId", memberDTO.getMemberId());
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @PostMapping("/login")
-    public String loginParam(@ModelAttribute MemberDTO memberDTO, HttpSession session, @RequestParam("redirectURI") String redirectURI) {
-        System.out.println("MemberController.memberLogin");
-        System.out.println("URI" + redirectURI);
+    public ResponseEntity loginParam(@RequestBody MemberDTO memberDTO, HttpSession session) {
+        System.out.println("memberDTO = " + memberDTO);
         if (memberService.login(memberDTO)) {
             session.setAttribute("loginId", memberDTO.getMemberId());
-            return "redirect:" + redirectURI;
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return "memberPages/memberLogin";
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    //    로그인 인터셉터 버젼
+//    @GetMapping("/login")
+//    public String login(@RequestParam(value = "redirectURI", defaultValue = "/member/mypage") String redirectURI,
+//                        Model model) {
+//        System.out.println("MemberController.loginForm");
+//        System.out.println("redirectURI = " + redirectURI);
+//        model.addAttribute("redirectURI", redirectURI);
+//        return "/memberPages/memberLogin";
+//    }
+//
+//    @PostMapping("/login")
+//    public String loginParam(@ModelAttribute MemberDTO memberDTO, HttpSession session, @RequestParam("redirectURI") String redirectURI) {
+//        System.out.println("MemberController.memberLogin");
+//        System.out.println("URI" + redirectURI);
+//        if (memberService.login(memberDTO)) {
+//            session.setAttribute("loginId", memberDTO.getMemberId());
+//            return "redirect:" + redirectURI;
+//        } else {
+//            return "memberPages/memberLogin";
+//        }
+//    }
 
     @PostMapping("/login/axios")
     public ResponseEntity memberLoginAxios(@RequestBody MemberDTO memberDTO, HttpSession session) throws Exception {
@@ -76,6 +83,7 @@ public class MemberController {
         session.setAttribute("loginId", memberDTO.getMemberId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -161,7 +169,7 @@ public class MemberController {
 
     //   신청자 apply목록 전달
     @PostMapping("/userApply")
-    public ResponseEntity applyHistory(@RequestBody ApplyDTO applyDTO){
+    public ResponseEntity applyHistory(@RequestBody ApplyDTO applyDTO) {
         System.out.println(" applyDTO = " + applyDTO);
         ApplyDTO userApply = applyService.findApplyByMemberIdAndPartyId(applyDTO);
         System.out.println("In Controller, userApply = " + userApply);

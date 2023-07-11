@@ -1,6 +1,7 @@
 .categoryArea{
     display: flex;
     gap: 20px;
+    margin-bottom: 2%;
 }
 .categoryArea_times{
     gap: 5px;
@@ -9,3 +10,6 @@
     gap: 5px;
 }
 
+.updateForm{
+    padding: 5%;
+}

@@ -22,33 +22,38 @@
 
 
 <div>
+
     <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding: 6% 0">
         <div class="py-5">
             <h1 class="display-5 fw-bold text-white">모임수정하기</h1>
         </div>
     </div>
-    <form id="saveForm" action="/studygroup/save" method="post" enctype="multipart/form-data">
+
+    <form id="saveForm" class="updateForm" action="/studygroup/update" method="post" enctype="multipart/form-data">
         <input type="text" id="partyHost" name="partyHost" style="display: none" th:value="${session.loginId}">
+        <input type="text" id="hostId" name="hostId" style="display: none" th:value="${memberDTO.getId()}">
+        <input type="date" id="partyCreatedTime" name="partyCreatedTime" style="display: none"
+               th:value="${memberDTO.getMemberCreatedTime()}">
         <div class="categoryArea">
             <div>
                 <label for="partyTitle">모임이름</label><br>
                 <input type="text" id="partyTitle" name="partyTitle" th:value="${studygroupDTO.getPartyTitle()}">
             </div>
-
             <div>
                 <label for="partyPersonnel">모집인원</label><br>
                 <input type="number" id="partyPersonnel" name="partyPersonnel"
                        th:value="${studygroupDTO.getPartyPersonnel()}">
-                <input type="number" id="userCount" name="userCount" style="display: none" value=1>
             </div>
-
+            <div>
+                <label for="userCount">현재인원</label><br>
+                <input readonly id="userCount" name="userCount"
+                       th:value="${studygroupDTO.getUserCount()}">
+            </div>
         </div>
-        <br>
-
         <br>
         <div class="categoryArea">
             <div>
-                <label for="partyTimes">현재 모임 시간</label><br>
+                <label>현재 모임 시간</label><br>
                 <h3 th:text="${studygroupDTO.getPartyTimes()}"></h3>
             </div>
             <div class="categoryArea categoryArea_times">
@@ -63,6 +68,27 @@
             </div>
             <input type="text" id="partyTimes" name="partyTimes" style="display: none">
         </div>
+
+        <div class="categoryArea">
+            <div>
+                <label>현재 모임 방법</label><br>
+                <h3 th:text="${studygroupDTO.getPartyMethod()}"></h3>
+            </div>
+            <div>
+                <label for="partyMethod">모임방법</label><br>
+                <div class="btn-group">
+                    <select onchange="selectCategory()" id="partyMethod" name="partyMethod"
+                            class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" th:value="${studygroupDTO.getPartyCategory()}">
+                        <option>선택</option>
+                        <option name="on-line" value="온라인">온라인</option>
+                        <option name="off-line" value="오프라인">오프라인</option>
+                        <option name="both" value="온라인, 오프라인">온라인,오프라인둘다</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <div class="categoryArea">
             <div>
                 <label for="partyTimes">현재 모임 종류</label><br>
@@ -101,66 +127,31 @@
             <input type="file" id="groupFile" name="groupFile">
         </div>
         <div>
-            <input onclick="submitForm()" type="button" class="btn btn-primary" value="모임등록">
+            <input onclick="updateForm()" type="button" class="btn btn-primary" value="모임수정">
             <button onclick="backBtn()">뒤로가기</button>
         </div>
     </form>
+
 </div>
-
 <script>
-
-
-    const selectCategory = () => {
-        const categoryTitle = document.querySelector("#categoryTitle");
-        console.log(categoryTitle.value);
-
-    }
-
-    const submitForm = () => {
-        const partyCategory = document.querySelector("#partyCategory");
-        const saveForm = document.querySelector("#saveForm");
-        const partyHost = document.querySelector("#partyHost");
-        const partyTitle = document.querySelector("#partyTitle");
-        const partyPersonnel = document.querySelector("#partyPersonnel");
-        const startTime = document.querySelector("#startTime");
-        const endTime = document.querySelector("#endTime");
-        const partyMethod = document.querySelector("#partyMethod");
-        const partyTime = startTime.value + "~" + endTime.value;
-        const partyDetail = document.querySelector("#summernote");
+    const updateForm = () => {
         const partyTimes = document.querySelector("#partyTimes");
-        if (partyTitle.value == "") {
-            alert("모임의 이름을 정해주세요")
-            partyTitle.focus();
-        } else if (partyPersonnel.value == "") {
-            alert("모임의 정원수를 기입해주세요");
-            partyPersonnel.focus();
-        } else if (partyMethod.value == "") {
-            alert("모임 방법을 선택해주세요");
-            partyMethod.focus();
-        } else if (startTime.value == "") {
-            alert("시작 시간을 선택해주세요");
-            startTime.focus();
-        } else if (endTime.value == "") {
-            alert("종료 시간을 선택해주세요");
-            endTime.focus();
-        } else if (partyDetail.value == "") {
-            alert("설명란을 채워주세요");
-            partyDetail.focus();
-        } else {
-            console.log("호출");
-            axios({
-                url: "/studygroup/axiosSave",
-                method: "post",
-                data: {
-                    partyTimes: partyTime
-                }
-            }).then(res => {
-                partyTimes.value = res.data;
-                saveForm.submit()
-            }).catch(err => {
-                alert("모임등록에 실패하습니다");
-            })
-        }
+        const saveForm = document.querySelector("#saveForm");
+        const startTime = document.querySelector("#startTime").value;
+        const endTime = document.querySelector("#endTime").value;
+        let partyTime = startTime + endTime;
+        axios({
+            url: "/studygroup/axiosSave",
+            method: "post",
+            data: {
+                partyTimes: partyTime
+            }
+        }).then(res => {
+            partyTimes.value = res.data;
+            saveForm.submit()
+        }).catch(err => {
+            alert("모임등록에 실패하습니다");
+        })
     }
 
     const backBtn = () => {

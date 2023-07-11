@@ -36,7 +36,7 @@ public class StudygroupEntity extends BaseEntity {
     @Column
     private int userCount;
 
-    @OneToMany(mappedBy = "StudygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "StudyGroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StudygroupFileEntity> studygroupFileEntityList;
 
     //    가입한 신청서 목록

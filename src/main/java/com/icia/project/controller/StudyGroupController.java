@@ -57,6 +57,14 @@ public class StudyGroupController {
         return "redirect:list";
     }
 
+    //  모임 수정
+    @PostMapping("/update")
+    public String updateGroup(@ModelAttribute StudygroupDTO studygroupDTO) {
+        System.out.println("컨트롤러에 있는 업데이트 studygroupDTO = " + studygroupDTO);
+
+        return "redirect:list";
+    }
+
     //  모임 시간 저장
     @PostMapping("/axiosSave")
     public ResponseEntity axiosSave(@RequestBody StudygroupDTO studygroupDTO) {
@@ -77,10 +85,14 @@ public class StudyGroupController {
 
     }
 
+    // 업데이트 화면 출력
     @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable Long id, Model model) {
+    public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+        String loginId = (String) session.getAttribute("loginId");
+        MemberDTO memberDTO = memberService.findByMemberId(loginId);
         System.out.println("id = " + id);
         StudygroupDTO studygroupDTO = studygroupService.findById(id);
+        model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("studygroupDTO", studygroupDTO);
         return "/studyGroupPages/studygroupUpdate";
     }
