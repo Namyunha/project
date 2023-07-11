@@ -1,0 +1,11 @@
+.categoryArea{
+    display: flex;
+    gap: 20px;
+}
+.categoryArea_times{
+    gap: 5px;
+}
+.categoryArea_category{
+    gap: 5px;
+}
+

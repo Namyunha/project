@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/category.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script type="text/javascript"
+            th:src="@{https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/studygroupUpdate.css}">
+    <link rel="stylesheet" th:href="@{/css/studygroupSave.css}">
+
+    <script th:src="@{/js/summernote/summernote-lite.js}"></script>
+    <script th:src="@{/js/summernote/lang/summernote-ko-KR.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/summernote/summernote-lite.css}">
+</head>
+<body>
+<th:block th:replace="/component/header::header"></th:block>
+
+
+<div>
+    <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding: 6% 0">
+        <div class="py-5">
+            <h1 class="display-5 fw-bold text-white">모임수정하기</h1>
+        </div>
+    </div>
+    <form id="saveForm" action="/studygroup/save" method="post" enctype="multipart/form-data">
+        <input type="text" id="partyHost" name="partyHost" style="display: none" th:value="${session.loginId}">
+        <div class="categoryArea">
+            <div>
+                <label for="partyTitle">모임이름</label><br>
+                <input type="text" id="partyTitle" name="partyTitle" th:value="${studygroupDTO.getPartyTitle()}">
+            </div>
+
+            <div>
+                <label for="partyPersonnel">모집인원</label><br>
+                <input type="number" id="partyPersonnel" name="partyPersonnel"
+                       th:value="${studygroupDTO.getPartyPersonnel()}">
+                <input type="number" id="userCount" name="userCount" style="display: none" value=1>
+            </div>
+
+        </div>
+        <br>
+
+        <br>
+        <div class="categoryArea">
+            <div>
+                <label for="partyTimes">현재 모임 시간</label><br>
+                <h3 th:text="${studygroupDTO.getPartyTimes()}"></h3>
+            </div>
+            <div class="categoryArea categoryArea_times">
+                <div>
+                    <label for="startTime">모임시작시간</label><br>
+                    <input id="startTime" type="time">
+                </div>
+                <div>
+                    <label for="endTime">모임종료시간</label><br>
+                    <input id="endTime" type="time">
+                </div>
+            </div>
+            <input type="text" id="partyTimes" name="partyTimes" style="display: none">
+        </div>
+        <div class="categoryArea">
+            <div>
+                <label for="partyTimes">현재 모임 종류</label><br>
+                <h3 th:text="${studygroupDTO.getPartyCategory()}"></h3>
+            </div>
+            <div>
+                <label for="partyCategory">모임종류</label><br>
+                <div class="btn-group">
+                    <select onchange="selectCategory()" id="partyCategory" name="partyCategory"
+                            class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false" th:value="${studygroupDTO.getPartyCategory()}">
+                        <option>선택</option>
+                        <option name="official">공무원/임용</option>
+                        <option name="programming">코딩</option>
+                        <option name="profession">전문직</option>
+                        <option name="certificate">자격증</option>
+                        <option name="project">프로젝트</option>
+                        <option name="design">디자인</option>
+                        <option name="hobby">취미</option>
+                        <option name="selfDevelopment">자기계발</option>
+                        <option name="teenager">중,고등</option>
+                        <option name="transfer">편입</option>
+                        <option name="employment">취업</option>
+                        <option name="life">생활/인증</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="summernote">모임설명</label><br>
+            <textarea id="summernote" name="partyDetail" type="text" th:class="form-control" rows="10"
+                      th:text="${studygroupDTO.getPartyDetail()}"></textarea>
+        </div>
+        <div>
+            <label for="groupFile">파일첨부</label>
+            <input type="file" id="groupFile" name="groupFile">
+        </div>
+        <div>
+            <input onclick="submitForm()" type="button" class="btn btn-primary" value="모임등록">
+            <button onclick="backBtn()">뒤로가기</button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+
+    const selectCategory = () => {
+        const categoryTitle = document.querySelector("#categoryTitle");
+        console.log(categoryTitle.value);
+
+    }
+
+    const submitForm = () => {
+        const partyCategory = document.querySelector("#partyCategory");
+        const saveForm = document.querySelector("#saveForm");
+        const partyHost = document.querySelector("#partyHost");
+        const partyTitle = document.querySelector("#partyTitle");
+        const partyPersonnel = document.querySelector("#partyPersonnel");
+        const startTime = document.querySelector("#startTime");
+        const endTime = document.querySelector("#endTime");
+        const partyMethod = document.querySelector("#partyMethod");
+        const partyTime = startTime.value + "~" + endTime.value;
+        const partyDetail = document.querySelector("#summernote");
+        const partyTimes = document.querySelector("#partyTimes");
+        if (partyTitle.value == "") {
+            alert("모임의 이름을 정해주세요")
+            partyTitle.focus();
+        } else if (partyPersonnel.value == "") {
+            alert("모임의 정원수를 기입해주세요");
+            partyPersonnel.focus();
+        } else if (partyMethod.value == "") {
+            alert("모임 방법을 선택해주세요");
+            partyMethod.focus();
+        } else if (startTime.value == "") {
+            alert("시작 시간을 선택해주세요");
+            startTime.focus();
+        } else if (endTime.value == "") {
+            alert("종료 시간을 선택해주세요");
+            endTime.focus();
+        } else if (partyDetail.value == "") {
+            alert("설명란을 채워주세요");
+            partyDetail.focus();
+        } else {
+            console.log("호출");
+            axios({
+                url: "/studygroup/axiosSave",
+                method: "post",
+                data: {
+                    partyTimes: partyTime
+                }
+            }).then(res => {
+                partyTimes.value = res.data;
+                saveForm.submit()
+            }).catch(err => {
+                alert("모임등록에 실패하습니다");
+            })
+        }
+    }
+
+    const backBtn = () => {
+        history.back();
+    }
+    $('#summernote').summernote({
+        // 에디터 높이
+        height: 150,
+        // 에디터 한글 설정
+        lang: "ko-KR",
+        // 에디터에 커서 이동 (input창의 autofocus라고 생각)
+        focus: true,
+        toolbar: [
+            // 글꼴 설정
+            ['fontname', ['fontname']],
+            // 글자 크기 설정
+            ['fontsize', ['fontsize']],
+            // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+            // 글자색
+            ['color', ['forecolor', 'color']],
+            // 표만들기
+            ['table', ['table']],
+            // 글머리 기호, 번호매기기, 문단정렬
+            ['para', ['ul', 'ol', 'paragraph']],
+            // 줄간격
+            ['height', ['height']],
+            // 코드보기, 확대해서보기, 도움말
+            ['view', ['codeview', 'fullscreen', 'help']]
+        ],
+        // 추가한 글꼴
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체', '굴림', '돋음체', '바탕체'],
+        // 추가한 폰트사이즈
+        fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72'],
+    });
+</script>
+
+</body>
+</html>

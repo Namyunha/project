@@ -63,6 +63,27 @@ public class StudyGroupController {
         return new ResponseEntity<>(studygroupDTO.getPartyTimes(), HttpStatus.OK);
     }
 
+    @GetMapping("/axiosUpdate/{id}")
+    public ResponseEntity axiosUpdate(@PathVariable Long id, HttpSession session) {
+        StudygroupDTO studygroupDTO = studygroupService.findById(id);
+        System.out.println("studygroupDTO = " + studygroupDTO);
+        String loginUserId = (String) session.getAttribute("loginId");
+        MemberDTO memberDTO = memberService.findByMemberId(loginUserId);
+        if (studygroupDTO.getHostId() == memberDTO.getId()) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable Long id, Model model) {
+        System.out.println("id = " + id);
+        StudygroupDTO studygroupDTO = studygroupService.findById(id);
+        model.addAttribute("studygroupDTO", studygroupDTO);
+        return "/studyGroupPages/studygroupUpdate";
+    }
 
     @Transactional
     @GetMapping("/{id}")
