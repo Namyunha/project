@@ -36,17 +36,14 @@ public class StudygroupEntity extends BaseEntity {
     @Column
     private int userCount;
 
-    @OneToMany(mappedBy = "StudyGroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "StudyGroupEntity", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StudygroupFileEntity> studygroupFileEntityList;
-
     //    가입한 신청서 목록
-    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<ApplyEntity> applyEntityList;
-
     //    참조한 가입유저 목록
-    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PartyUserEntity> partyUserEntityList = new ArrayList<>();
-
     //    모임 등록 유저 참조
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
@@ -78,6 +75,38 @@ public class StudygroupEntity extends BaseEntity {
         studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
         studygroupEntity.setFileAttached(1);
         studygroupEntity.setUserCount(1);
+        studygroupEntity.setMemberEntity(memberEntity);
+        return studygroupEntity;
+    }
+
+    public static StudygroupEntity updateGroupEntity(StudygroupDTO studygroupDTO, MemberEntity memberEntity) {
+        StudygroupEntity studygroupEntity = new StudygroupEntity();
+        studygroupEntity.setId(studygroupDTO.getId());
+        studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
+        studygroupEntity.setPartyHost(studygroupDTO.getPartyHost());
+        studygroupEntity.setPartyDetail(studygroupDTO.getPartyDetail());
+        studygroupEntity.setPartyTitle(studygroupDTO.getPartyTitle());
+        studygroupEntity.setPartyMethod(studygroupDTO.getPartyMethod());
+        studygroupEntity.setPartyTimes(studygroupDTO.getPartyTimes());
+        studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
+        studygroupEntity.setFileAttached(0);
+        studygroupEntity.setUserCount(studygroupEntity.getUserCount());
+        studygroupEntity.setMemberEntity(memberEntity);
+        return studygroupEntity;
+    }
+
+    public static StudygroupEntity updateGroupEntityWithFile(StudygroupDTO studygroupDTO, MemberEntity memberEntity) {
+        StudygroupEntity studygroupEntity = new StudygroupEntity();
+        studygroupEntity.setId(studygroupDTO.getId());
+        studygroupEntity.setPartyPersonnel(studygroupDTO.getPartyPersonnel());
+        studygroupEntity.setPartyHost(studygroupDTO.getPartyHost());
+        studygroupEntity.setPartyDetail(studygroupDTO.getPartyDetail());
+        studygroupEntity.setPartyTitle(studygroupDTO.getPartyTitle());
+        studygroupEntity.setPartyMethod(studygroupDTO.getPartyMethod());
+        studygroupEntity.setPartyTimes(studygroupDTO.getPartyTimes());
+        studygroupEntity.setPartyCategory(studygroupDTO.getPartyCategory());
+        studygroupEntity.setFileAttached(1);
+        studygroupEntity.setUserCount(studygroupDTO.getUserCount());
         studygroupEntity.setMemberEntity(memberEntity);
         return studygroupEntity;
     }

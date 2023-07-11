@@ -42,6 +42,8 @@
             <div th:if="${group.hostId == loginUserId}">
                 <button th:onclick="goUpdate([[${group.id}]])" type="button" class="btn btn-primary">모임수정
                 </button>
+                <button th:onclick="goDelete([[${group.id}]])" type="button" class="btn btn-danger">모임삭제
+                </button>
                 <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
             </div>
 
@@ -53,15 +55,15 @@
                             class="btn btn-primary"
                             data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
                     </button>
-
                     <button th:unless="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
                             class="btn btn-primary" disabled>인원마감
                     </button>
-
                     <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
                 </div>
+
                 <!--조회한 모임이 신청한 모임일 때-->
                 <div th:unless="${applyDTO == null}" th:switch="${applyDTO.getIsAuthorized()}">
+
                     <button th:case="'승인대기중'" type="button" class="btn btn-secondary" disabled>
                         승인대기중
                     </button>
@@ -72,6 +74,7 @@
                         거절된 모임
                     </button>
                     <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+
                 </div>
             </div>
 
@@ -191,6 +194,22 @@
             alert("페이지에 접근할 수 없습니다.");
         })
     }
+
+    const goDelete = (id) => {
+        const con = confirm("정말로 삭제 하시겠습니까?");
+        if (con) {
+            axios({
+                url: "/studygroup/" + id,
+                method: "delete"
+            }).then(res => {
+                location.href = "/studygroup/list";
+                alert("삭제 성공");
+            }).catch(err => {
+                alert("삭제에 실패하였습니다.");
+            })
+        }
+    }
+
 
 </script>
 </body>

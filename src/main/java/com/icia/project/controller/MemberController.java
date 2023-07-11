@@ -28,6 +28,11 @@ public class MemberController {
     private final ApplyService applyService;
     private final StudygroupService studygroupService;
 
+
+
+    @GetMapping("/myGroup")
+    public String
+
     @GetMapping("/searchId")
     public ResponseEntity searchId() {
         return new ResponseEntity<>(HttpStatus.OK);

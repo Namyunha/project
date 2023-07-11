@@ -87,7 +87,33 @@ public class StudygroupService {
         studygroupRepository.updateCount(id);
     }
 
+    @Transactional
+    public void updateUser(StudygroupDTO studygroupDTO) throws IOException {
+        MemberEntity memberEntity = memberRepository.findById(studygroupDTO.getHostId()).orElseThrow(() -> new NoSuchElementException());
+        if (studygroupDTO.getGroupFile() == null || studygroupDTO.getGroupFile().get(0).isEmpty()) {
+            StudygroupEntity studygroupEntity = StudygroupEntity.updateGroupEntity(studygroupDTO, memberEntity);
+            studygroupRepository.save(studygroupEntity);
+        } else {
+            StudygroupEntity estudygroupEntity = studygroupRepository.findById(studygroupDTO.getId()).orElseThrow(() -> new NoSuchElementException());
+            StudygroupEntity studygroupEntity = StudygroupEntity.updateGroupEntityWithFile(studygroupDTO, memberEntity);
+            studygroupRepository.save(studygroupEntity);
+            String originalFileName = studygroupDTO.getGroupFile().get(0).getOriginalFilename();
+            String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
+            String savePath = "D:\\Springboot_project_img\\" + storedFileName;
+            studygroupDTO.getGroupFile().get(0).transferTo(new File(savePath));
 
+            List<StudygroupFileEntity> studygroupFileEntity = estudygroupEntity.getStudygroupFileEntityList();
+            System.out.println("studygroupFileEntity = " + studygroupFileEntity);
+
+            StudygroupEntity existedStudyGroupEntity = studygroupRepository.findById(studygroupDTO.getId()).orElseThrow(() -> new NoSuchElementException());
+            StudygroupFileEntity updateStudygroupFileEntity = StudygroupFileEntity.save(existedStudyGroupEntity, originalFileName, storedFileName);
+            studygroupFileRepository.save(updateStudygroupFileEntity);
+        }
+    }
+
+    public void deleteById(Long id) {
+        studygroupRepository.deleteById(id);
+    }
 }
 
 

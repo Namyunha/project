@@ -30,6 +30,7 @@
     </div>
 
     <form id="saveForm" class="updateForm" action="/studygroup/update" method="post" enctype="multipart/form-data">
+        <input type="text" id="id" name="id" style="display: none" th:value="${studygroupDTO.getId()}">
         <input type="text" id="partyHost" name="partyHost" style="display: none" th:value="${session.loginId}">
         <input type="text" id="hostId" name="hostId" style="display: none" th:value="${memberDTO.getId()}">
         <input type="date" id="partyCreatedTime" name="partyCreatedTime" style="display: none"

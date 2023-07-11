@@ -32,4 +32,5 @@ public class StudygroupFileEntity {
         studygroupFileEntity.setStoredFileName(storedFileName);
         return studygroupFileEntity;
     }
+
 }

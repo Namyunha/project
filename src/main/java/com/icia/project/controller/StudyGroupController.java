@@ -59,9 +59,9 @@ public class StudyGroupController {
 
     //  모임 수정
     @PostMapping("/update")
-    public String updateGroup(@ModelAttribute StudygroupDTO studygroupDTO) {
+    public String updateGroup(@ModelAttribute StudygroupDTO studygroupDTO) throws IOException {
         System.out.println("컨트롤러에 있는 업데이트 studygroupDTO = " + studygroupDTO);
-
+        studygroupService.updateUser(studygroupDTO);
         return "redirect:list";
     }
 
@@ -95,6 +95,12 @@ public class StudyGroupController {
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("studygroupDTO", studygroupDTO);
         return "/studyGroupPages/studygroupUpdate";
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteGroup(@PathVariable Long id) {
+        studygroupService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Transactional
