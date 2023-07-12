@@ -36,13 +36,13 @@ public class StudygroupEntity extends BaseEntity {
     @Column
     private int userCount;
 
-    @OneToMany(mappedBy = "StudyGroupEntity", orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<StudygroupFileEntity> studygroupFileEntityList;
+    @OneToMany(mappedBy = "StudyGroupEntity", orphanRemoval = true, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<StudygroupFileEntity> studygroupFileEntityList = new ArrayList<>();
     //    가입한 신청서 목록
-    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<ApplyEntity> applyEntityList;
+    @OneToMany(mappedBy = "studygroupEntity", orphanRemoval = true, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<ApplyEntity> applyEntityList = new ArrayList<>();
     //    참조한 가입유저 목록
-    @OneToMany(mappedBy = "studygroupEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "studygroupEntity", orphanRemoval = true, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PartyUserEntity> partyUserEntityList = new ArrayList<>();
     //    모임 등록 유저 참조
     @ManyToOne(fetch = FetchType.LAZY)

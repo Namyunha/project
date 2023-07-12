@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <form id="saveForm" class="updateForm" action="/studygroup/update" method="post" enctype="multipart/form-data">
+    <form style="background-color: beige" id="saveForm" class="updateForm" action="/studygroup/update" method="post" enctype="multipart/form-data">
         <input type="text" id="id" name="id" style="display: none" th:value="${studygroupDTO.getId()}">
         <input type="text" id="partyHost" name="partyHost" style="display: none" th:value="${session.loginId}">
         <input type="text" id="hostId" name="hostId" style="display: none" th:value="${memberDTO.getId()}">
@@ -118,12 +118,12 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div >
             <label for="summernote">모임설명</label><br>
-            <textarea id="summernote" name="partyDetail" type="text" th:class="form-control" rows="10"
+            <textarea style="background-color:white" id="summernote" name="partyDetail" type="text" th:class="form-control" rows="10"
                       th:text="${studygroupDTO.getPartyDetail()}"></textarea>
         </div>
-        <div>
+        <div style="margin: 3% 0">
             <label for="groupFile">파일첨부</label>
             <input type="file" id="groupFile" name="groupFile">
         </div>
@@ -140,7 +140,7 @@
         const saveForm = document.querySelector("#saveForm");
         const startTime = document.querySelector("#startTime").value;
         const endTime = document.querySelector("#endTime").value;
-        let partyTime = startTime + endTime;
+        let partyTime = startTime + "~" + endTime;
         axios({
             url: "/studygroup/axiosSave",
             method: "post",

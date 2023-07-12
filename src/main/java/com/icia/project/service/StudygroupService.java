@@ -65,6 +65,7 @@ public class StudygroupService {
     @Transactional
     public StudygroupDTO findById(Long id) {
         StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
+        System.out.println("studygroupEntity.getStudygroupFileEntityList() = " + studygroupEntity.getStudygroupFileEntityList());
         StudygroupDTO studygroupDTO = StudygroupDTO.toDTO(studygroupEntity);
         return studygroupDTO;
     }
@@ -95,19 +96,22 @@ public class StudygroupService {
             studygroupRepository.save(studygroupEntity);
         } else {
             StudygroupEntity estudygroupEntity = studygroupRepository.findById(studygroupDTO.getId()).orElseThrow(() -> new NoSuchElementException());
-            StudygroupEntity studygroupEntity = StudygroupEntity.updateGroupEntityWithFile(studygroupDTO, memberEntity);
-            studygroupRepository.save(studygroupEntity);
+            System.out.println("estudygroupEntity.getId() = " + estudygroupEntity.getId());
+
+            StudygroupFileEntity studygroupFileEntity = estudygroupEntity.getStudygroupFileEntityList().get(0);
+            System.out.println("스터디그룹서비스에 있는 studygroupFileEntity = " + studygroupFileEntity);
+
             String originalFileName = studygroupDTO.getGroupFile().get(0).getOriginalFilename();
             String storedFileName = System.currentTimeMillis() + "_" + originalFileName;
             String savePath = "D:\\Springboot_project_img\\" + storedFileName;
             studygroupDTO.getGroupFile().get(0).transferTo(new File(savePath));
+            StudygroupFileEntity upStudygroupFileEntity = StudygroupFileEntity.update(studygroupFileEntity, originalFileName, storedFileName, estudygroupEntity);
 
-            List<StudygroupFileEntity> studygroupFileEntity = estudygroupEntity.getStudygroupFileEntityList();
-            System.out.println("studygroupFileEntity = " + studygroupFileEntity);
+            studygroupFileRepository.save(upStudygroupFileEntity);
+            StudygroupEntity studygroupEntity = StudygroupEntity.updateGroupEntityWithFile(studygroupDTO, memberEntity);
+            studygroupRepository.save(studygroupEntity);
 
-            StudygroupEntity existedStudyGroupEntity = studygroupRepository.findById(studygroupDTO.getId()).orElseThrow(() -> new NoSuchElementException());
-            StudygroupFileEntity updateStudygroupFileEntity = StudygroupFileEntity.save(existedStudyGroupEntity, originalFileName, storedFileName);
-            studygroupFileRepository.save(updateStudygroupFileEntity);
+
         }
     }
 

@@ -28,11 +28,6 @@ public class MemberController {
     private final ApplyService applyService;
     private final StudygroupService studygroupService;
 
-
-
-    @GetMapping("/myGroup")
-    public String
-
     @GetMapping("/searchId")
     public ResponseEntity searchId() {
         return new ResponseEntity<>(HttpStatus.OK);
@@ -43,7 +38,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    로그인 일반버젼
+    //    로그인 일반버젼
     @GetMapping("/login")
     public String login() {
         return "/memberPages/memberLogin";
@@ -94,6 +89,11 @@ public class MemberController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/myGroup")
+    public String myGroup() {
+        return "/memberPages/memberGroup";
     }
 
     @GetMapping("/save")

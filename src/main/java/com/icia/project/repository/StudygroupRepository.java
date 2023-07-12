@@ -2,6 +2,7 @@ package com.icia.project.repository;
 
 import com.icia.project.Entity.MemberEntity;
 import com.icia.project.Entity.StudygroupEntity;
+import com.icia.project.Entity.StudygroupFileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,7 @@ public interface StudygroupRepository extends JpaRepository<StudygroupEntity, Lo
     List<StudygroupEntity> findAllByMemberEntity(MemberEntity memberEntity);
 
     List<StudygroupEntity> findAllById(Long id);
+
 
 
     // update board_table set board_hits=board_hits+1 where id=?

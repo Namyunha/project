@@ -33,4 +33,13 @@ public class StudygroupFileEntity {
         return studygroupFileEntity;
     }
 
+
+    public static StudygroupFileEntity update(StudygroupFileEntity uStudygroupFileEntity, String originalFileName, String storedFileName, StudygroupEntity estudygroupEntity) {
+        StudygroupFileEntity studygroupFileEntity = new StudygroupFileEntity();
+        studygroupFileEntity.setId(uStudygroupFileEntity.getId());
+        studygroupFileEntity.setStudyGroupEntity(estudygroupEntity);
+        studygroupFileEntity.setOriginalFileName(originalFileName);
+        studygroupFileEntity.setStoredFileName(storedFileName);
+        return studygroupFileEntity;
+    }
 }
