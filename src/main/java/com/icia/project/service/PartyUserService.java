@@ -27,4 +27,13 @@ public class PartyUserService {
         System.out.println("서비스에 있는 partyUserEntity.getIsAdmitted() = " + partyUserEntity.getIsAdmitted());
         partyUserRepository.save(partyUserEntity);
     }
+
+    public PartyUserDTO findByGroupIdAndMemberId(Long groupId, Long memberId) {
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(groupId).orElseThrow(() -> new NoSuchElementException());
+        MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException());
+        PartyUserEntity partyUserEntity = partyUserRepository.findByStudygroupEntityAndMemberEntity(studygroupEntity, memberEntity);
+        PartyUserDTO partyUserDTO = PartyUserDTO.toDTO(partyUserEntity);
+        System.out.println("파티 유저 서비스에있는 partyUserDTO = " + partyUserDTO);
+        return partyUserDTO;
+    }
 }

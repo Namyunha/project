@@ -40,8 +40,12 @@
 
             <!--로그인한 유저가 모임의 등록유저 일 때-->
             <div th:if="${group.hostId == loginUserId}">
-                <button th:onclick="goUpdate([[${group.id}]])" type="button" class="btn btn-primary">모임수정
+                <button th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${group.getHostId()} + ')'" type="button"
+                        class="btn btn-primary">모임입장
                 </button>
+                <button th:onclick="goUpdate([[${group.id}]])" type="button" class="btn btn-dark">모임수정
+                </button>
+
                 <button th:onclick="goDelete([[${group.id}]])" type="button" class="btn btn-danger">모임삭제
                 </button>
                 <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
@@ -63,18 +67,19 @@
 
                 <!--조회한 모임이 신청한 모임일 때-->
                 <div th:unless="${applyDTO == null}" th:switch="${applyDTO.getIsAuthorized()}">
-
                     <button th:case="'승인대기중'" type="button" class="btn btn-secondary" disabled>
                         승인대기중
                     </button>
-                    <button th:case="'승인허가'" type="button" class="btn btn-primary" disabled>
-                        가입된 모임
+
+                    <button th:case="'승인허가'" type="button" class="btn btn-primary"
+                            th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${applyDTO.getMemberId()} + ')'">
+                        모임입장
                     </button>
+
                     <button th:case="'승인거절'" type="button" class="btn btn-danger" disabled>
                         거절된 모임
                     </button>
                     <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
-
                 </div>
             </div>
 
@@ -151,6 +156,17 @@
 <th:block th:replace="/component/footer::footer"></th:block>
 
 <script>
+    const goGroup = (groupId, memberId) => {
+        axios({
+            url: "/studygroup/room/" + groupId + "/" + memberId,
+            method: "post"
+        }).then(res => {
+            location.href = "/partyUser/room";
+        }).catch(err => {
+            alert("모임에 포함되지 않은 유저입니다.");
+        })
+    }
+
 
     const applySave = () => {
         const memberName = document.querySelector("#memberName");

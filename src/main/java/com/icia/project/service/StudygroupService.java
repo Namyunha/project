@@ -1,14 +1,13 @@
 package com.icia.project.service;
 
 import com.icia.project.Entity.MemberEntity;
+import com.icia.project.Entity.PartyUserEntity;
 import com.icia.project.Entity.StudygroupEntity;
 import com.icia.project.Entity.StudygroupFileEntity;
 import com.icia.project.dto.MemberDTO;
+import com.icia.project.dto.PartyUserDTO;
 import com.icia.project.dto.StudygroupDTO;
-import com.icia.project.repository.MemberFileRepository;
-import com.icia.project.repository.MemberRepository;
-import com.icia.project.repository.StudygroupFileRepository;
-import com.icia.project.repository.StudygroupRepository;
+import com.icia.project.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +25,7 @@ public class StudygroupService {
     private final StudygroupRepository studygroupRepository;
     private final StudygroupFileRepository studygroupFileRepository;
     private final MemberRepository memberRepository;
+    private final PartyUserRepository partyUserRepository;
 
     public void save(StudygroupDTO studygroupDTO, String loginId) throws IOException {
         if (studygroupDTO.getGroupFile() == null || studygroupDTO.getGroupFile().get(0).isEmpty()) {
@@ -35,6 +35,9 @@ public class StudygroupService {
             System.out.println("loginMemberEntity.getId() = " + loginMemberEntity.getId());
             StudygroupEntity studygroupEntity = StudygroupEntity.saveGroupEntity(studygroupDTO, loginMemberEntity);
             studygroupRepository.save(studygroupEntity);
+            PartyUserEntity partyUserEntity = PartyUserEntity.saveAdmin(studygroupEntity, loginMemberEntity);
+            System.out.println("partyUserEntity.getId() = " + partyUserEntity.getId());
+            partyUserRepository.save(partyUserEntity);
         } else {
             System.out.println("서비스에 있는 loginId = " + loginId);
             Optional<MemberEntity> memberEntity = memberRepository.findByMemberId(loginId);
@@ -48,9 +51,11 @@ public class StudygroupService {
             studygroupDTO.getGroupFile().get(0).transferTo(new File(savePath));
             StudygroupFileEntity studygroupFileEntity = StudygroupFileEntity.save(studygroupEntity, originalFileName, storedFileName);
             studygroupFileRepository.save(studygroupFileEntity);
+            PartyUserEntity partyUserEntity = PartyUserEntity.saveAdmin(studygroupEntity, loginMemberEntity);
+            System.out.println("partyUserEntity.getId() = " + partyUserEntity.getId());
+            partyUserRepository.save(partyUserEntity);
         }
     }
-
     @Transactional
     public List<StudygroupDTO> findAll() {
         List<StudygroupEntity> studygroupEntityList = studygroupRepository.findAll();
@@ -61,7 +66,6 @@ public class StudygroupService {
         }
         return studygroupDTOList;
     }
-
     @Transactional
     public StudygroupDTO findById(Long id) {
         StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
@@ -69,7 +73,6 @@ public class StudygroupService {
         StudygroupDTO studygroupDTO = StudygroupDTO.toDTO(studygroupEntity);
         return studygroupDTO;
     }
-
     @Transactional
     public List<StudygroupDTO> findAllById(Long id) {
         MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
@@ -82,12 +85,10 @@ public class StudygroupService {
         System.out.println("서비스에 있는 studygroupDTOList = " + studygroupDTOList);
         return studygroupDTOList;
     }
-
     @Transactional
     public void updateCount(Long id) {
         studygroupRepository.updateCount(id);
     }
-
     @Transactional
     public void updateUser(StudygroupDTO studygroupDTO) throws IOException {
         MemberEntity memberEntity = memberRepository.findById(studygroupDTO.getHostId()).orElseThrow(() -> new NoSuchElementException());
@@ -110,11 +111,8 @@ public class StudygroupService {
             studygroupFileRepository.save(upStudygroupFileEntity);
             StudygroupEntity studygroupEntity = StudygroupEntity.updateGroupEntityWithFile(studygroupDTO, memberEntity);
             studygroupRepository.save(studygroupEntity);
-
-
         }
     }
-
     public void deleteById(Long id) {
         studygroupRepository.deleteById(id);
     }

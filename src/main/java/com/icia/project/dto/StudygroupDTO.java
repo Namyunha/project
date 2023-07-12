@@ -27,7 +27,6 @@ public class StudygroupDTO {
     private Long hostId;
     private int userCount;
     private List<MultipartFile> groupFile;
-
     private String originalFileName;
     private String storedFileName;
     private int fileAttached;

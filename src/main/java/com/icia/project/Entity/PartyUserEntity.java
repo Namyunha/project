@@ -1,6 +1,7 @@
 package com.icia.project.Entity;
 
 import com.icia.project.dto.PartyUserDTO;
+import com.icia.project.dto.StudygroupDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,9 @@ public class PartyUserEntity {
     @Column
     private String isAdmitted;
 
+    @Column
+    private String userPosition;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "party_id")
     StudygroupEntity studygroupEntity;
@@ -39,11 +43,25 @@ public class PartyUserEntity {
         System.out.println("Entity에 있는 partyUserDTO.getIsAdmitted() = " + partyUserDTO.getIsAdmitted());
         if (partyUserDTO.getIsAdmitted().equals("true")) {
             partyUserEntity.setIsAdmitted("true");
+            partyUserEntity.setUserPosition(partyUserDTO.getUserPosition());
         } else if (partyUserDTO.getIsAdmitted().equals("false")) {
             partyUserEntity.setIsAdmitted("false");
+            partyUserEntity.setUserPosition("비회원");
         }
         partyUserEntity.setMemberEntity(memberEntity);
         partyUserEntity.setStudygroupEntity(studygroupEntity);
+
+        return partyUserEntity;
+    }
+
+    public static PartyUserEntity saveAdmin(StudygroupEntity studygroupEntity, MemberEntity memberEntity) {
+        PartyUserEntity partyUserEntity = new PartyUserEntity();
+        partyUserEntity.setPartyTitle(studygroupEntity.getPartyTitle());
+        partyUserEntity.setUserName(memberEntity.getMemberName());
+        partyUserEntity.setIsAdmitted("true");
+        partyUserEntity.setMemberEntity(memberEntity);
+        partyUserEntity.setStudygroupEntity(studygroupEntity);
+        partyUserEntity.setUserPosition("운영자");
         return partyUserEntity;
     }
 }

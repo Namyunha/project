@@ -295,7 +295,6 @@
             </td>
             <td>${apply.isAuthorized}</td>
           </tr>
-
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -357,7 +356,8 @@
                 userName: name,
                 isAdmitted: "true",
                 partyId: partyId,
-                memberId: memberId
+                memberId: memberId,
+                userPosition: "회원"
             }
         }).then(res => {
             console.log(res.data);
@@ -488,6 +488,7 @@
             alert("정보를 불러올 수 없습니다.");
         });
     };
+
     const goUpdate = () => {
         const viewArea = document.querySelector("#viewArea");
         const id = document.querySelector("#id").value;

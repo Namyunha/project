@@ -84,7 +84,6 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

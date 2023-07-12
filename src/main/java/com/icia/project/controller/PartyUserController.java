@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,11 +34,14 @@ public class PartyUserController {
 
         return new ResponseEntity<>(partyUserDTO, HttpStatus.OK);
     }
-
     @PostMapping("/reject")
     public ResponseEntity rejectPartyUser(@RequestBody PartyUserDTO partyUserDTO) {
         System.out.println("In Controller, partyUserDTO = " + partyUserDTO);
         applyService.updateAuthorization(partyUserDTO);
         return new ResponseEntity<>(partyUserDTO, HttpStatus.OK);
+    }
+    @GetMapping("/room")
+    public String goRoom() {
+        return "studyGroupPages/studyGroupRoom";
     }
 }
