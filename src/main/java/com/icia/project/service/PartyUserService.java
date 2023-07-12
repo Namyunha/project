@@ -3,6 +3,8 @@ package com.icia.project.service;
 import com.icia.project.Entity.MemberEntity;
 import com.icia.project.Entity.PartyUserEntity;
 import com.icia.project.Entity.StudygroupEntity;
+import com.icia.project.dto.MemberDTO;
+import com.icia.project.dto.MemberPartyDTO;
 import com.icia.project.dto.PartyUserDTO;
 import com.icia.project.repository.MemberRepository;
 import com.icia.project.repository.PartyUserRepository;
@@ -10,6 +12,8 @@ import com.icia.project.repository.StudygroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -36,4 +40,27 @@ public class PartyUserService {
         System.out.println("파티 유저 서비스에있는 partyUserDTO = " + partyUserDTO);
         return partyUserDTO;
     }
+
+    public List<MemberPartyDTO> findAllByPartyId(Long id) {
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow();
+        List<PartyUserEntity> partyUserEntityList = partyUserRepository.findAllByStudygroupEntity(studygroupEntity);
+        List<MemberPartyDTO> memberDTOList = new ArrayList<>();
+        for (PartyUserEntity partyUserEntity : partyUserEntityList) {
+            MemberEntity memberEntity = memberRepository.findById(partyUserEntity.getMemberEntity().getId()).orElseThrow(() -> new NoSuchElementException());
+            MemberPartyDTO memberPartyDTO = MemberPartyDTO.toDTO(memberEntity, partyUserEntity);
+            memberDTOList.add(memberPartyDTO);
+        }
+        return memberDTOList;
+    }
+
+//    public List<MemberDTO> findAllByPartyId(Long id) {
+//        StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow();
+//        List<PartyUserEntity> partyUserEntityList = partyUserRepository.findAllByStudygroupEntity(studygroupEntity);
+//        List<PartyUserDTO> partyUserDTOList = new ArrayList<>();
+//        for (PartyUserEntity partyUserEntity : partyUserEntityList) {
+//            PartyUserDTO partyUserDTO = PartyUserDTO.toDTO(partyUserEntity);
+//            partyUserDTOList.add(partyUserDTO);
+//        }
+//        return null;
+//    }
 }

@@ -28,17 +28,19 @@
         <div class="loginBtnGroup">
             <input class="loginInput" onclick="searchId()" type="button" value="ID찾기">
             <input class="loginInput" type="button" value="PW찾기" onclick="searchPw()">
-            <input class="loginInput" type="button" value="Naver로 로그인하기">
+            <input class="loginInput" onclick="loginByNaver()" type="button" value="Naver로 로그인하기">
             <input class="loginInput" type="button" value="google로 로그인하기">
             <input class="loginInput" type="button" value="github로 로그인하기">
             <input class="loginInput" type="button" onclick="goIndex()" value="뒤로가기">
         </div>
     </div>
 </div>
-
 <script>
     const goSave = () => {
         location.href = "/member/save";
+    }
+    const loginByNaver = () => {
+        location.href = "https://kauth.kakao.com/oauth/authorize?client_id=f8aa229a0240f798964b9033653e4c2d&redirect_uri=http://localhost:8220/oauth/kakao&response_type=code";
     }
 </script>
 

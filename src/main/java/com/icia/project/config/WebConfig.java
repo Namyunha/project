@@ -16,16 +16,16 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler(resourcePath).addResourceLocations(savePath);
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginCheckInterceptor()) // 인터셉터로 등록할 클래스
-                .order(1) // 해당 인터셉터의 우선순위
-                .addPathPatterns("/**") // 인터셉터로 체크할 주소(모든주소)
-                .excludePathPatterns("/", "/member/save", "/member/login", "/member/login/axios", "/member/duCheck", "/member/mypage",
-                        "/studygroup/list", "/studygroup/detail", "/js/**", "/css/**", "/images/**", "/upload/**", "/groupUser/save",
-                        "/studygroup/**", "/member/groupList/**", "/member/**",
-                        "/*.ico", "/favicon/**"); // 인터셉터 검증을 하지 않을 주소
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new LoginCheckInterceptor()) // 인터셉터로 등록할 클래스
+//                .order(1) // 해당 인터셉터의 우선순위
+//                .addPathPatterns("/**") // 인터셉터로 체크할 주소(모든주소)
+//                .excludePathPatterns("/", "/member/save", "/member/login", "/member/login/axios", "/member/duCheck", "/member/mypage",
+//                        "/studygroup/list", "/studygroup/detail", "/js/**", "/css/**", "/images/**", "/upload/**", "/groupUser/save",
+//                        "/studygroup/**", "/member/groupList/**", "/member/**", "/oauth/kakao/**",
+//                        "/*.ico", "/favicon/**"); // 인터셉터 검증을 하지 않을 주소
+//    }
 
 
 }

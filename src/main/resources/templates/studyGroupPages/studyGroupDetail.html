@@ -70,7 +70,6 @@
                     <button th:case="'승인대기중'" type="button" class="btn btn-secondary" disabled>
                         승인대기중
                     </button>
-
                     <button th:case="'승인허가'" type="button" class="btn btn-primary"
                             th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${applyDTO.getMemberId()} + ')'">
                         모임입장
@@ -87,12 +86,10 @@
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-
                         <div class="modal-body">
                             <div id="applyForm">
                                 <div class="mb-3">
@@ -116,7 +113,6 @@
                                        th:value="${group.getHostId()}">
                             </div>
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button th:unless="${session.loginId == null}" onclick="applySave()" type="button"
@@ -129,7 +125,6 @@
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -161,7 +156,7 @@
             url: "/studygroup/room/" + groupId + "/" + memberId,
             method: "post"
         }).then(res => {
-            location.href = "/partyUser/room";
+            location.href = "/partyUser/room/" + groupId;
         }).catch(err => {
             alert("모임에 포함되지 않은 유저입니다.");
         })

@@ -7,6 +7,148 @@
 </head>
 <body>
 <th:block th:replace="/component/header::header"></th:block>
-<h1>모임입장!</h1>
+<div class="bg-dark text-secondary px-4 py-5 text-center" style="padding: 6% 0">
+    <div class="py-5">
+        <h1 class="display-5 fw-bold text-white">모임에 들어온걸 환영한다</h1>
+    </div>
+</div>
+<div class="accordion accordion-flush" id="accordionFlushExample" style="padding: 0 5%">
+
+    <div style="margin: 3% 0">
+        <!-- 모임정보 키기 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#groupInfo">
+            모임 정보 확인
+        </button>
+        <!-- 채팅방 입장 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chattingRoom">
+            채팅방 입장
+        </button>
+
+        <!-- 모임정보 나타내기 -->
+        <div class="modal fade" id="groupInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="groupInfoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="groupInfoLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        모임
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 채팅창 나타내기 -->
+        <div class="modal fade" id="chattingRoom" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="chattingRoomLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="chattingRoomLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        채팅방
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                회원 목록
+            </button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>이름</th>
+                        <th>직책</th>
+                        <th>성별</th>
+                        <th>조회</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <div th:each="user:${list}">
+                        <tr>
+                            <td th:text="${user.getMemberId()}"></td>
+                            <td th:text="${user.getUserPosition()}"></td>
+                            <td th:text="${user.getMemberGender()}"></td>
+                            <td>
+                                <button th:onclick="'checkInfo(\'' + ${user.id} + '\')'" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#userInfoBackdrop">
+                                    조회
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade" id="userInfoBackdrop" data-bs-backdrop="static"
+                             data-bs-keyboard="false" tabindex="-1" aria-labelledby="userInfoBackdropLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="userInfoBackdropLabel">회원 정보</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>이름: <span th:text="${user.getMemberName()}"></span></p>
+                                        <p>아이디: <span th:text="${user.getMemberId()}"></span></p>
+                                        <p>생년월일: <span th:text="${user.getMemberPrivate()}"></span></p>
+                                        <p>성별: <span th:text="${user.getMemberGender()}"></span></p>
+                                        <p>이메일: <span th:text="${user.getMemberEmail()}"></span></p>
+                                        <p>연락처: <span th:text="${user.getMemberPhone()}"></span></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary">Understood</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                투표목록
+            </button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the
+                <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being
+                filled with some actual content.
+            </div>
+        </div>
+    </div>
+    <div style="margin: 3% 0">
+        <button type="button" class="btn btn-danger">모임탈퇴</button>
+        <button type="button" class="btn btn-outline-danger">나가기</button>
+    </div>
+
+</div>
+
+</div>
 </body>
 </html>
