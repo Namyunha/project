@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<button onclick="openRoom()">채팅창열기</button>
+
+<script>
+
+  let socket = new WebSocket("ws://localhost:8080/chat");
+
+  const openRoom = () => {
+      socket.onopen = function() {
+          console.log("WebSocket 연결 성공");
+      };
+  }
+
+  socket.onmessage = function(event) {
+      let message = event.data;
+      // 수신된 메시지 처리 로직 작성
+      console.log("수신된 메시지: " + message);
+  };
+
+  socket.onclose = function(event) {
+      console.log("WebSocket 연결 종료");
+  };
+
+  function sendMessage() {
+    let message = "Hello, Server!";
+    socket.send(message);
+  }
+
+</script>
+</body>
+</html>

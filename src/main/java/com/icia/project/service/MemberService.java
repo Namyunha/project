@@ -3,10 +3,16 @@ package com.icia.project.service;
 
 import com.icia.project.Entity.MemberEntity;
 import com.icia.project.Entity.MemberFileEntity;
+import com.icia.project.Entity.PartyUserEntity;
+import com.icia.project.Entity.StudygroupEntity;
 import com.icia.project.dto.ApplyDTO;
 import com.icia.project.dto.MemberDTO;
+import com.icia.project.dto.MemberPartyDTO;
+import com.icia.project.dto.PartyUserDTO;
 import com.icia.project.repository.MemberFileRepository;
 import com.icia.project.repository.MemberRepository;
+import com.icia.project.repository.PartyUserRepository;
+import com.icia.project.repository.StudygroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -24,6 +30,8 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberFileRepository memberFileRepository;
+    private final PartyUserRepository partyUserRepository;
+    private final StudygroupRepository studygroupRepository;
 
     public void save(MemberDTO memberDTO) throws IOException {
         if (memberDTO.getMemberProfile() == null || memberDTO.getMemberProfile().get(0).isEmpty()) {
@@ -107,6 +115,20 @@ public class MemberService {
     }
 
 
+    public MemberPartyDTO findByMemberIdAndPartyId(String memberId, Long partyId) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberId(memberId);
+        Optional<StudygroupEntity> optionalStudygroupEntity = studygroupRepository.findById(partyId);
+        if (optionalMemberEntity.isPresent() && optionalStudygroupEntity.isPresent()) {
+            MemberEntity memberEntity = optionalMemberEntity.get();
+            StudygroupEntity studygroupEntity = optionalStudygroupEntity.get();
+            PartyUserEntity partyUserEntity = partyUserRepository.findByStudygroupEntityAndMemberEntity(studygroupEntity, memberEntity);
+            MemberPartyDTO memberPartyDTO = MemberPartyDTO.toDTO(memberEntity, partyUserEntity);
+            System.out.println("서비스에있는 memberPartyDTO = " + memberPartyDTO);
+            return memberPartyDTO;
+        } else {
+            return null;
+        }
+    }
 }
 
 

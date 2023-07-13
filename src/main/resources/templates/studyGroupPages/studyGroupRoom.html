@@ -90,8 +90,9 @@
                             <td th:text="${user.getUserPosition()}"></td>
                             <td th:text="${user.getMemberGender()}"></td>
                             <td>
-                                <button th:onclick="'checkInfo(\'' + ${user.id} + '\')'" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#userInfoBackdrop">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#userInfoBackdrop"
+                                        th:attr="onclick=|checkInfo('${user.getMemberId()}', ${user.getPartyId()})|">
                                     조회
                                 </button>
                             </td>
@@ -107,13 +108,8 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p>이름: <span th:text="${user.getMemberName()}"></span></p>
-                                        <p>아이디: <span th:text="${user.getMemberId()}"></span></p>
-                                        <p>생년월일: <span th:text="${user.getMemberPrivate()}"></span></p>
-                                        <p>성별: <span th:text="${user.getMemberGender()}"></span></p>
-                                        <p>이메일: <span th:text="${user.getMemberEmail()}"></span></p>
-                                        <p>연락처: <span th:text="${user.getMemberPhone()}"></span></p>
+                                    <div class="modal-body memberInfo">
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
@@ -142,13 +138,143 @@
             </div>
         </div>
     </div>
+
     <div style="margin: 3% 0">
-        <button type="button" class="btn btn-danger">모임탈퇴</button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#withdrawGroup">모임탈퇴
+        </button>
         <button type="button" class="btn btn-outline-danger">나가기</button>
     </div>
 
-</div>
+    <!--모임 탈퇴 모달-->
+    <div class="modal fade" id="withdrawGroup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="withdrawGroupLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="withdrawGroupLabel">탈퇴하기</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    정말 모임을 탈퇴 하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">아니요</button>
+                    <button th:if="${memberDTO.getId()==studygroupDTO.getHostId()}" class="btn btn-primary"
+                            data-bs-target="#exampleModalToggle" data-bs-toggle="modal">네
+                    </button>
+                    <button th:unless="${memberDTO.getId()==studygroupDTO.getHostId()}" type="button"
+                            class="btn btn-danger"
+                            th:attr="onclick=|withdrawGroup(${memberDTO.getId()}, ${studygroupDTO.getId()})|">
+                        네
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">방장권한위임</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    Show a second modal and hide this one with the button below.
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">확인하기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="fs-5">Popover in a modal</h2>
+                    <p>This
+                        <button class="btn btn-secondary" data-bs-toggle="popover" title="Popover title"
+                                data-bs-content="Popover body content is set in this attribute.">button
+                        </button>
+                        triggers a popover on click.
+                    </p>
+                    <hr>
+                    <h2 class="fs-5">Tooltips in a modal</h2>
+                    <p><a href="#" data-bs-toggle="tooltip" title="Tooltip">This link</a> and <a href="#"
+                                                                                                 data-bs-toggle="tooltip"
+                                                                                                 title="Tooltip">that
+                        link</a> have tooltips on hover.</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to
+                        first
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    const withdrawGroup = (memberId, studygroupId) => {
+        console.log(memberId, studygroupId);
+        axios({
+            url: "/partyUser/resign",
+            method: "put",
+            data: {
+                partyId: studygroupId,
+                memberId: memberId,
+                userPosition: "탈퇴유저"
+            }
+        }).then(res => {
+            console.log(res.data);
+            location.href = "/review/save/" + res.data.memberId;
+        }).catch(err => {
+            alert("탈퇴실패");
+        })
+    }
+
+    const checkInfo = (memberId, partyId) => {
+        console.log(memberId, partyId)
+        axios({
+            url: "/partyUser/detail",
+            method: "post",
+            data: {
+                memberId: memberId,
+                partyId: partyId
+            }
+        }).then(res => {
+            console.log(res.data);
+            let partyUser = res.data;
+            let memberInfo = document.querySelector(".memberInfo");
+            let output = "<p>이름: " + partyUser.memberName + "</p>\n" +
+                "                                        <p>아이디: " + partyUser.memberId + "</p>\n" +
+                "                                        <p>생년월일: " + partyUser.memberPrivate + "</p>\n" +
+                "                                        <p>성별: " + partyUser.memberGender + "</p>\n" +
+                "                                        <p>이메일: " + partyUser.memberEmail + "</p>\n" +
+                "                                        <p>연락처: " + partyUser.memberPhone + "</p>";
+            memberInfo.innerHTML = output;
+        }).catch(err => {
+            alert("정보를 조회할 수 없습니다.");
+        })
+    }
+
+
+</script>
 </div>
 </body>
 </html>

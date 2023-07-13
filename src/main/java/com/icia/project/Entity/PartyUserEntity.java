@@ -64,4 +64,24 @@ public class PartyUserEntity {
         partyUserEntity.setUserPosition("운영자");
         return partyUserEntity;
     }
+
+    public static PartyUserEntity toUpdateEntity(PartyUserEntity partyUserEntity, MemberEntity memberEntity, StudygroupEntity studygroupEntity, PartyUserDTO partyUserDTO) {
+        PartyUserEntity upPartyUserEntity = new PartyUserEntity();
+        upPartyUserEntity.setId(partyUserEntity.getId());
+        upPartyUserEntity.setPartyTitle(studygroupEntity.getPartyTitle());
+        upPartyUserEntity.setUserName(memberEntity.getMemberName());
+        upPartyUserEntity.setIsAdmitted("true");
+        upPartyUserEntity.setMemberEntity(memberEntity);
+        upPartyUserEntity.setStudygroupEntity(studygroupEntity);
+        if (partyUserDTO.getUserPosition().equals("운영자")) {
+            upPartyUserEntity.setUserPosition("운영자");
+        } else if (partyUserDTO.getUserPosition().equals("메니저")) {
+            upPartyUserEntity.setUserPosition("메니저");
+        } else if (partyUserDTO.getUserPosition().equals("회원")) {
+            upPartyUserEntity.setUserPosition("회원");
+        } else if (partyUserDTO.getUserPosition().equals("탈퇴유저")) {
+            upPartyUserEntity.setUserPosition("탈퇴유저");
+        }
+        return upPartyUserEntity;
+    }
 }

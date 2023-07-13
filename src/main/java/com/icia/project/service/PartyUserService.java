@@ -53,6 +53,16 @@ public class PartyUserService {
         return memberDTOList;
     }
 
+    public void resign(PartyUserDTO partyUserDTO) {
+        MemberEntity memberEntity = memberRepository.findById(partyUserDTO.getMemberId()).orElseThrow(() -> new NoSuchElementException());
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(partyUserDTO.getPartyId()).orElseThrow(() -> new NoSuchElementException());
+        PartyUserEntity partyUserEntity = partyUserRepository.findByStudygroupEntityAndMemberEntity(studygroupEntity, memberEntity);
+        System.out.println("파티 유저 서비스에 있는 partyUserDTO = " + partyUserDTO.getUserPosition());
+        PartyUserEntity resignPartyUserEntity = PartyUserEntity.toUpdateEntity(partyUserEntity, memberEntity, studygroupEntity, partyUserDTO);
+        System.out.println("resignPartyUserEntity.getId() + resignPartyUserEntity.getUserPosition() = " + resignPartyUserEntity.getId() + resignPartyUserEntity.getUserPosition());
+        partyUserRepository.save(resignPartyUserEntity);
+    }
+
 //    public List<MemberDTO> findAllByPartyId(Long id) {
 //        StudygroupEntity studygroupEntity = studygroupRepository.findById(id).orElseThrow();
 //        List<PartyUserEntity> partyUserEntityList = partyUserRepository.findAllByStudygroupEntity(studygroupEntity);

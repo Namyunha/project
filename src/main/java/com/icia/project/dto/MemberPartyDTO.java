@@ -10,8 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MemberPartyDTO {
-    private static int number = 0;
-    private Long id = (long) number;
+    private Long partyId;
     private String memberId;
     private String memberName;
     private String memberPrivate;
@@ -20,12 +19,10 @@ public class MemberPartyDTO {
     private String memberPhone;
     private String userPosition;
 
-    public MemberPartyDTO() {
-        number++;
-    }
 
     public static MemberPartyDTO toDTO(MemberEntity memberEntity, PartyUserEntity partyUserEntity) {
         MemberPartyDTO memberPartyDTO = new MemberPartyDTO();
+        memberPartyDTO.setPartyId(partyUserEntity.getStudygroupEntity().getId());
         memberPartyDTO.setUserPosition(partyUserEntity.getUserPosition());
         memberPartyDTO.setMemberId(memberEntity.getMemberId());
         memberPartyDTO.setMemberName(memberEntity.getMemberName());
