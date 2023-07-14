@@ -61,6 +61,10 @@ public class MemberEntity extends BaseEntity{
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PartyUserEntity> partyUserEntityList = new ArrayList<>();
 
+//    가입한 모임 참조
+    @OneToMany(mappedBy = "MemberEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviewEntityList = new ArrayList<>();
+
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberPass(memberDTO.getMemberPass());

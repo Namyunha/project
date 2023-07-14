@@ -122,6 +122,12 @@ public class MemberController {
         return "/memberPages/memberList";
     }
 
+    @PostMapping("/snsSave")
+    public ResponseEntity snsSave(@RequestBody MemberDTO memberDTO)  {
+        System.out.println("snsSave에 있는 memberDTO = " + memberDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/duCheck")
     public ResponseEntity duCheck(@RequestBody MemberDTO memberDTO) {
         if (memberService.findEmail(memberDTO)) {

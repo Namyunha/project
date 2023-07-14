@@ -44,7 +44,11 @@ public class StudygroupEntity extends BaseEntity {
     //    참조한 가입유저 목록
     @OneToMany(mappedBy = "studygroupEntity", orphanRemoval = true, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<PartyUserEntity> partyUserEntityList = new ArrayList<>();
-    //    모임 등록 유저 참조
+    //    모임 등록 목록
+    @OneToMany(mappedBy = "StudyGroupEntity", orphanRemoval = true, cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviewEntityList = new ArrayList<>();
+    //    리뷰 목록
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "host_id")
     private MemberEntity memberEntity;

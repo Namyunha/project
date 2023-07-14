@@ -4,44 +4,57 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <th:block th:replace="/component/config::config"></th:block>
+    <link rel="stylesheet" th:href="@{/css/studygroupReview.css}">
 </head>
 <body>
 <th:block th:replace="/component/header::header"></th:block>
 <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding: 6% 0">
     <div class="py-5 ">
-        <h1 class="display-5 fw-bold text-white">리뷰 작성</h1>
+        <h1 class="display-5 fw-bold text-white">리뷰 목록</h1>
     </div>
 </div>
 <div class="wrap px-4 py-5 text-center">
-    <h1>후기</h1>
-    <form name="reviewform" class="reviewform" method="post" action="/save">
-        <input type="hidden" name="rate" id="rate" value="0"/>
-        <h2 class="title_star">별점과 리뷰를 남겨주세요.</h2>
-
-        <div class="review_rating">
-            <div class="warning_msg"><h2>별점을 선택해 주세요.</h2></div>
-            <div class="rating">
-                <!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-                <input type="checkbox" name="rating" id="rating1" value="1" class="rate_radio" title="1점">
-                <label for="rating1"></label>
-                <input type="checkbox" name="rating" id="rating2" value="2" class="rate_radio" title="2점">
-                <label for="rating2"></label>
-                <input type="checkbox" name="rating" id="rating3" value="3" class="rate_radio" title="3점">
-                <label for="rating3"></label>
-                <input type="checkbox" name="rating" id="rating4" value="4" class="rate_radio" title="4점">
-                <label for="rating4"></label>
-                <input type="checkbox" name="rating" id="rating5" value="5" class="rate_radio" title="5점">
-                <label for="rating5"></label>
-            </div>
+    <form class="mb-3" name="myform" id="myform" method="post" action="/review/save">
+        <input type="hidden" name="memberId" id="memberId" th:value="${partyUser.memberId}">
+        <input type="hidden" name="groupId" id="groupId" th:value="${partyUser.partyId}">
+        <input type="hidden" name="userName" id="userName" th:value="${partyUser.userName}">
+        <h1 class="review_line">
+            [[${partyUser.userName}]]님 그동안 즐거웠습니다!
+        </h1>
+        <h2 class="title_star review_line">모임에 대한 별점과 리뷰를 남겨주세요.</h2>
+        <div class="review_rating review_line">
+            <fieldset>
+                <h5 style="font-weight: bolder">별점을 선택해주세요</h5>
+                <input type="radio" name="rate" value="5" id="rate1"><label
+                    for="rate1">★</label>
+                <input type="radio" name="rate" value="4" id="rate2"><label
+                    for="rate2">★</label>
+                <input type="radio" name="rate" value="3" id="rate3"><label
+                    for="rate3">★</label>
+                <input type="radio" name="rate" value="2" id="rate4"><label
+                    for="rate4">★</label>
+                <input type="radio" name="rate" value="1" id="rate5"><label
+                    for="rate5">★</label>
+            </fieldset>
         </div>
-        <div class="review_contents">
-            <div class="warning_msg"><h3>5자 이상으로 작성해 주세요.</h3></div>
-            <textarea rows="10" class="review_textarea" style="width: 50%; height: 10%"></textarea>
+        <div class="review_contents review_line form-floating"
+             style="display: flex; flex-direction: column; align-items: center">
+            <div class="warning_msg"><h4>5자 이상으로 작성해 주세요.</h4></div>
+            <textarea name="reviewContents" id="floatingTextarea2" rows="10" class="review_textarea form-control"
+                      style="width: 50%; height: 10%; border: 2px solid black"></textarea>
         </div>
-        <div class="cmd">
-            <input type="button" name="save" id="save" value="등록">
+        <div class="cmd" style="margin-bottom: 3%">
+            <button th:onclick="saveReview()" type="button" class="btn btn-primary" name="save">등록하기</button>
+            <button type="button" class="btn btn-danger" name="save">취소하기</button>
         </div>
     </form>
+    <script>
+        const saveReview = () => {
+            const reviewStar = document.querySelector("input[name='reviewStar']");
+            const reviewForm = document.querySelector("#myform");
+            reviewForm.submit()
+        }
+    </script>
 </div>
 </body>
 </html>

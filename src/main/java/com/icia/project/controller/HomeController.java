@@ -18,5 +18,9 @@ public class HomeController {
         model.addAttribute("loginId", loginId);
         return "index";
     }
+    @GetMapping("/examples/kakaoLogin")
+    public String kakaoLogin(){
+        return "/memberPages/kakao_login";
+    }
 
 }

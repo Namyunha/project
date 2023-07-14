@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="/component/config::config"></th:block>
+    <link rel="stylesheet" th:href="@{/css/studygroupReviewList.css}">
+</head>
+<body>
+<th:block th:replace="/component/header::header"></th:block>
+<div class="bg-dark text-secondary px-4 py-5 text-center" style="padding: 5% 0">
+    <div class="py-5 ">
+        <h1 class="display-5 fw-bold text-white">리뷰 목록</h1>
+    </div>
+</div>
+<div style="border-bottom: 1px solid rgba(0,0,0,0.5); margin: 4% 2% 0% 2%; padding-bottom: 10px; font-weight: 600">
+    Review
+</div>
+<div id="reviewWrapper">
+    <div class="reviewContainer">
+        <div class="review_left">
+            <div class="review_left_rating">
+                <fieldset>
+                    <input type="radio" name="rate" value="5" id="rate1"><label
+                        for="rate1">★</label>
+                    <input type="radio" name="rate" value="4" id="rate2"><label
+                        for="rate2">★</label>
+                    <input type="radio" name="rate" value="3" id="rate3"><label
+                        for="rate3">★</label>
+                    <input type="radio" name="rate" value="2" id="rate4"><label
+                        for="rate4">★</label>
+                    <input type="radio" name="rate" value="1" id="rate5"><label
+                        for="rate5">★</label>
+                </fieldset>
+            </div>
+            <div class="review_left_info">
+                <div class="review_left_info_userId">ajs998</div>
+                <div class="review_left_info_createTime">2017-03-23</div>
+            </div>
+        </div>
+
+        <div class="review_right">
+            <div class="review_right_top">
+                <div class="review_right_contents">흐라발의 소설은 완벽하게 역설적이다</div>
+                <div class="review_right_option">
+                    <button class="btn btn-primary"><i class="bi bi-hand-thumbs-up-fill"></i> 댓글</button>
+                    <button class="btn btn-secondary"><i class="bi bi-heart"></i><i class="bi bi-heart-fill"
+                                                                                    style="display: none"></i> 좋아요
+                    </button>
+                </div>
+            </div>
+            <div id="commentArea" class="review_right_bottom" style="display: none">
+                <div class="review_right_bottom_contents">
+                    <div>호라발의 매력에 퐁당퐁당 내맘을 받아줭!</div>
+                    <div><span>ajs998</span> <span>2020-04-02</span><span><a href="#">삭제</a></span></div>
+                </div>
+
+                <div class="review_right_bottom_write" >
+                    <div id="replyArea" class="review_right_bottom_write_content">
+                        <textarea name="" id="" style="width: 100%; height: 55%"></textarea>
+                    </div>
+                    <div class="review_right_bottom_write_btn">
+                        <button class="btn btn-success">등록하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin: 4% 2%">
+    <button class="btn btn-dark">나가기</button>
+</div>
+</body>
+
+</html>

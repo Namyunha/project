@@ -180,11 +180,9 @@
                     <h1 class="modal-title fs-5" id="exampleModalToggleLabel">방장권한위임</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
                 <div class="modal-body">
                     Show a second modal and hide this one with the button below.
                 </div>
-
                 <div class="modal-footer">
                     <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">확인하기
                     </button>
@@ -242,7 +240,7 @@
             }
         }).then(res => {
             console.log(res.data);
-            location.href = "/review/save/" + res.data.memberId;
+            location.href = "/review/save/" + res.data.partyId + "/" + res.data.memberId;
         }).catch(err => {
             alert("탈퇴실패");
         })
