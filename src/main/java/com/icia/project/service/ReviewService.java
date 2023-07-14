@@ -10,6 +10,8 @@ import com.icia.project.repository.StudygroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -24,5 +26,15 @@ public class ReviewService {
         StudygroupEntity studygroupEntity = studygroupRepository.findById(reviewDTO.getGroupId()).orElseThrow(() -> new NoSuchElementException());
         ReviewEntity reviewEntity = ReviewEntity.saveEntity(reviewDTO, memberEntity, studygroupEntity);
         reviewRepository.save(reviewEntity);
+    }
+
+    public List<ReviewDTO> findAllById(Long groupId) {
+        StudygroupEntity studygroupEntity = studygroupRepository.findById(groupId).orElseThrow(() -> new NoSuchElementException());
+        List<ReviewEntity> reviewEntityList = studygroupEntity.getReviewEntityList();
+        List<ReviewDTO> reviewDTOList = new ArrayList<>();
+        for(ReviewEntity reviewEntity : reviewEntityList){
+            ReviewDTO reviewDTO = ReviewDTO.toDTO(reviewEntity);
+        }
+        return null;
     }
 }

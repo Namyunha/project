@@ -1,18 +1,12 @@
 package com.icia.project.service;
 
 
-import com.icia.project.Entity.MemberEntity;
-import com.icia.project.Entity.MemberFileEntity;
-import com.icia.project.Entity.PartyUserEntity;
-import com.icia.project.Entity.StudygroupEntity;
+import com.icia.project.Entity.*;
 import com.icia.project.dto.ApplyDTO;
 import com.icia.project.dto.MemberDTO;
 import com.icia.project.dto.MemberPartyDTO;
 import com.icia.project.dto.PartyUserDTO;
-import com.icia.project.repository.MemberFileRepository;
-import com.icia.project.repository.MemberRepository;
-import com.icia.project.repository.PartyUserRepository;
-import com.icia.project.repository.StudygroupRepository;
+import com.icia.project.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -32,6 +26,7 @@ public class MemberService {
     private final MemberFileRepository memberFileRepository;
     private final PartyUserRepository partyUserRepository;
     private final StudygroupRepository studygroupRepository;
+    private final SnsRepository snsRepository;
 
     public void save(MemberDTO memberDTO) throws IOException {
         if (memberDTO.getMemberProfile() == null || memberDTO.getMemberProfile().get(0).isEmpty()) {
@@ -128,6 +123,11 @@ public class MemberService {
         } else {
             return null;
         }
+    }
+
+    public void snsSave(MemberDTO memberDTO) {
+        SnsMemberEntity snsMemberEntity = SnsMemberEntity.toEntity(memberDTO);
+        snsRepository.save(snsMemberEntity);
     }
 }
 

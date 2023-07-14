@@ -52,12 +52,17 @@
                         const kakao_account = res.kakao_account;
                         console.log(kakao_account);
                         const memberEmail = kakao_account.email;
-
+                        const memberGender = kakao_account.gender
+                        const memberName = kakao_account.profile.nickname
                         axios({
-                            url: "/memeber/save",
+                            url: "/member/snsSave",
                             method: "post",
                             data: {
-                                memberEmail : memberEmail
+                                memberId: memberEmail,
+                                memberName: memberName,
+                                memberEmail : memberEmail,
+                                memberGender: memberGender
+
                             }
                         }).then(res => {
                             alert("성공");

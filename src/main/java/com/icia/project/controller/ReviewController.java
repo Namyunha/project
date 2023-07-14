@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/review")
@@ -36,6 +38,8 @@ public class ReviewController {
     @GetMapping("/list/{id}")
     public String reviewList(@PathVariable Long id) {
         System.out.println("리스트 id = " + id);
+        List<ReviewDTO> reviewDTOList = reviewService.findAllById(id);
+
         return "/studyGroupPages/studyGroupReviewList";
     }
 }

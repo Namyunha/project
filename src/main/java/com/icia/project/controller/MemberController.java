@@ -125,6 +125,7 @@ public class MemberController {
     @PostMapping("/snsSave")
     public ResponseEntity snsSave(@RequestBody MemberDTO memberDTO)  {
         System.out.println("snsSave에 있는 memberDTO = " + memberDTO);
+        memberService.snsSave(memberDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
