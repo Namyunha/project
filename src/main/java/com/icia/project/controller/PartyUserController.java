@@ -43,17 +43,23 @@ public class PartyUserController {
         return new ResponseEntity<>(partyUserDTO, HttpStatus.OK);
     }
 
+
     @GetMapping("/room/{id}")
     public String goRoom(HttpSession session, @PathVariable Long id, Model model) {
         String loginUser = (String) session.getAttribute("loginId");
         StudygroupDTO studygroupDTO = studygroupService.findById(id);
         MemberDTO memberDTO = memberService.findByMemberId(loginUser);
+        PartyUserDTO partyUserDTO = partyUserService.findByGroupIdAndMemberId(studygroupDTO.getId(), memberDTO.getId());
         List<MemberPartyDTO> memberDTOList = partyUserService.findAllByPartyId(studygroupDTO.getId());
         model.addAttribute("list", memberDTOList);
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("studygroupDTO", studygroupDTO);
+        model.addAttribute("partyUserDTO", partyUserDTO);
+        System.out.println("파티유저컨트롤러에있는 partyUserDTO = " + partyUserDTO.getUserName());
+        System.out.println("파티유저컨트롤러에있는 partyUserDTO = " + partyUserDTO.getUserPosition());
         return "studyGroupPages/studyGroupRoom";
     }
+
 
     @PostMapping("/detail")
     public ResponseEntity checkUser(@RequestBody MemberPartyDTO memberPartyDTO) {

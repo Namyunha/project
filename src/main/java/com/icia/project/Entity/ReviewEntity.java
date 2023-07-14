@@ -10,13 +10,16 @@ import javax.persistence.*;
 @Table(name = "review_table")
 @Getter
 @Setter
-public class ReviewEntity {
+public class ReviewEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 20)
     private String userName;
+
+    @Column(nullable = false, length = 20)
+    private String userId;
 
     @Column(nullable = false, length = 500)
     private String reviewContents;
@@ -35,6 +38,7 @@ public class ReviewEntity {
     public static ReviewEntity saveEntity(ReviewDTO reviewDTO, MemberEntity memberEntity, StudygroupEntity studygroupEntity) {
         ReviewEntity reviewEntity = new ReviewEntity();
         reviewEntity.setUserName(reviewDTO.getUserName());
+        reviewEntity.setUserId(memberEntity.getMemberId());
         reviewEntity.setReviewContents(reviewDTO.getReviewContents());
         reviewEntity.setRate(reviewDTO.getRate());
         reviewEntity.setMemberEntity(memberEntity);

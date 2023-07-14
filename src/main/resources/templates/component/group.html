@@ -30,7 +30,7 @@
                                             class="btn btn-sm btn-outline-secondary">
                                         View
                                     </button>
-                                    <button type="button"
+                                    <button th:onclick="'reViewBtn(\'' + ${group.id} + '\')'" type="button"
                                             class="btn btn-sm btn-outline-secondary">Review
                                     </button>
                                 </div>
@@ -53,8 +53,8 @@
                                             class="btn btn-sm btn-outline-secondary">
                                         View
                                     </button>
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-secondary">Review
+                                    <button th:onclick="'reViewBtn(\'' + ${group.id} + '\')'" type="button" class="btn btn-sm btn-outline-secondary">
+                                        Review
                                     </button>
                                 </div>
                                 <small class="text-body-secondary">9 mins</small>
@@ -71,6 +71,11 @@
     <script>
         const viewBtn = (id) => {
             location.href = "/studygroup/" + id;
+        }
+
+        const reViewBtn = (id) => {
+            console.log(id);
+            location.href = "/review/list/" + id;
         }
     </script>
 </th:block>

@@ -36,9 +36,12 @@ public class PartyUserService {
         StudygroupEntity studygroupEntity = studygroupRepository.findById(groupId).orElseThrow(() -> new NoSuchElementException());
         MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException());
         PartyUserEntity partyUserEntity = partyUserRepository.findByStudygroupEntityAndMemberEntity(studygroupEntity, memberEntity);
-        PartyUserDTO partyUserDTO = PartyUserDTO.toDTO(partyUserEntity);
-        System.out.println("파티 유저 서비스에있는 partyUserDTO = " + partyUserDTO);
-        return partyUserDTO;
+        if (partyUserEntity != null) {
+            PartyUserDTO partyUserDTO = PartyUserDTO.toDTO(partyUserEntity);
+            return partyUserDTO;
+        } else {
+            return null;
+        }
     }
 
     public List<MemberPartyDTO> findAllByPartyId(Long id) {

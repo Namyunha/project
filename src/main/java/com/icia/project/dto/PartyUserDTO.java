@@ -29,16 +29,16 @@ public class PartyUserDTO {
             partyUserDTO.setIsAdmitted("false");
         }
         partyUserDTO.setPartyId(partyUserEntity.getStudygroupEntity().getId());
-        if (partyUserEntity.getUserPosition() == "운영자") {
+        if (partyUserEntity.getUserPosition().equals("운영자")) {
             partyUserDTO.setUserPosition("운영자");
-        } else if (partyUserEntity.getUserPosition() == "메니저") {
+        } else if (partyUserEntity.getUserPosition().equals("메니저")) {
             partyUserDTO.setUserPosition("메니저");
-        } else if (partyUserEntity.getUserPosition() == "회원") {
+        } else if (partyUserEntity.getUserPosition().equals("회원")) {
             partyUserDTO.setUserPosition("회원");
-        } else if (partyUserEntity.getUserPosition() == "비회원") {
+        } else if (partyUserEntity.getUserPosition().equals("비회원")) {
             partyUserDTO.setUserPosition("비회원");
-        } else {
-            partyUserDTO.setUserPosition("");
+        } else if (partyUserEntity.getUserPosition().equals("탈퇴유저")) {
+            partyUserDTO.setUserPosition("탈퇴유저");
         }
         partyUserDTO.setMemberId(partyUserEntity.getMemberEntity().getId());
         return partyUserDTO;

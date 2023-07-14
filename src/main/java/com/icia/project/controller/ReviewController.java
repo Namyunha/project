@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +36,13 @@ public class ReviewController {
         return "redirect:/review/list/" + reviewDTO.getGroupId();
     }
 
+    @Transactional
     @GetMapping("/list/{id}")
-    public String reviewList(@PathVariable Long id) {
+    public String reviewList(@PathVariable Long id, Model model) {
         System.out.println("리스트 id = " + id);
         List<ReviewDTO> reviewDTOList = reviewService.findAllById(id);
-
+        System.out.println("리뷰컨트롤러에 있는 reviewDTOList = " + reviewDTOList);
+        model.addAttribute("reviewList", reviewDTOList);
         return "/studyGroupPages/studyGroupReviewList";
     }
 }

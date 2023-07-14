@@ -8,11 +8,13 @@
 </head>
 <body>
 <th:block th:replace="/component/header::header"></th:block>
+
 <div class="bg-dark text-secondary px-4 py-5 text-center" style="padding: 6% 0">
     <div class="py-5 ">
-        <h1 class="display-5 fw-bold text-white">리뷰 목록</h1>
+        <h1 class="display-5 fw-bold text-white">리뷰 작성</h1>
     </div>
 </div>
+
 <div class="wrap px-4 py-5 text-center">
     <form class="mb-3" name="myform" id="myform" method="post" action="/review/save">
         <input type="hidden" name="memberId" id="memberId" th:value="${partyUser.memberId}">

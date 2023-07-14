@@ -1,6 +1,7 @@
 *{
     box-sizing: border-box;
 }
+
 fieldset{
     display: inline-block;
     direction: rtl;
@@ -23,27 +24,29 @@ label{
 input[type=radio]:checked ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
-#reviewWrapper{
+
+.reviewWrapper{
     display: flex;
     flex-direction: column;
     width: 100vw;
 }
 
-#reviewWrapper .reviewContainer{
+.reviewWrapper .reviewContainer{
     display: flex;
     width: 100%;
     padding: 3%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-#reviewWrapper .reviewContainer .review_left {
+.reviewWrapper .reviewContainer .review_left {
     width: 30%;
 }
 
-#reviewWrapper .reviewContainer .review_right_top{
+.reviewWrapper .reviewContainer .review_right_top{
     width: 100%;
 }
-#reviewWrapper .reviewContainer .review_right_top .review_right_contents{
+
+.reviewWrapper .reviewContainer .review_right_top .review_right_contents{
     height: 50%;
     display: flex;
     align-items: flex-end;

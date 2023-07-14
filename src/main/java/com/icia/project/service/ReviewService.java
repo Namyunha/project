@@ -9,6 +9,7 @@ import com.icia.project.repository.ReviewRepository;
 import com.icia.project.repository.StudygroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,16 @@ public class ReviewService {
         reviewRepository.save(reviewEntity);
     }
 
+    @Transactional
     public List<ReviewDTO> findAllById(Long groupId) {
         StudygroupEntity studygroupEntity = studygroupRepository.findById(groupId).orElseThrow(() -> new NoSuchElementException());
+        System.out.println("studygroupEntity.getId() = " + studygroupEntity.getId());
         List<ReviewEntity> reviewEntityList = studygroupEntity.getReviewEntityList();
         List<ReviewDTO> reviewDTOList = new ArrayList<>();
         for(ReviewEntity reviewEntity : reviewEntityList){
             ReviewDTO reviewDTO = ReviewDTO.toDTO(reviewEntity);
+            reviewDTOList.add(reviewDTO);
         }
-        return null;
+        return reviewDTOList;
     }
 }

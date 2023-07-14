@@ -38,47 +38,53 @@
 
         <div style="margin-top: 5%">
 
-            <!--로그인한 유저가 모임의 등록유저 일 때-->
-            <div th:if="${group.hostId == loginUserId}">
-                <button th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${group.getHostId()} + ')'" type="button"
-                        class="btn btn-primary">모임입장
-                </button>
-                <button th:onclick="goUpdate([[${group.id}]])" type="button" class="btn btn-dark">모임수정
-                </button>
-
-                <button th:onclick="goDelete([[${group.id}]])" type="button" class="btn btn-danger">모임삭제
-                </button>
+            <div th:if="${partyUserDTO.getUserPosition().equals('탈퇴유저')}">
+                <button class="btn btn-light" disabled>탈퇴한 모임</button>
                 <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
             </div>
 
-            <!--로그인한 유저가 모임의 등록유저가 아닐 때-->
-            <div th:unless="${group.hostId == loginUserId}">
-                <!--조회한 모임에 신청을 하지 않았을 때-->
-                <div th:if="${applyDTO} == null">
-                    <button th:if="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
-                            class="btn btn-primary"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
+            <div th:unless="${partyUserDTO.getUserPosition().equals('탈퇴유저')}">
+                <!--로그인한 유저가 모임의 등록유저 일 때-->
+                <div th:if="${group.hostId == loginUserId}">
+                    <button th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${group.getHostId()} + ')'" type="button"
+                            class="btn btn-primary">모임입장
                     </button>
-                    <button th:unless="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
-                            class="btn btn-primary" disabled>인원마감
+                    <button th:onclick="goUpdate([[${group.id}]])" type="button" class="btn btn-dark">모임수정
+                    </button>
+
+                    <button th:onclick="goDelete([[${group.id}]])" type="button" class="btn btn-danger">모임삭제
                     </button>
                     <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
                 </div>
+                <!--로그인한 유저가 모임의 등록유저가 아닐 때-->
+                <div th:unless="${group.hostId == loginUserId}">
+                    <!--조회한 모임에 신청을 하지 않았을 때-->
+                    <div th:if="${applyDTO} == null">
+                        <button th:if="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">모임신청
+                        </button>
+                        <button th:unless="${group.getUserCount() < group.getPartyPersonnel()}" type="button"
+                                class="btn btn-primary" disabled>인원마감
+                        </button>
+                        <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+                    </div>
 
-                <!--조회한 모임이 신청한 모임일 때-->
-                <div th:unless="${applyDTO == null}" th:switch="${applyDTO.getIsAuthorized()}">
-                    <button th:case="'승인대기중'" type="button" class="btn btn-secondary" disabled>
-                        승인대기중
-                    </button>
-                    <button th:case="'승인허가'" type="button" class="btn btn-primary"
-                            th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${applyDTO.getMemberId()} + ')'">
-                        모임입장
-                    </button>
+                    <!--조회한 모임이 신청한 모임일 때-->
+                    <div th:unless="${applyDTO == null}" th:switch="${applyDTO.getIsAuthorized()}">
+                        <button th:case="'승인대기중'" type="button" class="btn btn-secondary" disabled>
+                            승인대기중
+                        </button>
+                        <button th:case="'승인허가'" type="button" class="btn btn-primary"
+                                th:onclick="'goGroup(' + ${group.getId()} + ', ' + ${applyDTO.getMemberId()} + ')'">
+                            모임입장
+                        </button>
 
-                    <button th:case="'승인거절'" type="button" class="btn btn-danger" disabled>
-                        거절된 모임
-                    </button>
-                    <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+                        <button th:case="'승인거절'" type="button" class="btn btn-danger" disabled>
+                            거절된 모임
+                        </button>
+                        <button onclick="history.back()" type="button" class="btn btn-light">뒤로가기</button>
+                    </div>
                 </div>
             </div>
 
@@ -127,6 +133,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
